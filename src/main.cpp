@@ -2,11 +2,25 @@
 #include <iostream>     //  std::cerr, std::cout, std::endl
 #include <filesystem>   //  exists, create_directories
 
-#include "RedatamDatabase.hpp"
+#include "ByteArrayReader.hpp"
+// #include "RedatamDatabase.hpp"
 
 using std::string, std::cerr, std::cout, std::endl;
 namespace fs = std::filesystem;
 
+// testing reading short strings
+int main(int argc, char *argv[])
+{
+    RedatamLib::ByteArrayReader reader;
+    string output;
+
+    cout << reader.TryReadShortStr(&output) << ' ' << output << endl;
+    cout << reader.TryReadShortStr(&output) << ' ' << output << endl;
+
+    return 0;
+}
+
+/*
 int main(int argc, char *argv[])
 {
     if (argc != 3)
@@ -43,3 +57,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+*/

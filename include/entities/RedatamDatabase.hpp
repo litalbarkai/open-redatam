@@ -27,8 +27,7 @@ private:
     // vector<Entity> m_entities;
     // unordered_map<string, CursorReader> m_cursorReaders;
 
-    static void OpenDictionary(const string& filename);
-    static string GetFileExtension(const string& filename);
+    void OpenDictionary(const string& filename);
 };
 
 } // namespace RedatamLib

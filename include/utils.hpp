@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>     //  std::cerr, std::endl
+#include <stdexcept>    //  std::invalid_argument
 #include <system_error> //  std::error_code, std::generic_category
 
 #include <cstring>      //  std::strerror
@@ -12,6 +13,9 @@ namespace RedatamLib
 using std::string, std::cerr, std::endl;
 
 string CombinePath(const string& path, const string& filename);
+string GetFileExtension(const string& filename);
+//  Throws std::invalid_argument
+bool TryGetFileExtension(const string& filename, string* output);
 
 template <typename E>
 void ThrowIfBad(bool is_good_, std::error_code err_, std::string e_msg_)

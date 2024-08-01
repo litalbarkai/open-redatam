@@ -1,12 +1,11 @@
 // #include <numeric>    //  std::accumulate
 #include <string>       //  find_last_of, substr, npos
 #include <stdexcept>    //  std::invalid_argument
-#include <algorithm>    //  std::transform
 
 #include <cctype>       //  std::tolower
 
 #include "RedatamDatabase.hpp"
-#include "utils.hpp"
+#include "utils.hpp"    //  ThrowIfBad, GetFileExtension
 
 namespace RedatamLib
 {
@@ -24,7 +23,6 @@ RedatamDatabase::~RedatamDatabase()
 
 }
 
-// static
 void RedatamDatabase::OpenDictionary(const string& filename)
 {
     string ext = GetFileExtension(filename);
@@ -43,20 +41,6 @@ void RedatamDatabase::OpenDictionary(const string& filename)
         ThrowIfBad<invalid_argument>(false,
             invalid_argument("Error: Dictionary file's extension must be .dic or .dicx ."));
     }
-}
-
-// static
-string RedatamDatabase::GetFileExtension(const string& filename)
-{
-    auto extPos = filename.find_last_of('.');
-    ThrowIfBad<invalid_argument>(extPos != string::npos,
-                                invalid_argument("Error: No file extension found."));
-
-    string ext = filename.substr(extPos);
-    std::transform(ext.begin(), ext.end(), ext.begin(),
-                                [](unsigned char c){ return std::tolower(c); });
-
-    return ext;
 }
 
 // long RedatamDatabase::GetTotalDataItems()

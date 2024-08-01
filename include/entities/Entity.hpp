@@ -7,13 +7,20 @@
 
 #include "Variable.hpp"
 
-namespace RedatamLib {
+namespace RedatamLib
+{
 using std::string, std::vector, std::byte;
 
 class Entity {
 public:
     Entity();   //open pointer?
-    ~Entity();
+    Entity(string name, string parentName, string description, string idxFileName);
+    ~Entity() = default;
+
+    string GetName() const;
+    string GetParentName() const;
+
+    void AttachChild(Entity* child);
 
     // int GetPointerData();
 
@@ -34,11 +41,10 @@ private:
     string m_rootPath;
     string m_description;
     string m_indexFilename;
-    string m_relationChild;
-    string m_relationParent;
+    string m_parentName;
     string m_codesVariable;
     string m_labelVariable;
-    vector<Entity> m_children;
+    vector<Entity*> m_children;
     vector<Variable> m_variables; //sharedptr or references?
 };
 } // namespace RedatamLib

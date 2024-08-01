@@ -13,13 +13,15 @@ using std::vector, std::string, std::byte, std::size_t;
 class ByteArrayReader
 {
 public:
-    ByteArrayReader(string filePath = "");  //  throws???
+    ByteArrayReader(string filePath);  //  throws???
     //ctor for partial blocks???
-    ~ByteArrayReader();
+    ~ByteArrayReader() = default;
 
     ByteArrayReader(const ByteArrayReader&) = delete;
     ByteArrayReader& operator=(const ByteArrayReader&) = delete;
 
+    size_t GetPos() const;
+    
     //  throws std::out_of_range
     void SetPos(int newPos);
     void MovePos(int bytes);
@@ -29,13 +31,14 @@ public:
     bool TryReadShortStr(string* output, bool filterByContent = true);
 
     //  returns a list of positions of matches to "subArr" inside the array
-    vector<size_t> GetAllMatches(const vector<byte>& subArr);
+    vector<size_t> GetAllMatches(const vector<unsigned char>& subArr);
 
 private:
-    vector<byte> m_data;
+    vector<unsigned char> m_data;
     size_t m_currPos;
     size_t m_endPos;
 
+    size_t FindNextMatch(const vector<unsigned char>& subArr, size_t len, size_t startPos);
     bool IsValidStr(string str);
 
     //  throws std::out_of_range; LE = little-endian, BE = big-endian

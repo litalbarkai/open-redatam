@@ -1,7 +1,9 @@
 #include <stdexcept>    //  std::out_of_range, std::length_error
+#include <ios>          //  std::ios_base::failure
 #include <sstream>      //  std::ostringstream
-#include <iterator>     //  std::ostream_iterator
-#include <algorithm>    //  std::transform, std::all_of
+#include <fstream>      //  std::ifstream, std::ios::binary
+#include <iterator>     //  std::ostream_iterator, std::istreambuf_iterator
+#include <algorithm>    //  std::transform, std::all_of, std::search
 
 #include <cctype>       //  std::isalnum
 
@@ -10,42 +12,28 @@
 
 namespace RedatamLib
 {
-using std::out_of_range, std::length_error, std::ostringstream;
+using std::out_of_range, std::length_error;
 
 ByteArrayReader::ByteArrayReader(string filePath): m_currPos(0), m_endPos(0), m_data()
 {
-    m_data.push_back(byte(5));
-    m_data.push_back(byte(0));
-    m_data.push_back(byte(104));
-    m_data.push_back(byte(101));
-    m_data.push_back(byte(108));
-    m_data.push_back(byte(108));
-    m_data.push_back(byte(111));
-    m_data.push_back(byte('\0'));
-    m_data.push_back(byte(5));
-    m_data.push_back(byte(0));
-    m_data.push_back(byte('w'));
-    m_data.push_back(byte('o'));
-    m_data.push_back(byte('r'));
-    m_data.push_back(byte('l'));
-    m_data.push_back(byte('d'));
-    m_data.push_back(byte('\0'));
-    m_endPos = 16;
-    //openfile
-    //readfile
-    //closefile
-    //update endpos
+    std::ifstream fs(filePath, std::ios::binary);
+    ThrowIfBad<std::ios_base::failure>(fs.is_open(),
+        std::ios_base::failure("Error: Failed to open dictionary file."));
+
+    m_data = vector<unsigned char>{std::istreambuf_iterator<char>(fs),
+                                    std::istreambuf_iterator<char>()};
+    m_endPos = fs.tellg();
 }
 
-ByteArrayReader::~ByteArrayReader()
+size_t ByteArrayReader::GetPos() const
 {
-
+    return m_currPos;
 }
 
 void ByteArrayReader::SetPos(int newPos)
 {
     ThrowIfBad<out_of_range>(0 <= newPos && newPos <= m_endPos,
-                            out_of_range("Error: New position exceeds array bounds."));
+        out_of_range("Error: New position exceeds array bounds."));
     m_currPos = newPos;
 }
 
@@ -54,10 +42,10 @@ void ByteArrayReader::MovePos(int bytes)
     SetPos(m_currPos + bytes);
 }
 
-bool ByteArrayReader::TryReadStr(string* output, bool filterByContent)
-{
-    return true;
-}
+// bool ByteArrayReader::TryReadStr(string* output, bool filterByContent)
+// {
+//     return true;
+// }
 
 bool ByteArrayReader::TryReadShortStr(string* output, bool filterByContent)
 {
@@ -66,10 +54,10 @@ bool ByteArrayReader::TryReadShortStr(string* output, bool filterByContent)
     try
     {
         int16_t len = ReadInt16LE();
-        ThrowIfBad<length_error>(0 < len || 128 > len || m_currPos + len <= m_endPos,
-                                length_error("Error: Invalid string length."));
+        ThrowIfBad<length_error>(0 < len && 128 > len && m_currPos + len <= m_endPos,
+            length_error("Error: Invalid string length."));
 
-        *output = ReadString(len + 1);
+        *output = ReadString(len);
     }
     catch(const std::bad_alloc& e)
     {
@@ -84,23 +72,41 @@ bool ByteArrayReader::TryReadShortStr(string* output, bool filterByContent)
     return filterByContent ? IsValidStr(*output) : true;
 }
 
-// vector<size_t> ByteArrayReader::GetAllMatches(const vector<byte>& subArr)
-// {
-    
-// }
+vector<size_t> ByteArrayReader::GetAllMatches(const vector<unsigned char>& subArr)
+{
+    vector<size_t> ret;
+    size_t currPos = 0;
+    size_t len = subArr.size();
 
+    currPos = FindNextMatch(subArr, len, 0);
+    while (currPos <= m_endPos - len)
+    {
+        ret.push_back(currPos);
+        currPos = FindNextMatch(subArr, len, currPos + len);
+    }
+
+    return ret;
+}
+
+size_t ByteArrayReader::FindNextMatch(const vector<unsigned char>& subArr, size_t len, size_t startPos)
+{
+    auto nextPosIt = std::search(m_data.begin() + startPos,
+                                m_data.end() - len + 1,
+                                subArr.begin(), subArr.end());
+    
+    return nextPosIt - m_data.begin();
+}
 
 bool ByteArrayReader::IsValidStr(string str)
 {
-    return ('\0' == str.back()) &&
-        std::all_of(str.begin(), str.end() - 1, [](char c){
+    return std::all_of(str.begin(), str.end() - 1, [](char c){
             return (std::isalnum(c) || ' ' == c || '-' == c || '_' == c);
         });
 }
 
 byte ByteArrayReader::ReadByte()
 {
-    byte ret = m_data[m_currPos];
+    byte ret = static_cast<byte>(m_data[m_currPos]);
     MovePos(1);
 
     return ret;
@@ -120,11 +126,9 @@ int32_t ByteArrayReader::ReadInt32LE()
 
 string ByteArrayReader::ReadString(size_t length)
 {
-    ostringstream oss;
+    std::ostringstream oss;
     auto strStart = m_data.begin() + m_currPos;
-    std::transform(strStart, strStart + length,
-                    std::ostream_iterator<char>(oss),
-                    [](byte b){return static_cast<char>(b);});
+    std::copy(strStart, strStart + length, std::ostream_iterator<char>(oss));
     MovePos(length);
 
     return oss.str();

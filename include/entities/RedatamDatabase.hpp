@@ -16,7 +16,7 @@ class RedatamDatabase
 {
 public:
     // Throws invalid_argument
-    RedatamDatabase(const string& filename);
+    explicit RedatamDatabase(const string& filename);
     ~RedatamDatabase();
 
     // long GetTotalDataItems();

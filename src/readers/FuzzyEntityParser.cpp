@@ -1,9 +1,13 @@
 #include "FuzzyEntityParser.hpp"
-#include "utils.hpp"                //  GetFileExtension
+#include "FuzzyVariableParser.hpp"
+#include "utils.hpp"                //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib
 {
 FuzzyEntityParser::FuzzyEntityParser(string filePath) : m_reader(filePath)
+{}
+
+FuzzyEntityParser::FuzzyEntityParser(ByteArrayReader reader) : m_reader(reader)
 {}
 
 vector<Entity> FuzzyEntityParser::ParseEntities()
@@ -20,7 +24,6 @@ vector<Entity> FuzzyEntityParser::ParseEntities()
             if (curr.first)
             {
                 ret.push_back(curr.second);
-                entities[curr.second.GetName()] = &ret.back();
             }
             else
             {
@@ -28,10 +31,18 @@ vector<Entity> FuzzyEntityParser::ParseEntities()
             }
         }
     }
-    catch(const std::out_of_range&)
+    catch (const std::out_of_range&)
     {}
-    
+
+    for (Entity& e : ret)
+    {
+        entities[e.GetName()] = &e;
+    }
+
     AssignChildren(ret, entities);
+
+    FuzzyVariableParser varParser(m_reader);
+    varParser.ParseAllVariables(ret);
 
     return ret;
 }
@@ -82,7 +93,10 @@ pair<bool, Entity> FuzzyEntityParser::TryGetEntity()
         return pair(false, Entity());
     }
 
-    return pair(true, Entity(entityName, parentEntityName, description, idxFileName));
+    pair<size_t, size_t> bounds(ogPos, m_reader.GetPos());
+
+    return pair(true,
+            Entity(entityName, parentEntityName, description, idxFileName, bounds));
 }
 
 //  static

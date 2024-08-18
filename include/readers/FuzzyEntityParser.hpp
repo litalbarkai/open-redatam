@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include "Entity.hpp"
+#include "Variable.hpp"
 #include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
@@ -17,6 +18,7 @@ class FuzzyEntityParser
 {
 public:
     FuzzyEntityParser(string filePath);
+    FuzzyEntityParser(ByteArrayReader reader);
     ~FuzzyEntityParser() = default;
 
     FuzzyEntityParser(const FuzzyEntityParser&) = delete;

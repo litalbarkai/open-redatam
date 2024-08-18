@@ -1,4 +1,3 @@
-#include <stdexcept>    //  std::out_of_range, std::length_error
 #include <ios>          //  std::ios_base::failure
 #include <sstream>      //  std::ostringstream
 #include <fstream>      //  std::ifstream, std::ios::binary
@@ -12,9 +11,10 @@
 
 namespace RedatamLib
 {
-using std::out_of_range, std::length_error;
-
-ByteArrayReader::ByteArrayReader(string filePath): m_currPos(0), m_endPos(0), m_data()
+ByteArrayReader::ByteArrayReader(string filePath) :
+    m_currPos(0),
+    m_endPos(0),
+    m_data()
 {
     std::ifstream fs(filePath, std::ios::binary);
     ThrowIfBad<std::ios_base::failure>(fs.is_open(),
@@ -25,9 +25,20 @@ ByteArrayReader::ByteArrayReader(string filePath): m_currPos(0), m_endPos(0), m_
     m_endPos = fs.tellg();
 }
 
+ByteArrayReader::ByteArrayReader(const ByteArrayReader& other) : 
+    m_currPos(0),
+    m_endPos(other.m_endPos),
+    m_data(other.m_data)
+{}
+
 size_t ByteArrayReader::GetPos() const
 {
     return m_currPos;
+}
+
+size_t ByteArrayReader::GetEndPos() const
+{
+    return m_endPos;
 }
 
 void ByteArrayReader::SetPos(int newPos)
@@ -40,6 +51,12 @@ void ByteArrayReader::SetPos(int newPos)
 void ByteArrayReader::MovePos(int bytes)
 {
     SetPos(m_currPos + bytes);
+}
+
+void ByteArrayReader::MovePosTo(string subArr)
+{
+    const vector<unsigned char>& arr{subArr.begin(), subArr.end()};
+    SetPos(FindNextMatch(arr, arr.size(), GetPos()));
 }
 
 // bool ByteArrayReader::TryReadStr(string* output, bool filterByContent)
@@ -59,11 +76,11 @@ bool ByteArrayReader::TryReadShortStr(string* output, bool filterByContent)
 
         *output = ReadString(len);
     }
-    catch(const std::bad_alloc& e)
+    catch (const std::bad_alloc& e)
     {
         ThrowIfBad<std::bad_alloc>(false, e);
     }
-    catch(const std::exception&)
+    catch (const std::exception&)
     {
         SetPos(ogPos);
         return false;
@@ -72,21 +89,48 @@ bool ByteArrayReader::TryReadShortStr(string* output, bool filterByContent)
     return filterByContent ? IsValidStr(*output) : true;
 }
 
-vector<size_t> ByteArrayReader::GetAllMatches(const vector<unsigned char>& subArr)
+string ByteArrayReader::ReadString(size_t length)
 {
-    vector<size_t> ret;
-    size_t currPos = 0;
-    size_t len = subArr.size();
+    std::ostringstream oss;
+    auto strStart = m_data.begin() + m_currPos;
+    std::copy(strStart, strStart + length, std::ostream_iterator<char>(oss));
+    MovePos(length);
 
-    currPos = FindNextMatch(subArr, len, 0);
-    while (currPos <= m_endPos - len)
+    return oss.str();
+}
+
+string ByteArrayReader::GetFormerString()
+{
+    size_t ogPos = GetPos();
+    size_t offset = 2;  //  string length is indicated by 2 bytes
+    MovePos(-offset);
+
+    int16_t len = ReadInt16LE();
+    while (len != offset - 2)
     {
-        ret.push_back(currPos);
-        currPos = FindNextMatch(subArr, len, currPos + len);
+        ++offset;
+        MovePos(-3);    //  string length + 1 to move backwards
+        len = ReadInt16LE();
     }
 
-    return ret;
+    return ReadString(len);
 }
+
+// vector<size_t> ByteArrayReader::GetAllMatches(const vector<unsigned char>& subArr)
+// {
+//     vector<size_t> ret;
+//     size_t currPos = 0;
+//     size_t len = subArr.size();
+
+//     currPos = FindNextMatch(subArr, len, 0);
+//     while (currPos <= m_endPos - len)
+//     {
+//         ret.push_back(currPos);
+//         currPos = FindNextMatch(subArr, len, currPos + len);
+//     }
+
+//     return ret;
+// }
 
 size_t ByteArrayReader::FindNextMatch(const vector<unsigned char>& subArr, size_t len, size_t startPos)
 {
@@ -122,16 +166,6 @@ int32_t ByteArrayReader::ReadInt32LE()
 {
     return static_cast<uint32_t>(ReadInt16LE()) |
             static_cast<uint32_t>(ReadInt16LE()) << 16;
-}
-
-string ByteArrayReader::ReadString(size_t length)
-{
-    std::ostringstream oss;
-    auto strStart = m_data.begin() + m_currPos;
-    std::copy(strStart, strStart + length, std::ostream_iterator<char>(oss));
-    MovePos(length);
-
-    return oss.str();
 }
 
 } // namespace RedatamLib

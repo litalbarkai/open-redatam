@@ -16,9 +16,10 @@ ByteArrayReader::ByteArrayReader(string filePath) :
     m_endPos(0),
     m_data()
 {
+    string eMsg = "Error: Failed to open file: ";
     std::ifstream fs(filePath, std::ios::binary);
     ThrowIfBad<std::ios_base::failure>(fs.is_open(),
-        std::ios_base::failure("Error: Failed to open dictionary file."));
+        std::ios_base::failure(eMsg.append(filePath)));
 
     m_data = vector<unsigned char>{std::istreambuf_iterator<char>(fs),
                                     std::istreambuf_iterator<char>()};
@@ -70,7 +71,7 @@ bool ByteArrayReader::TryReadShortStr(string* output, bool filterByContent)
 
     try
     {
-        int16_t len = ReadInt16LE();
+        uint16_t len = ReadInt16LE();
         ThrowIfBad<length_error>(0 < len && 128 > len && m_currPos + len <= m_endPos,
             length_error("Error: Invalid string length."));
 
@@ -105,7 +106,7 @@ string ByteArrayReader::GetFormerString()
     size_t offset = 2;  //  string length is indicated by 2 bytes
     MovePos(-offset);
 
-    int16_t len = ReadInt16LE();
+    uint16_t len = ReadInt16LE();
     while (len != offset - 2)
     {
         ++offset;
@@ -156,16 +157,29 @@ byte ByteArrayReader::ReadByte()
     return ret;
 }
 
-int16_t ByteArrayReader::ReadInt16LE()
+uint16_t ByteArrayReader::ReadInt16LE()
 {
     return static_cast<uint16_t>(ReadByte()) |
             static_cast<uint16_t>(ReadByte()) << 8;
 }
 
-int32_t ByteArrayReader::ReadInt32LE()
+uint32_t ByteArrayReader::ReadInt32LE()
 {
     return static_cast<uint32_t>(ReadInt16LE()) |
             static_cast<uint32_t>(ReadInt16LE()) << 16;
+}
+
+uint16_t ByteArrayReader::ReadInt16BE()
+{
+    return static_cast<uint16_t>(ReadByte()) << 8 |
+            static_cast<uint16_t>(ReadByte());
+}
+
+
+uint32_t ByteArrayReader::ReadInt32BE()
+{
+    return static_cast<uint32_t>(ReadInt16BE()) << 16 |
+            static_cast<uint32_t>(ReadInt16BE());
 }
 
 } // namespace RedatamLib

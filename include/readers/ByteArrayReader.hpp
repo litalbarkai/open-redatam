@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include <cstddef>      //  std::byte, std::size_t
-#include <cstdint>      //  int16_t, int32_t
+#include <cstdint>      //  uint16_t, uint32_t
 
 namespace RedatamLib {
 using std::vector, std::string, std::byte, std::size_t;
@@ -46,8 +46,10 @@ public:
 
     //  throws std::out_of_range; LE = little-endian, BE = big-endian
     byte ReadByte();
-    int16_t ReadInt16LE();
-    int32_t ReadInt32LE();
+    uint16_t ReadInt16LE();
+    uint32_t ReadInt32LE();
+    uint16_t ReadInt16BE();
+    uint32_t ReadInt32BE();
 
 private:
     vector<unsigned char> m_data;

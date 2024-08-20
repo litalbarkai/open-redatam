@@ -1,5 +1,5 @@
-#ifndef ENTITY_HPP
-#define ENTITY_HPP
+#ifndef REDATAMLIB_ENTITY_HPP
+#define REDATAMLIB_ENTITY_HPP
 
 #include <string>
 #include <vector>
@@ -40,4 +40,4 @@ private:
 };
 } // namespace RedatamLib
 
-#endif // ENTITY_HPP
+#endif // REDATAMLIB_ENTITY_HPP

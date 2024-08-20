@@ -1,5 +1,5 @@
-#ifndef VARIABLE_HPP
-#define VARIABLE_HPP
+#ifndef REDATAMLIB_VARIABLE_HPP
+#define REDATAMLIB_VARIABLE_HPP
 
 #include <string>
 #include <vector>
@@ -50,4 +50,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // VARIABLE_HPP
+#endif // REDATAMLIB_VARIABLE_HPP

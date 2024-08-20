@@ -1,5 +1,5 @@
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef REDATAMLIB_UTILS_HPP
+#define REDATAMLIB_UTILS_HPP
 
 #include <string>
 #include <iostream>     //  std::cerr, std::endl
@@ -52,4 +52,4 @@ void ThrowIfBad(bool is_good_, const E& e_)
 
 } // namespace RedatamLib
 
-#endif  //  UTILS_HPP
+#endif  //  REDATAMLIB_UTILS_HPP

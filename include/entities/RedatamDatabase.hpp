@@ -1,5 +1,5 @@
-#ifndef REDATAMDATABASE_HPP
-#define REDATAMDATABASE_HPP
+#ifndef REDATAMLIB_REDATAMDATABASE_HPP
+#define REDATAMLIB_REDATAMDATABASE_HPP
 
 #include <string>
 #include <vector>
@@ -17,6 +17,9 @@ public:
     explicit RedatamDatabase(const string& filename);
     ~RedatamDatabase();
 
+    RedatamDatabase(const RedatamDatabase&) = delete;
+    RedatamDatabase& operator=(const RedatamDatabase&) = delete;
+
 private:
     vector<Entity> m_entities;
 
@@ -25,4 +28,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // REDATAMDATABASE_HPP
+#endif // REDATAMLIB_REDATAMDATABASE_HPP

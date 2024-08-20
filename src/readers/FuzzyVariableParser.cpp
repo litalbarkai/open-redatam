@@ -1,7 +1,7 @@
 #include <algorithm>    //  std::replace
 
 #include "FuzzyVariableParser.hpp"
-#include "utils.hpp"                //  GetFileExtension
+#include "utils.hpp"                //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib
 {
@@ -59,18 +59,18 @@ void FuzzyVariableParser::ParseVariables(vector<Variable>* output,
             string idxFileName = ParseIdxFileName();
             size_t dataSize = ParseDataSize(type);
             string filter;
-            if (!m_reader.TryReadShortStr(&filter))
+            if (!m_reader.TryReadStr(&filter))
             {
                 m_reader.MovePos(2);
             }
             string range;
-            if (!m_reader.TryReadShortStr(&range))
+            if (!m_reader.TryReadStr(&range))
             {
                 m_reader.MovePos(2);
             }
             vector<Tag> tags = ParseTags();
             string description;
-            if (!m_reader.TryReadShortStr(&description))
+            if (!m_reader.TryReadStr(&description))
             {
                 m_reader.MovePos(2);
             }
@@ -166,7 +166,7 @@ vector<Tag> FuzzyVariableParser::ParseTags()
     vector<Tag> ret;
 
     string discard("");
-    m_reader.TryReadShortStr(&discard); //  data type identifier ("INTEGER", "STRING", "REAL")
+    m_reader.TryReadStr(&discard); //  data type identifier ("INTEGER", "STRING", "REAL")
 
     size_t ogPos = m_reader.GetPos();
     size_t len = m_reader.ReadInt16LE();

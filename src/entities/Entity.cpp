@@ -2,14 +2,13 @@
 
 namespace RedatamLib
 {
-using std::string, std::vector, std::byte;
 
 Entity::Entity() : 
     m_name(""),
     m_parentName(""),
     m_description(""),
     m_indexFilename(""),
-    m_children(),
+    m_child(nullptr),
     m_variables(),
     m_bounds({0, 0})
 {}
@@ -23,7 +22,7 @@ Entity::Entity(string name,
     m_parentName(parentName),
     m_description(description),
     m_indexFilename(idxFileName),
-    m_children(),
+    m_child(nullptr),
     m_variables(),
     m_bounds(bounds)
 {}
@@ -45,7 +44,7 @@ pair<size_t, size_t> Entity::GetBounds() const
 
 void Entity::AttachChild(Entity* child)
 {
-    m_children.push_back(child);
+    m_child = child;
 }
 
 void Entity::AttachVariables(vector<Variable> variables)

@@ -60,12 +60,7 @@ void ByteArrayReader::MovePosTo(string subArr)
     SetPos(FindNextMatch(arr, arr.size(), GetPos()));
 }
 
-// bool ByteArrayReader::TryReadStr(string* output, bool filterByContent)
-// {
-//     return true;
-// }
-
-bool ByteArrayReader::TryReadShortStr(string* output, bool filterByContent)
+bool ByteArrayReader::TryReadStr(string* output, bool filterByContent)
 {
     size_t ogPos = m_currPos;
 
@@ -116,22 +111,6 @@ string ByteArrayReader::GetFormerString()
 
     return ReadString(len);
 }
-
-// vector<size_t> ByteArrayReader::GetAllMatches(const vector<unsigned char>& subArr)
-// {
-//     vector<size_t> ret;
-//     size_t currPos = 0;
-//     size_t len = subArr.size();
-
-//     currPos = FindNextMatch(subArr, len, 0);
-//     while (currPos <= m_endPos - len)
-//     {
-//         ret.push_back(currPos);
-//         currPos = FindNextMatch(subArr, len, currPos + len);
-//     }
-
-//     return ret;
-// }
 
 size_t ByteArrayReader::FindNextMatch(const vector<unsigned char>& subArr, size_t len, size_t startPos)
 {

@@ -13,8 +13,10 @@ namespace RedatamLib
 using std::string, std::cerr, std::endl;
 
 string CombinePath(const string& path, const string& filename);
-string GetFileExtension(const string& filename);
+
 //  Throws std::invalid_argument
+string GetFileExtension(const string& filename);
+
 bool TryGetFileExtension(const string& filename, string* output);
 
 template <typename E>

@@ -1,4 +1,3 @@
-//  replaces DataBlock.cs
 #ifndef REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 #define REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 
@@ -16,7 +15,9 @@ using std::vector, std::string, std::pair;
 class FuzzyVariableParser
 {
 public:
+    //  throws std::ios_base::failure if fails to open file
     FuzzyVariableParser(string filePath);
+
     FuzzyVariableParser(ByteArrayReader reader);
     ~FuzzyVariableParser() = default;
 

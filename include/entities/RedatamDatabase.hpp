@@ -3,14 +3,12 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 #include "Entity.hpp"
-#include "CursorReader.hpp"
 
 namespace RedatamLib
 {
-using std::string, std::vector, std::unordered_map;
+using std::string, std::vector;
 
 class RedatamDatabase
 {
@@ -19,13 +17,8 @@ public:
     explicit RedatamDatabase(const string& filename);
     ~RedatamDatabase();
 
-    // long GetTotalDataItems();
-    // long GetTotalRowsSize();
-    // vector<Entity> GetEntitiesList();
-
 private:
-    // vector<Entity> m_entities;
-    // unordered_map<string, CursorReader> m_cursorReaders;
+    vector<Entity> m_entities;
 
     void OpenDictionary(const string& filename);
 };

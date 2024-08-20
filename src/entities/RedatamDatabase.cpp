@@ -5,6 +5,7 @@
 #include <cctype>       //  std::tolower
 
 #include "RedatamDatabase.hpp"
+#include "FuzzyEntityParser.hpp"
 #include "utils.hpp"    //  ThrowIfBad, GetFileExtension
 
 namespace RedatamLib
@@ -29,8 +30,8 @@ void RedatamDatabase::OpenDictionary(const string& filename)
 
     if (".dic" == ext)
     {
-        // fuzzy parser
-        // entity parser
+        FuzzyEntityParser parser(filename);
+        m_entities = parser.ParseEntities();
     }
     else if (".dicx" == ext)
     {
@@ -42,24 +43,4 @@ void RedatamDatabase::OpenDictionary(const string& filename)
             invalid_argument("Error: Dictionary file's extension must be .dic or .dicx ."));
     }
 }
-
-// long RedatamDatabase::GetTotalDataItems()
-// {
-//     long ret = 0;
-
-//     std::accumulate(m_entities.begin(), m_entities.end(), ret, [](auto entity) {
-//     });
-// }
-
-// long RedatamDatabase::GetTotalRowsSize()
-// {
-
-// }
-
-// vector<Entity> RedatamDatabase::GetEntitiesList()
-// {
-//     return vector<Entity>(m_entities);
-// }
-
-
 } // namespace RedatamLib

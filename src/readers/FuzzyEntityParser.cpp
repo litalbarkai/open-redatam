@@ -54,14 +54,14 @@ pair<bool, Entity> FuzzyEntityParser::TryGetEntity()
     size_t ogPos = m_reader.GetPos();
 
     string entityName("");
-    if (!m_reader.TryReadShortStr(&entityName) || entityName.empty())
+    if (!m_reader.TryReadStr(&entityName) || entityName.empty())
     {
         m_reader.SetPos(ogPos);
         return pair(false, Entity());
     }
 
     string entityNameRepeated("");
-    if (!m_reader.TryReadShortStr(&entityNameRepeated))
+    if (!m_reader.TryReadStr(&entityNameRepeated))
     {
         m_reader.MovePos(2);
     }
@@ -72,29 +72,24 @@ pair<bool, Entity> FuzzyEntityParser::TryGetEntity()
     }
 
     string parentEntityName("");
-    if (!entityNameRepeated.empty() && !m_reader.TryReadShortStr(&parentEntityName))
-    {
-        // m_reader.SetPos(ogPos);
-        // return pair(false, Entity());
-    }
+    if (!entityNameRepeated.empty() && !m_reader.TryReadStr(&parentEntityName))
+    {}
 
     string description("");
-    if (!m_reader.TryReadShortStr(&description, false))
+    if (!m_reader.TryReadStr(&description, false))
     {
-        // m_reader.SetPos(ogPos);
-        // return pair(false, Entity());
         m_reader.MovePos(2);
     }
 
     string idxFileName(""), ext("");
-    if ((!m_reader.TryReadShortStr(&idxFileName, false)) ||
+    if ((!m_reader.TryReadStr(&idxFileName, false)) ||
         !(!idxFileName.empty() && TryGetFileExtension(idxFileName, &ext) &&
         ".ptr" == ext))
     {
         m_reader.SetPos(ogPos);
         return pair(false, Entity());
     }
-    // //  replace '\' with '/'
+    //  replace '\' with '/'
     std::replace(idxFileName.begin(), idxFileName.end(), '\\', '/');
     
     //DEBUG

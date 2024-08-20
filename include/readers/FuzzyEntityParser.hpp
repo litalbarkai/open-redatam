@@ -8,7 +8,6 @@
 #include <unordered_map>
 
 #include "Entity.hpp"
-#include "Variable.hpp"
 #include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
@@ -17,7 +16,9 @@ using std::vector, std::string, std::pair, std::unordered_map;
 class FuzzyEntityParser
 {
 public:
+    //  throws std::ios_base::failure if fails to open file
     FuzzyEntityParser(string filePath);
+    
     FuzzyEntityParser(ByteArrayReader reader);
     ~FuzzyEntityParser() = default;
 

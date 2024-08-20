@@ -5,19 +5,20 @@
 #include <stdexcept>    //  std::out_of_range, std::length_error
 #include <vector>
 #include <string>
-#include <cstddef>      //  std::byte, std::size_t
+#include <cstddef>      //  std::byte, size_t
 #include <cstdint>      //  uint16_t, uint32_t
 
 namespace RedatamLib {
-using std::vector, std::string, std::byte, std::size_t;
+using std::vector, std::string, std::byte;
 using std::out_of_range, std::length_error;
 
 class ByteArrayReader
 {
 public:
-    ByteArrayReader(string filePath);  //  throws???
+    //  throws std::ios_base::failure if fails to open file
+    ByteArrayReader(string filePath);
+
     ByteArrayReader(const ByteArrayReader& other);
-    //ctor for partial blocks???
     ~ByteArrayReader() = default;
 
     ByteArrayReader& operator=(const ByteArrayReader&) = delete;
@@ -30,9 +31,9 @@ public:
     void MovePos(int bytes);
     void MovePosTo(string subArr);
 
+    //  str's length is between 0 and 128 bytes
+    //  filterByContent checks if output is an alpha-numeric string (including whitespaces)
     bool TryReadStr(string* output, bool filterByContent = true);
-    //  short str's length is between 0 and 128 bytes
-    bool TryReadShortStr(string* output, bool filterByContent = true);
     
     //  throws std::out_of_range
     string ReadString(size_t length);
@@ -40,9 +41,6 @@ public:
     //  throws std::out_of_range if there isn't such string
     //  used to find variable names
     string GetFormerString();
-
-    //  returns a list of positions of matches to "subArr" inside the array
-    // vector<size_t> GetAllMatches(const vector<unsigned char>& subArr);
 
     //  throws std::out_of_range; LE = little-endian, BE = big-endian
     byte ReadByte();

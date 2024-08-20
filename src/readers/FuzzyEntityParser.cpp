@@ -1,3 +1,5 @@
+#include <algorithm>    //  std::replace
+
 #include "FuzzyEntityParser.hpp"
 #include "FuzzyVariableParser.hpp"
 #include "utils.hpp"                //  GetFileExtension, ThrowIfBad
@@ -77,7 +79,7 @@ pair<bool, Entity> FuzzyEntityParser::TryGetEntity()
     }
 
     string description("");
-    if (!m_reader.TryReadShortStr(&description))
+    if (!m_reader.TryReadShortStr(&description, false))
     {
         // m_reader.SetPos(ogPos);
         // return pair(false, Entity());
@@ -92,6 +94,11 @@ pair<bool, Entity> FuzzyEntityParser::TryGetEntity()
         m_reader.SetPos(ogPos);
         return pair(false, Entity());
     }
+    // //  replace '\' with '/'
+    std::replace(idxFileName.begin(), idxFileName.end(), '\\', '/');
+    
+    //DEBUG
+    idxFileName.replace(0, 40, "/home/little/Downloads/censochile/input");
 
     pair<size_t, size_t> bounds(ogPos, m_reader.GetPos());
 

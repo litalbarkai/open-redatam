@@ -1,3 +1,5 @@
+#include <algorithm>    //  std::replace
+
 #include "FuzzyVariableParser.hpp"
 #include "utils.hpp"                //  GetFileExtension
 
@@ -138,6 +140,11 @@ string FuzzyVariableParser::ParseIdxFileName()
     m_reader.SetPos(ogPos + 1);
     string ret = m_reader.ReadString(len);
     m_reader.MovePos(1);    //  "'"
+
+    std::replace(ret.begin(), ret.end(), '\\', '/');
+
+    //DEBUG
+    ret.replace(0, 40, "/home/little/Downloads/censochile/input");
 
     return ret;
 }

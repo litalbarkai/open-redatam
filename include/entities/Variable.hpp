@@ -40,7 +40,12 @@ private:
     void* m_values;
 
     void ParseValues();
+
     void ParseStrings(size_t length, ByteArrayReader reader);
+    void ParseIntegers(size_t size, ByteArrayReader reader);
+    void ParsePCK(size_t size, ByteArrayReader reader);
+    void ParseBIN(size_t size, ByteArrayReader reader);
+    void ParseFloats(ByteArrayReader reader);
 };
 
 } // namespace RedatamLib

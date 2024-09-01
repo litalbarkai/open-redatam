@@ -12,19 +12,20 @@ namespace RedatamLib
 {
 using std::string, std::cerr, std::endl;
 
-string CombinePath(const string& path, const string& filename);
+string FindRootPath(const string& fileName);
+string ReplaceRootPath(const string& rootPath, const string& fileName);
 
 //  Throws std::invalid_argument
-string GetFileExtension(const string& filename);
+string GetFileExtension(const string& fileName);
 
-bool TryGetFileExtension(const string& filename, string* output);
+bool TryGetFileExtension(const string& fileName, string* output);
 
 template <typename E>
-void ThrowIfBad(bool is_good_, std::error_code err_, std::string e_msg_)
+void ThrowIfBad(bool is_good_, std::error_code err_, const string& e_msg_)
 {
     if (!is_good_)
     {
-        cerr << e_msg_ << endl;
+        // cerr << e_msg_ << endl;
         throw E(err_, e_msg_);
     }
 }
@@ -34,9 +35,9 @@ void ThrowIfBad(bool is_good_, int errno_)
 {
     if (!is_good_)
     {
-        cerr << std::strerror(errno_) << endl;
+        // cerr << std::strerror(errno_) << endl;
         throw E(std::error_code(errno_, std::generic_category()),
-                                            std::string(std::strerror(errno_)));
+                                            string(std::strerror(errno_)));
     }
 }
 
@@ -45,7 +46,7 @@ void ThrowIfBad(bool is_good_, const E& e_)
 {
     if (!is_good_)
     {
-        cerr << e_.what() << endl;
+        // cerr << e_.what() << endl;
         throw e_;
     }
 }

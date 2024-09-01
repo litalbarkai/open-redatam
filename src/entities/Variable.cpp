@@ -15,14 +15,14 @@ Variable::Variable() :
     m_decimals(0)
 {}
 
-Variable::Variable(string name,
+Variable::Variable(const string& name,
                     VarType type,
-                    string idxFileName,
+                    const string& idxFileName,
                     size_t dataSize,
-                    string filter,
-                    string range,
+                    const string& filter,
+                    const string& range,
                     vector<Tag> tags,
-                    string description,
+                    const string& description,
                     size_t decimals) :
     m_name(name),
     m_type(type),
@@ -35,6 +35,56 @@ Variable::Variable(string name,
     m_decimals(decimals)
 {
     ParseValues();
+}
+
+string Variable::GetName() const
+{
+    return m_name;
+}
+
+VarType Variable::GetType() const
+{
+    return m_type;
+}
+
+string Variable::GetFilePath() const
+{
+    return m_idxFileName;
+}
+
+size_t Variable::GetDataSize() const
+{
+    return m_dataSize;
+}
+
+string Variable::GetFilter() const
+{
+    return m_filter;
+}
+
+string Variable::GetRange() const
+{
+    return m_range;
+}
+
+vector<Tag> Variable::GetTags() const
+{
+    return m_tags;
+}
+
+string Variable::GetDescription() const
+{
+    return m_description;
+}
+
+size_t Variable::GetDecimals() const
+{
+    return m_decimals;
+}
+
+std::shared_ptr<void> Variable::GetValues() const
+{
+    return m_values;
 }
 
 void Variable::ParseValues()
@@ -72,6 +122,13 @@ void Variable::ParseValues()
 void Variable::ParseStrings(size_t length, ByteArrayReader reader)
 {
     vector<string>* vals = new vector<string>();
+    struct Deleter
+    {
+        void operator()(void* ptr) const
+        {
+            delete static_cast<vector<string>*>(ptr);
+        }
+    };
 
     try
     {
@@ -83,12 +140,19 @@ void Variable::ParseStrings(size_t length, ByteArrayReader reader)
     catch(const std::out_of_range&)
     {}
 
-    m_values = static_cast<void*>(vals);
+    m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
 }
 
 void Variable::ParseIntegers(size_t size, ByteArrayReader reader)
 {
     vector<uint32_t>* vals = new vector<uint32_t>();
+    struct Deleter
+    {
+        void operator()(void* ptr) const
+        {
+            delete static_cast<vector<uint32_t>*>(ptr);
+        }
+    };
 
     try
     {
@@ -112,12 +176,19 @@ void Variable::ParseIntegers(size_t size, ByteArrayReader reader)
     catch(const std::out_of_range&)
     {}
 
-    m_values = static_cast<void*>(vals);
+    m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
 }
 
 void Variable::ParseFloats(ByteArrayReader reader)
 {
     vector<double>* vals = new vector<double>();
+    struct Deleter
+    {
+        void operator()(void* ptr) const
+        {
+            delete static_cast<vector<double>*>(ptr);
+        }
+    };
     string temp;
 
     try
@@ -131,12 +202,19 @@ void Variable::ParseFloats(ByteArrayReader reader)
     catch(const std::out_of_range&)
     {}
 
-    m_values = static_cast<void*>(vals);
+    m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
 }
 
 void Variable::ParsePCK(size_t size, ByteArrayReader reader)
 {
     vector<uint32_t>* vals = new vector<uint32_t>();
+    struct Deleter
+    {
+        void operator()(void* ptr) const
+        {
+            delete static_cast<vector<uint32_t>*>(ptr);
+        }
+    };
     uint32_t bits = 0;
     BitArrayReader bitReader(size);
 
@@ -151,12 +229,19 @@ void Variable::ParsePCK(size_t size, ByteArrayReader reader)
     catch(const std::out_of_range&)
     {}
 
-    m_values = static_cast<void*>(vals);
+    m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
 }
 
 void Variable::ParseBIN(size_t size, ByteArrayReader reader)
 {
     vector<uint32_t>* vals = new vector<uint32_t>();
+    struct Deleter
+    {
+        void operator()(void* ptr) const
+        {
+            delete static_cast<vector<uint32_t>*>(ptr);
+        }
+    };
     uint32_t bits = 0;
     BitArrayReader bitReader(size);
 
@@ -171,6 +256,6 @@ void Variable::ParseBIN(size_t size, ByteArrayReader reader)
     catch(const std::out_of_range&)
     {}
 
-    m_values = static_cast<void*>(vals);
+    m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
 }
 } // namespace RedatamLib

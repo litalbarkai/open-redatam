@@ -17,9 +17,7 @@ class FuzzyEntityParser
 {
 public:
     //  throws std::ios_base::failure if fails to open file
-    FuzzyEntityParser(string filePath);
-    
-    FuzzyEntityParser(ByteArrayReader reader);
+    FuzzyEntityParser(const string& filePath);
     ~FuzzyEntityParser() = default;
 
     FuzzyEntityParser(const FuzzyEntityParser&) = delete;
@@ -29,6 +27,7 @@ public:
 
 private:
     ByteArrayReader m_reader;
+    string m_rootPath;
 
     //  throws std::out_of_range
     pair<bool, Entity> TryGetEntity();

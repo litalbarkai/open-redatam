@@ -10,13 +10,15 @@ Entity::Entity() :
     m_indexFilename(""),
     m_child(nullptr),
     m_variables(),
-    m_bounds({0, 0})
+    m_bounds({0, 0}),
+    m_reader(),
+    m_rowsCount(0)
 {}
 
-Entity::Entity(string name,
-                string parentName,
-                string description,
-                string idxFileName,
+Entity::Entity(const string& name,
+                const string& parentName,
+                const string& description,
+                const string& idxFileName,
                 pair<size_t, size_t> bounds) :
     m_name(name),
     m_parentName(parentName),
@@ -24,8 +26,15 @@ Entity::Entity(string name,
     m_indexFilename(idxFileName),
     m_child(nullptr),
     m_variables(),
-    m_bounds(bounds)
-{}
+    m_bounds(bounds),
+    m_reader(idxFileName),
+    m_rowsCount(0)
+{
+    m_reader.SetPos(m_reader.GetEndPos() - 4);
+    m_rowsCount = m_reader.ReadInt32LE();
+
+    m_reader.SetPos(4); //  advance past header of zeros
+}
 
 string Entity::GetName() const
 {
@@ -37,9 +46,24 @@ string Entity::GetParentName() const
     return m_parentName;
 }
 
+vector<Variable> Entity::GetVariables() const
+{
+    return m_variables;
+}
+
+size_t Entity::GetRowsCount() const
+{
+    return m_rowsCount;
+}
+
 pair<size_t, size_t> Entity::GetBounds() const
 {
     return m_bounds;
+}
+
+size_t Entity::GetPTRData()
+{
+    return m_reader.ReadInt32LE();
 }
 
 void Entity::AttachChild(Entity* child)

@@ -16,9 +16,9 @@ class FuzzyVariableParser
 {
 public:
     //  throws std::ios_base::failure if fails to open file
-    FuzzyVariableParser(string filePath);
+    FuzzyVariableParser(const string& filePath);
 
-    FuzzyVariableParser(ByteArrayReader reader);
+    FuzzyVariableParser(ByteArrayReader reader, const string& rootPath);
     ~FuzzyVariableParser() = default;
 
     FuzzyVariableParser(const FuzzyVariableParser&) = delete;
@@ -28,6 +28,7 @@ public:
 
 private:
     ByteArrayReader m_reader;
+    string m_rootPath;
 
     vector<pair<size_t, size_t>> GetSearchBounds(vector<Entity> entities);
     void ParseVariables(vector<Variable>* output,

@@ -5,10 +5,14 @@
 
 namespace RedatamLib
 {
-FuzzyVariableParser::FuzzyVariableParser(string filePath) : m_reader(filePath)
+FuzzyVariableParser::FuzzyVariableParser(const string& filePath) :
+    m_reader(filePath),
+    m_rootPath(FindRootPath(filePath))
 {}
 
-FuzzyVariableParser::FuzzyVariableParser(ByteArrayReader reader) : m_reader(reader)
+FuzzyVariableParser::FuzzyVariableParser(ByteArrayReader reader, const string& rootPath) :
+    m_reader(reader),
+    m_rootPath(rootPath)
 {}
 
 void FuzzyVariableParser::ParseAllVariables(vector<Entity>& entities)
@@ -70,7 +74,7 @@ void FuzzyVariableParser::ParseVariables(vector<Variable>* output,
             }
             vector<Tag> tags = ParseTags();
             string description;
-            if (!m_reader.TryReadStr(&description))
+            if (!m_reader.TryReadStr(&description, false))
             {
                 m_reader.MovePos(2);
             }
@@ -141,19 +145,29 @@ string FuzzyVariableParser::ParseIdxFileName()
     string ret = m_reader.ReadString(len);
     m_reader.MovePos(1);    //  "'"
 
-    std::replace(ret.begin(), ret.end(), '\\', '/');
-
-    //DEBUG
-    ret.replace(0, 40, "/home/little/Downloads/censochile/input");
+    ret = ReplaceRootPath(m_rootPath, ret);
 
     return ret;
 }
 
 size_t FuzzyVariableParser::ParseDataSize(VarType type)
 {
-    if (DBL == type)
+    switch (type)
     {
+    case DBL:
         return 8;
+        break;
+    
+    case INT:
+        return 2;
+        break;
+
+    case LNG:
+        return 4;
+        break;
+
+    default:
+        break;
     }
 
     m_reader.MovePos(6);    //  " SIZE "
@@ -190,19 +204,22 @@ vector<Tag> FuzzyVariableParser::ParseTags()
 
 void FuzzyVariableParser::ParseMissingAndNA(vector<Tag>* tags)
 {
-    string val1 = "MISSING";
-    string val2 = "NOTAPPLICABLE";
+    string missing = "MISSING";
+    string na = "NOTAPPLICABLE";
+    size_t len = m_reader.ReadInt16LE();
 
-    m_reader.MovePosTo(val1);
-    m_reader.MovePos(val1.size() + 1);  //  val1 + " "
-    size_t keyLen1 = GetSubstringLength(" ");
-    string key1 = m_reader.ReadString(keyLen1);
-    tags->push_back(Tag(key1, val1));
+    if (0 != len)
+    {
+        m_reader.MovePos(missing.size() + 2);  //  " " + missing + " "
+        size_t keyLen1 = GetSubstringLength(" ");
+        string key1 = m_reader.ReadString(keyLen1);
+        tags->push_back(Tag(key1, missing));
 
-    m_reader.MovePos(1 + val2.size() + 1);  //  " " + val2 + " "
-    size_t keyLen2 = std::min(GetSubstringLength(""), GetSubstringLength(" "));
-    string key2 = m_reader.ReadString(keyLen2);
-    tags->push_back(Tag(key2, val2));
+        m_reader.MovePos(1 + na.size() + 1);  //  " " + na + " "
+        size_t keyLen2 = std::min(GetSubstringLength(""), GetSubstringLength(" "));
+        string key2 = m_reader.ReadString(keyLen2);
+        tags->push_back(Tag(key2, na));
+    }
 }
 
 size_t FuzzyVariableParser::ParseDecimals()

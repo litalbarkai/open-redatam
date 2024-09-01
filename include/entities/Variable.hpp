@@ -3,12 +3,13 @@
 
 #include <string>
 #include <vector>
-#include <utility>          //  std::pair
+#include <utility>  //  std::pair
+#include <memory>   //  std::shared_ptr
 
 #include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
-using std::vector, std::string, std::pair;
+using std::vector, std::string, std::pair, std::shared_ptr;
 
 enum VarType {BIN, CHR, DBL, INT, LNG, PCK, NA};
 using Tag = pair<string, string>;   //  Tag = <Key, Value>
@@ -16,16 +17,27 @@ using Tag = pair<string, string>;   //  Tag = <Key, Value>
 class Variable {
 public:
     explicit Variable();
-    explicit Variable(string name,
+    explicit Variable(const string& name,
                         VarType type,
-                        string idxFileName,
+                        const string& idxFileName,
                         size_t dataSize,
-                        string filter,
-                        string range,
+                        const string& filter,
+                        const string& range,
                         vector<Tag> tags,
-                        string description,
+                        const string& description,
                         size_t decimals = 0);
     ~Variable() = default;
+
+    string GetName() const;
+    VarType GetType() const;
+    string GetFilePath() const;
+    size_t GetDataSize() const;
+    string GetFilter() const;
+    string GetRange() const;
+    vector<Tag> GetTags() const;
+    string GetDescription() const;
+    size_t GetDecimals() const;
+    std::shared_ptr<void> GetValues() const;
 
 private:
     string m_name;
@@ -37,7 +49,7 @@ private:
     vector<Tag> m_tags;
     string m_description;
     size_t m_decimals;
-    void* m_values;
+    std::shared_ptr<void> m_values;
 
     void ParseValues();
 

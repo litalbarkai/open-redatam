@@ -11,7 +11,13 @@
 
 namespace RedatamLib
 {
-ByteArrayReader::ByteArrayReader(string filePath) :
+ByteArrayReader::ByteArrayReader() :
+    m_currPos(0),
+    m_endPos(0),
+    m_data()
+{}
+
+ByteArrayReader::ByteArrayReader(const string& filePath) :
     m_currPos(0),
     m_endPos(0),
     m_data()
@@ -25,12 +31,6 @@ ByteArrayReader::ByteArrayReader(string filePath) :
                                     std::istreambuf_iterator<char>()};
     m_endPos = fs.tellg();
 }
-
-ByteArrayReader::ByteArrayReader(const ByteArrayReader& other) : 
-    m_currPos(0),
-    m_endPos(other.m_endPos),
-    m_data(other.m_data)
-{}
 
 size_t ByteArrayReader::GetPos() const
 {
@@ -54,7 +54,7 @@ void ByteArrayReader::MovePos(int bytes)
     SetPos(m_currPos + bytes);
 }
 
-void ByteArrayReader::MovePosTo(string subArr)
+void ByteArrayReader::MovePosTo(const string& subArr)
 {
     const vector<unsigned char>& arr{subArr.begin(), subArr.end()};
     SetPos(FindNextMatch(arr, arr.size(), GetPos()));
@@ -121,7 +121,7 @@ size_t ByteArrayReader::FindNextMatch(const vector<unsigned char>& subArr, size_
     return nextPosIt - m_data.begin();
 }
 
-bool ByteArrayReader::IsValidStr(string str)
+bool ByteArrayReader::IsValidStr(const string& str)
 {
     return std::all_of(str.begin(), str.end() - 1, [](char c){
             return (std::isalnum(c) || ' ' == c || '-' == c || '_' == c);

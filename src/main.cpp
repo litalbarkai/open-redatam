@@ -2,25 +2,11 @@
 #include <iostream>     //  std::cerr, std::cout, std::endl
 #include <filesystem>   //  exists, create_directories
 
-#include "ByteArrayReader.hpp"
-// #include "RedatamDatabase.hpp"
+#include "RedatamDatabase.hpp"
 
 using std::string, std::cerr, std::cout, std::endl;
 namespace fs = std::filesystem;
 
-// testing reading short strings
-int main(int argc, char *argv[])
-{
-    RedatamLib::ByteArrayReader reader;
-    string output;
-
-    cout << reader.TryReadShortStr(&output) << ' ' << output << endl;
-    cout << reader.TryReadShortStr(&output) << ' ' << output << endl;
-
-    return 0;
-}
-
-/*
 int main(int argc, char *argv[])
 {
     if (argc != 3)
@@ -38,15 +24,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    if (!fs::exists(outputDirPath))
-    {
-        fs::create_directories(outputDirPath);
-    }
-
     try
     {
-        // convertDicToCsv(dicFilePath, outputDirPath);
         RedatamLib::RedatamDatabase db(dicFilePath);
+        db.ExportCSVFiles(outputDirPath);
+        db.ExportSummary(outputDirPath);
         cout << "Conversion successful!" << endl;
     }
     catch (const std::exception& e)
@@ -57,4 +39,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-*/

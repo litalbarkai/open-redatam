@@ -6,11 +6,24 @@ namespace RedatamLib
 {
 using std::invalid_argument;
 
-bool TryGetFileExtension(const string& filename, string* output)
+string FindRootPath(const string& fileName)
+{
+    return fileName.substr(0, fileName.find_last_of('/') + 1);
+}
+
+string ReplaceRootPath(const string& rootPath, const string& fileName)
+{
+    string ret = rootPath;
+    ret.append(fileName.substr(fileName.find_last_of('\\') + 1));
+
+    return ret;
+}
+
+bool TryGetFileExtension(const string& fileName, string* output)
 {
     try
     {
-        string ext = GetFileExtension(filename);
+        string ext = GetFileExtension(fileName);
         *output = ext;
     }
     catch (const invalid_argument&)
@@ -21,13 +34,13 @@ bool TryGetFileExtension(const string& filename, string* output)
     return true;
 }
 
-string GetFileExtension(const string& filename)
+string GetFileExtension(const string& fileName)
 {
-    auto extPos = filename.find_last_of('.');
+    auto extPos = fileName.find_last_of('.');
     ThrowIfBad<invalid_argument>(extPos != string::npos,
                                 invalid_argument("Error: No file extension found."));
 
-    string ext = filename.substr(extPos);
+    string ext = fileName.substr(extPos);
     std::transform(ext.begin(), ext.end(), ext.begin(),
                                 [](unsigned char c){ return std::tolower(c); });
 

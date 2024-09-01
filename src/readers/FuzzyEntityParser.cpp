@@ -6,10 +6,9 @@
 
 namespace RedatamLib
 {
-FuzzyEntityParser::FuzzyEntityParser(string filePath) : m_reader(filePath)
-{}
-
-FuzzyEntityParser::FuzzyEntityParser(ByteArrayReader reader) : m_reader(reader)
+FuzzyEntityParser::FuzzyEntityParser(const string& filePath) :
+    m_reader(filePath),
+    m_rootPath(FindRootPath(filePath))
 {}
 
 vector<Entity> FuzzyEntityParser::ParseEntities()
@@ -43,7 +42,7 @@ vector<Entity> FuzzyEntityParser::ParseEntities()
 
     AssignChildren(ret, entities);
 
-    FuzzyVariableParser varParser(m_reader);
+    FuzzyVariableParser varParser(m_reader, m_rootPath);
     varParser.ParseAllVariables(ret);
 
     return ret;
@@ -89,11 +88,7 @@ pair<bool, Entity> FuzzyEntityParser::TryGetEntity()
         m_reader.SetPos(ogPos);
         return pair(false, Entity());
     }
-    //  replace '\' with '/'
-    std::replace(idxFileName.begin(), idxFileName.end(), '\\', '/');
-    
-    //DEBUG
-    idxFileName.replace(0, 40, "/home/little/Downloads/censochile/input");
+    idxFileName = ReplaceRootPath(m_rootPath, idxFileName);
 
     pair<size_t, size_t> bounds(ogPos, m_reader.GetPos());
 

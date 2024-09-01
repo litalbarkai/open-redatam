@@ -15,13 +15,11 @@ using std::out_of_range, std::length_error;
 class ByteArrayReader
 {
 public:
+    ByteArrayReader();
     //  throws std::ios_base::failure if fails to open file
-    ByteArrayReader(string filePath);
+    ByteArrayReader(const string& filePath);
 
-    ByteArrayReader(const ByteArrayReader& other);
     ~ByteArrayReader() = default;
-
-    ByteArrayReader& operator=(const ByteArrayReader&) = delete;
 
     size_t GetPos() const;
     size_t GetEndPos() const;
@@ -29,7 +27,7 @@ public:
     //  throws std::out_of_range
     void SetPos(int newPos);
     void MovePos(int bytes);
-    void MovePosTo(string subArr);
+    void MovePosTo(const string& subArr);
 
     //  str's length is between 0 and 128 bytes
     //  filterByContent checks if output is an alpha-numeric string (including whitespaces)
@@ -55,7 +53,7 @@ private:
     size_t m_endPos;
 
     size_t FindNextMatch(const vector<unsigned char>& subArr, size_t len, size_t startPos);
-    bool IsValidStr(string str);
+    bool IsValidStr(const string& str);
 };
 
 } // namespace RedatamLib

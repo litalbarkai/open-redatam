@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <utility>          //  std::pair
+#include <mutex>
 
 #include "Variable.hpp"
 #include "Entity.hpp"
@@ -29,18 +30,27 @@ public:
 private:
     ByteArrayReader m_reader;
     string m_rootPath;
+    std::mutex m_mtx;
 
     vector<pair<size_t, size_t>> GetSearchBounds(vector<Entity> entities);
-    void ParseVariables(vector<Variable>* output,
-                        pair<size_t, size_t> bounds);
-    VarType ParseType();
-    string ParseIdxFileName();
-    size_t ParseDataSize(VarType type);
-    vector<Tag> ParseTags();
-    void ParseMissingAndNA(vector<Tag>* tags);
-    size_t ParseDecimals();
-
-    size_t GetSubstringLength(string delimiter);
+    
+    static VarType ParseType(ByteArrayReader* reader);
+    static string ParseIdxFileName(const string& rootPath, ByteArrayReader* reader);
+    static size_t ParseDataSize(VarType type, ByteArrayReader* reader);
+    static vector<Tag> ParseTags(ByteArrayReader* reader);
+    static void ParseMissingAndNA(vector<Tag>* tags, ByteArrayReader* reader);
+    static size_t ParseDecimals(ByteArrayReader* reader);
+    static size_t GetSubstringLength(string delimiter, ByteArrayReader* reader);
+    static void ParseVariables(vector<Variable>* output,
+                                pair<size_t, size_t> bounds,
+                                const string& rootPath, 
+                                ByteArrayReader reader);
+    static void ThreadParseVars(std::mutex& mutex,
+                                size_t start, size_t end,
+                                vector<Entity>& entities,
+                                vector<pair<size_t, size_t>> searchBounds,
+                                const string& rootPath, 
+                                ByteArrayReader reader);
 };
 
 } // namespace RedatamLib

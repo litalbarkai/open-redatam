@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include <utility>  //  std::pair
 
 #include "Variable.hpp"
@@ -10,7 +11,7 @@
 
 namespace RedatamLib
 {
-using std::string, std::vector, std::pair;
+using std::string, std::vector, std::shared_ptr, std::pair;
 
 class Entity {
 public:
@@ -24,7 +25,7 @@ public:
 
     string GetName() const;
     string GetParentName() const;
-    vector<Variable> GetVariables() const;
+    shared_ptr<vector<Variable>> GetVariables() const;
     size_t GetRowsCount() const;
 
     pair<size_t, size_t> GetBounds() const;
@@ -32,7 +33,7 @@ public:
     size_t GetPTRData();
 
     void AttachChild(Entity* child);
-    void AttachVariables(vector<Variable> variables);
+    void AttachVariables(shared_ptr<vector<Variable>> variables);
 
 private:
     string m_name;
@@ -40,7 +41,7 @@ private:
     string m_indexFilename;
     string m_parentName;
     Entity* m_child;
-    vector<Variable> m_variables;
+    shared_ptr<vector<Variable>> m_variables;
     pair<size_t, size_t> m_bounds;
     ByteArrayReader m_reader;
     size_t m_rowsCount;

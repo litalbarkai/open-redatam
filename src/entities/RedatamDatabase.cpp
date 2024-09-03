@@ -24,13 +24,7 @@ RedatamDatabase::RedatamDatabase(const string& fileName)
 void RedatamDatabase::ExportCSVFiles(const string& outputDir)
 {
     CSVExporter exporter(outputDir);
-
-    for (Entity& e : m_entities)
-    {
-        exporter.CreateVariablesLegend(e);
-        exporter.CreateVariablesLabels(e);
-        exporter.CreateVariablesData(e);
-    }
+    exporter.ExportAll(m_entities);
 }
 
 void RedatamDatabase::ExportSummary(const string& outputDir)

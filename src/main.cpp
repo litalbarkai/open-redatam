@@ -38,7 +38,10 @@ int main(int argc, char *argv[])
         RedatamLib::RedatamDatabase db(dicFilePath);
         auto te = time(NULL);
         cout << te - ts << endl;
-        // db.ExportCSVFiles(outputDirPath);
+        ts = time(NULL);
+        db.ExportCSVFiles(outputDirPath);
+        te = time(NULL);
+        cout << te - ts << endl;
         // db.ExportSummary(outputDirPath);
         cout << "Conversion successful!" << endl;
     }

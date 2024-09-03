@@ -41,16 +41,10 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity>& entities)
                                     m_reader));
     }
 
-    for (auto& t : threads) {
+    for (auto& t : threads)
+    {
         t.join();
     }
-
-    // for (size_t i = 0; i < entities.size(); ++i)
-    // {
-    //     vector<Variable> vars;
-    //     ParseVariables(&vars, searchBounds[i]);
-    //     entities[i].AttachVariables(vars);
-    // }
 }
 
 vector<pair<size_t, size_t>> FuzzyVariableParser::GetSearchBounds(vector<Entity> entities)
@@ -221,7 +215,7 @@ size_t FuzzyVariableParser::GetSubstringLength(string delimiter, ByteArrayReader
 }
 
 //  static
-void FuzzyVariableParser::ParseVariables(vector<Variable>* output,
+void FuzzyVariableParser::ParseVariables(shared_ptr<vector<Variable>> output,
                                         pair<size_t, size_t> bounds,
                                         const string& rootPath, 
                                         ByteArrayReader reader)
@@ -291,8 +285,8 @@ void FuzzyVariableParser::ThreadParseVars(std::mutex& mutex,
 {
     for (size_t i = start; i < end; ++i)
     {
-        vector<Variable> vars;
-        ParseVariables(&vars, searchBounds[i], rootPath, reader);
+        shared_ptr<vector<Variable>> vars(new vector<Variable>);
+        ParseVariables(vars, searchBounds[i], rootPath, reader);
         
         std::lock_guard<std::mutex> lock(mutex);
         entities[i].AttachVariables(vars);

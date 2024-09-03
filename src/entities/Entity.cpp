@@ -46,7 +46,7 @@ string Entity::GetParentName() const
     return m_parentName;
 }
 
-vector<Variable> Entity::GetVariables() const
+shared_ptr<vector<Variable>> Entity::GetVariables() const
 {
     return m_variables;
 }
@@ -71,7 +71,7 @@ void Entity::AttachChild(Entity* child)
     m_child = child;
 }
 
-void Entity::AttachVariables(vector<Variable> variables)
+void Entity::AttachVariables(shared_ptr<vector<Variable>> variables)
 {
     m_variables = variables;
 }

@@ -41,7 +41,7 @@ private:
     static void ParseMissingAndNA(vector<Tag>* tags, ByteArrayReader* reader);
     static size_t ParseDecimals(ByteArrayReader* reader);
     static size_t GetSubstringLength(string delimiter, ByteArrayReader* reader);
-    static void ParseVariables(vector<Variable>* output,
+    static void ParseVariables(shared_ptr<vector<Variable>> output,
                                 pair<size_t, size_t> bounds,
                                 const string& rootPath, 
                                 ByteArrayReader reader);

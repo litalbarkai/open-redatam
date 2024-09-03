@@ -33,7 +33,7 @@ void BitArrayReader::ParseBits(vector<uint32_t>* results, uint32_t data)
     bitset<32> val;
     size_t bitIdx = 0;
 
-    for (bitIdx = 0; bitIdx < 32 - m_varSize; bitIdx = bitIdx + m_varSize)
+    for (bitIdx = 0; bitIdx < 1 + 32 - m_varSize; bitIdx = bitIdx + m_varSize)
     {
         val = ((m_mask >> bitIdx) & m_data) >> (32 - bitIdx - m_varSize);
         results->push_back(val.to_ulong());

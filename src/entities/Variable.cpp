@@ -116,6 +116,10 @@ void Variable::ParseValues()
     case PCK:
         ParsePCK(m_dataSize, reader);
         break;
+    
+    case NA:
+    default:
+        break;
     }
 }
 

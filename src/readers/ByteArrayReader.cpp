@@ -12,15 +12,15 @@
 namespace RedatamLib
 {
 ByteArrayReader::ByteArrayReader() :
+    m_data(),
     m_currPos(0),
-    m_endPos(0),
-    m_data()
+    m_endPos(0)
 {}
 
 ByteArrayReader::ByteArrayReader(const string& filePath) :
+    m_data(),
     m_currPos(0),
-    m_endPos(0),
-    m_data()
+    m_endPos(0)
 {
     string eMsg = "Error: Failed to open file: ";
     std::ifstream fs(filePath, std::ios::binary);
@@ -44,7 +44,7 @@ size_t ByteArrayReader::GetEndPos() const
 
 void ByteArrayReader::SetPos(int newPos)
 {
-    ThrowIfBad<out_of_range>(0 <= newPos && newPos <= m_endPos,
+    ThrowIfBad<out_of_range>(0 <= newPos && size_t(newPos) <= m_endPos,
         out_of_range("Error: New position exceeds array bounds."));
     m_currPos = newPos;
 }
@@ -97,7 +97,6 @@ string ByteArrayReader::ReadString(size_t length)
 
 string ByteArrayReader::GetFormerString()
 {
-    size_t ogPos = GetPos();
     size_t offset = 2;  //  string length is indicated by 2 bytes
     MovePos(-offset);
 

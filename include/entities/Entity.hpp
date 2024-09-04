@@ -37,9 +37,9 @@ public:
 
 private:
     string m_name;
+    string m_parentName;
     string m_description;
     string m_indexFilename;
-    string m_parentName;
     Entity* m_child;
     shared_ptr<vector<Variable>> m_variables;
     pair<size_t, size_t> m_bounds;

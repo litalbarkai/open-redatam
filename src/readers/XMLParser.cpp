@@ -47,7 +47,7 @@ vector<Entity> XMLParser::ParseFile(const string& fileName)
         DOMElement* child = ParseEntity(&ret, rootElement);
         while (nullptr != child)
         {
-            child = ParseEntity(&ret, child);
+            child = ParseEntity(&ret, child, ret.back().GetName());
         }
         
         for (size_t idx = 0; idx < ret.size() - 1; ++idx)
@@ -78,10 +78,10 @@ string XMLParser::TranscodeStr(const XMLCh* str)
 
 string XMLParser::GetTagValue(DOMElement* element, const string& tag, size_t idx)
 {
-    DOMNodeList* tags = element->getElementsByTagName(XMLString::transcode(tag.c_str()));
+    vector<DOMElement*> children = GetChildren(element, tag);
 
-    return (0 != tags->getLength()) ?
-        TranscodeStr(static_cast<DOMElement*>(tags->item(idx))->getTextContent()) :
+    return (children.size() > idx) ?
+        TranscodeStr(children[idx]->getTextContent()) :
         "";
 }
 
@@ -101,10 +101,10 @@ DOMElement* XMLParser::ParseEntity(vector<Entity>* results, DOMElement* e, const
 
     results->push_back(curr);
 
-    DOMNodeList* children = e->getElementsByTagName(XMLString::transcode("entity"));
-    if (0 != children->getLength())
+    vector<DOMElement*> children = GetChildren(e, "entity");
+    if (0 != children.size())
     {
-        return static_cast<DOMElement*>(children->item(0));
+        return static_cast<DOMElement*>(children[0]);
     }
 
     return nullptr;
@@ -114,10 +114,11 @@ shared_ptr<vector<Variable>> XMLParser::ParseVariables(DOMElement* e)
 {
     shared_ptr<vector<Variable>> ret(new vector<Variable>);
 
-    DOMNodeList* vars = e->getElementsByTagName(XMLString::transcode("variable"));
-    for (size_t idx = 0; idx < vars->getLength(); ++idx)
+    vector<DOMElement*> vars = GetChildren(e, "variable");
+
+    for (size_t idx = 0; idx < vars.size(); ++idx)
     {
-        DOMElement* var = static_cast<DOMElement*>(vars->item(idx));
+        DOMElement* var = vars[idx];
 
         string name = GetTagValue(var, "name");
 
@@ -149,6 +150,25 @@ shared_ptr<vector<Variable>> XMLParser::ParseVariables(DOMElement* e)
     }
 
     return ret;
+}
+
+vector<DOMElement*> XMLParser::GetChildren(DOMElement* parent, const string& tag)
+{
+    vector<DOMElement*> children;
+    
+    DOMElement* currElement = static_cast<DOMElement*>(parent->getFirstChild());
+
+    while (nullptr != currElement)
+    {
+        if (tag.c_str() == TranscodeStr(currElement->getTagName()))
+        {
+            children.push_back(currElement);
+        }
+
+        currElement = static_cast<DOMElement*>(currElement->getNextSibling());
+    }
+
+    return children;
 }
 
 pair<VarType, size_t> XMLParser::ParseVarTypeAndSize(DOMElement* var)

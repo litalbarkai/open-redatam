@@ -42,6 +42,7 @@ private:
                         DOMElement* element,
                         const string& parentName = "");
     shared_ptr<vector<Variable>> ParseVariables(DOMElement* e);
+    vector<DOMElement*> GetChildren(DOMElement* parent, const string& tag);
     pair<VarType, size_t> ParseVarTypeAndSize(DOMElement* var);
     string ParseVarRange(DOMElement* var);
     vector<Tag> ParseVarTags(DOMElement* var);

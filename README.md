@@ -2,7 +2,7 @@
 Program for extracting raw information from REDATAM databases.
 This program is a CLI adaptation of the original [redatam-converter](https://github.com/discontinuos/redatam-converter).
 
-Redatam Converter is an open source project that lets you read Redatam databases in order to export their microdata. It was created to recover information of REDATAM databases for statistics analysis using standard tools such as SPSS, STATA, R, etc.
+Redatam Converter is an open source project that lets you read Redatam databases in order to export their microdata. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
 
 # COMPATIBILITY
 The converter was tested with REDATAM databases of different versions.

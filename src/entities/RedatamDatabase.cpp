@@ -8,6 +8,7 @@
 #include "FuzzyEntityParser.hpp"
 #include "XMLParser.hpp"
 #include "CSVExporter.hpp"
+#include "XMLExporter.hpp"
 #include "utils.hpp"    //  ThrowIfBad, GetFileExtension
 
 namespace RedatamLib
@@ -17,8 +18,6 @@ using std::string, std::vector, std::invalid_argument;
 RedatamDatabase::RedatamDatabase(const string& fileName)
 {
     OpenDictionary(fileName);
-
-    //TODO validate files (frmMain)
 }
 
 void RedatamDatabase::ExportCSVFiles(const string& outputDir)
@@ -29,7 +28,8 @@ void RedatamDatabase::ExportCSVFiles(const string& outputDir)
 
 void RedatamDatabase::ExportSummary(const string& outputDir)
 {
-    //TODO
+    XMLExporter exporter(outputDir);
+    exporter.ExportSummary(m_entities);
 }
 
 void RedatamDatabase::OpenDictionary(const string& fileName)

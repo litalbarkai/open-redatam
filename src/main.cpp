@@ -4,14 +4,6 @@
 
 #include "RedatamDatabase.hpp"
 
-
-
-
-#include <ctime>
-
-
-
-
 using std::string, std::cerr, std::cout, std::endl;
 namespace fs = std::filesystem;
 
@@ -34,15 +26,9 @@ int main(int argc, char *argv[])
 
     try
     {
-        auto ts = time(NULL);
         RedatamLib::RedatamDatabase db(dicFilePath);
-        auto te = time(NULL);
-        cout << te - ts << endl;
-        ts = time(NULL);
         db.ExportCSVFiles(outputDirPath);
-        te = time(NULL);
-        cout << te - ts << endl;
-        // db.ExportSummary(outputDirPath);
+        db.ExportSummary(outputDirPath);
         cout << "Conversion successful!" << endl;
     }
     catch (const std::exception& e)

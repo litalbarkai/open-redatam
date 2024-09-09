@@ -25,12 +25,16 @@ public:
 
     string GetName() const;
     string GetParentName() const;
+    string GetPTRPath() const;
+
     shared_ptr<vector<Variable>> GetVariables() const;
     size_t GetRowsCount() const;
 
     pair<size_t, size_t> GetBounds() const;
 
     size_t GetPTRData();
+
+    Entity* GetChild() const;
 
     void AttachChild(Entity* child);
     void AttachVariables(shared_ptr<vector<Variable>> variables);

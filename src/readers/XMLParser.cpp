@@ -1,6 +1,7 @@
 #include <algorithm>    //  std::replace
 
 #include "XMLParser.hpp"
+#include "XMLUtils.hpp"
 #include "utils.hpp"
 
 namespace RedatamLib
@@ -19,6 +20,7 @@ XMLParser::XMLParser()
     catch(const XMLException& e)
     {
         cerr << "Error in Xerces initialization: " << TranscodeStr(e.getMessage()) << endl;
+        throw;
     }
 }
 
@@ -63,15 +65,6 @@ vector<Entity> XMLParser::ParseFile(const string& fileName)
     {
         cerr << TranscodeStr(e.getMessage()) << endl;
     }
-
-    return ret;
-}
-
-string XMLParser::TranscodeStr(const XMLCh* str)
-{
-    char* cstr = XMLString::transcode(str);
-    string ret = cstr;
-    XMLString::release(&cstr);
 
     return ret;
 }

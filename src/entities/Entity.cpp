@@ -46,6 +46,11 @@ string Entity::GetParentName() const
     return m_parentName;
 }
 
+string Entity::GetPTRPath() const
+{
+    return m_indexFilename;
+}
+
 shared_ptr<vector<Variable>> Entity::GetVariables() const
 {
     return m_variables;
@@ -64,6 +69,11 @@ pair<size_t, size_t> Entity::GetBounds() const
 size_t Entity::GetPTRData()
 {
     return m_reader.ReadInt32LE();
+}
+
+Entity* Entity::GetChild() const
+{
+    return m_child;
 }
 
 void Entity::AttachChild(Entity* child)

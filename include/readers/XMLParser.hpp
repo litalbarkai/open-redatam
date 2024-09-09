@@ -34,8 +34,7 @@ public:
 private:
     XercesDOMParser* m_parser;
     string m_rootPath;
-
-    string TranscodeStr(const XMLCh* str);
+    
     string GetTagValue(DOMElement* element, const string& tag, size_t idx = 0);
     //  returns the next <entity> DOMElement*
     DOMElement* ParseEntity(vector<Entity>* results,

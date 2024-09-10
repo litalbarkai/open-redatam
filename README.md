@@ -23,8 +23,6 @@ We provide a script for Ubuntu users to install Xerces-C++ XML Parser. Run the f
 bash dev/01-install-xerces.sh
 ```
 
-**MAKEFILE**: make sure to change XERCES_PATH to where xerces is installed.
-
 ## Installation
 
 To install the program, run the following commands:

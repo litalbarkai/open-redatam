@@ -60,10 +60,12 @@ vector<Entity> XMLParser::ParseFile(const string& fileName)
     catch(const XMLException& e)
     {
         cerr << TranscodeStr(e.getMessage()) << endl;
+        throw;
     }
     catch(const DOMException& e)
     {
         cerr << TranscodeStr(e.getMessage()) << endl;
+        throw;
     }
 
     return ret;

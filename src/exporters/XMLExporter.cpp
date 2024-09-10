@@ -93,14 +93,7 @@ void XMLExporter::SetAttribute(DOMElement* e, const string& name, const string& 
     }
     catch(const XMLException& err)
     {
-        try
-        {
-            e->setAttribute(TranscodeBinary(name), TranscodeBinary(value));
-        }
-        catch(const XMLException& err)
-        {
-            std::cerr << TranscodeStr(err.getMessage()) << '\n';
-        }
+        e->setAttribute(TranscodeBinary(name), TranscodeBinary(value));
     }
 }
 

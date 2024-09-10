@@ -1,4 +1,4 @@
-XERCES_PATH = /usr/xerces/
+XERCES_PATH = ./xerces/
 CXX = g++
 CXXFLAGS = -std=c++17 -O3 -Wall -I ./include -I ./include/entities -I ./include/readers -I ./include/exporters -I $(XERCES_PATH)include/
 XERCES_FLAGS = -L $(XERCES_PATH)lib -lxerces-c

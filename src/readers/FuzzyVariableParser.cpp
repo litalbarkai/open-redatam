@@ -177,15 +177,50 @@ void FuzzyVariableParser::ParseMissingAndNA(vector<Tag>* tags, ByteArrayReader* 
 
     if (0 != len)
     {
-        reader->MovePos(missing.size() + 2);  //  " " + missing + " "
-        size_t keyLen1 = GetSubstringLength(" ", reader);
-        string key1 = reader->ReadString(keyLen1);
-        tags->push_back(Tag(key1, missing));
+        size_t ogPos = reader->GetPos();
+        size_t maxPos = reader->GetEndPos();
 
-        reader->MovePos(1 + na.size() + 1);  //  " " + na + " "
-        size_t keyLen2 = std::min(GetSubstringLength("", reader), GetSubstringLength(" ", reader));
-        string key2 = reader->ReadString(keyLen2);
-        tags->push_back(Tag(key2, na));
+        //  find labels' searching limit by next "DATASET"
+        try
+        {
+            reader->MovePosTo("DATASET");
+            maxPos = reader->GetPos();
+            reader->SetPos(ogPos);
+        }
+        catch(const std::exception&)
+        {
+            reader->SetPos(ogPos);
+        }
+        
+        try
+        {
+            reader->MovePosTo(missing);
+            ThrowIfBad(maxPos > reader->GetPos(), std::out_of_range("Label doesn't belong to current variable."));
+
+            reader->MovePos(missing.size() + 1);  //  missing + " "
+            size_t keyLen1 = GetSubstringLength(" ", reader);
+            string key1 = reader->ReadString(keyLen1);
+            tags->push_back(Tag(key1, missing));
+        }
+        catch(const std::exception&)
+        {
+            reader->SetPos(ogPos);
+        }
+
+        try
+        {
+            reader->MovePosTo(na);
+            ThrowIfBad(maxPos > reader->GetPos(), std::out_of_range("Label doesn't belong to current variable."));
+
+            reader->MovePos(na.size() + 1);  //  na + " "
+            size_t keyLen2 = std::min(GetSubstringLength("", reader), GetSubstringLength(" ", reader));
+            string key2 = reader->ReadString(keyLen2);
+            tags->push_back(Tag(key2, na));
+        }
+        catch(const std::exception&)
+        {
+            reader->SetPos(ogPos);
+        }
     }
 }
 

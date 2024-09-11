@@ -30,10 +30,18 @@ Entity::Entity(const string& name,
     m_reader(idxFileName),
     m_rowsCount(0)
 {
-    m_reader.SetPos(m_reader.GetEndPos() - 4);
-    m_rowsCount = m_reader.ReadInt32LE();
+    //  PTR files shouldn't be empty, but in the odd case it is - treat it as holding zeros
+    if (m_reader.GetEndPos() == m_reader.GetPos())
+    {
+        m_rowsCount = 0;
+    }
+    else
+    {
+        m_reader.SetPos(m_reader.GetEndPos() - 4);
+        m_rowsCount = m_reader.ReadInt32LE();
 
-    m_reader.SetPos(4); //  advance past header of zeros
+        m_reader.SetPos(4); //  advance past header of zeros
+    }
 }
 
 string Entity::GetName() const

@@ -27,7 +27,10 @@ jobs:
 
       - name: Set up environment on macOS
         if: matrix.os == 'macos-latest'
-        run: brew install qt cmake
+        run: |
+          brew install qt cmake
+          echo "::add-path::$(brew --prefix qt)/bin"
+          echo "::set-env name=PKG_CONFIG_PATH::$(brew --prefix qt)/lib/pkgconfig"
 
       - name: Set up MSBuild
         if: matrix.os == 'windows-2019'

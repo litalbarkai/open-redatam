@@ -29,8 +29,8 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: |
           brew install qt cmake
-          echo "::add-path::$(brew --prefix qt)/bin"
-          echo "::set-env name=PKG_CONFIG_PATH::$(brew --prefix qt)/lib/pkgconfig"
+          echo "$(brew --prefix qt)/bin" >> $GITHUB_PATH
+          echo "PKG_CONFIG_PATH=$(brew --prefix qt)/lib/pkgconfig" >> $GITHUB_ENV
 
       - name: Set up MSBuild
         if: matrix.os == 'windows-2019'

@@ -28,7 +28,7 @@ jobs:
       - name: Set up environment on macOS
         if: matrix.os == 'macos-latest'
         run: |
-          brew install qt cmake
+          brew install qt@5 cmake
           echo "$(brew --prefix qt)/bin" >> $GITHUB_PATH
           echo "PKG_CONFIG_PATH=$(brew --prefix qt)/lib/pkgconfig" >> $GITHUB_ENV
 

@@ -13,6 +13,7 @@ include_directories(include include/entities include/readers include/exporters $
 file(GLOB_RECURSE SRCS "src/*.cpp")
 
 # Find Qt5
+set(Qt5_DIR "C:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5")
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 # Executables

@@ -1,0 +1,116 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-latest, windows-2019]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential wget libqt5widgets5 qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools cmake
+
+      - name: Set up environment on macOS
+        if: matrix.os == 'macos-latest'
+        run: brew install qt cmake
+
+      - name: Set up MSBuild
+        if: matrix.os == 'windows-2019'
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Set up environment on Windows
+        if: matrix.os == 'windows-2019'
+        run: |
+          choco install wget -y
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies -y
+          choco install qt --version 5.15.2 -y
+
+      - name: Install Xerces on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          chmod +x dev/01-install-xerces.sh
+          ./dev/01-install-xerces.sh
+
+      - name: Install Xerces on macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          chmod +x dev/01-install-xerces.sh
+          ./dev/01-install-xerces.sh
+
+      - name: Install Xerces on Windows
+        if: matrix.os == 'windows-2019'
+        run: |
+          wget https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.2.3.tar.gz
+          tar -xzf xerces-c-3.2.3.tar.gz
+          cd xerces-c-3.2.3
+          mkdir build
+          cd build
+          cmake -G "Visual Studio 16 2019" -DCMAKE_INSTALL_PREFIX=%cd%/../../xerceswin ..
+          cmake --build . --config Release
+          cmake --install . --config Release
+
+      - name: Build redatam on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        run: make all
+
+      - name: Build redatam and redatamgui on macOS
+        if: matrix.os == 'macos-latest'
+        run: make all
+
+      - name: Build redatam and redatamgui on Windows
+        if: matrix.os == 'windows-2019'
+        run: |
+          cd D:/a/redatam-converter/redatam-converter
+          mkdir buildwin
+          cd buildwin
+          cmake -G "Visual Studio 16 2019" -DBUILD_GUI=ON -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/msvc2019_64;D:/a/redatam-converter/redatam-converter/xerceswin" ..
+          cmake --build . --config Release
+
+      - name: Verify build output on Windows
+        if: matrix.os == 'windows-2019'
+        run: |
+          dir buildwin
+          dir buildwin/Release
+
+      - name: Upload binaries on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-binaries
+          path: |
+            redatam
+            redatamgui
+
+      - name: Upload binaries on macOS
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-binaries
+          path: |
+            redatam
+            redatamgui
+
+      - name: Upload binaries on Windows
+        if: matrix.os == 'windows-2019'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binaries
+          path: |
+            D:/a/redatam-converter/redatam-converter/buildwin/Release/redatam.exe
+            D:/a/redatam-converter/redatam-converter/buildwin/Release/redatamgui.exe
+            

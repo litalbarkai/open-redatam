@@ -8,13 +8,18 @@ for file in downloads/*.zip; do
   fi
 done
 
-for file in $(find downloads -type f -name "*.dicx$"); do
+for file in $(find downloads -type f -name "*.dicx"); do
+  # skip corrupt files
+  if [[ "$file" == *CP2011URY* ]]; then
+    echo "Skipping $file..."
+    continue
+  fi
+
   dirname=$(dirname "$file")
   dirname=$(echo "$dirname" | cut -d'/' -f1,2)
   dirname="$dirname/redatam-converter-cpp/"
   mkdir -p "$dirname"
   
-  # if the directory has 0 files, then convert the file
   if [ $(ls -1 "$dirname" | wc -l) -eq 0 ]; then
     echo "Converting $file..."
     ./redatam "$file" "$dirname"

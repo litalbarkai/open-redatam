@@ -63,7 +63,7 @@ jobs:
           cd xerces-c-3.2.3
           mkdir build
           cd build
-          cmake -G "Visual Studio 16 2019" -DCMAKE_INSTALL_PREFIX=%cd%/../../xerceswin ..
+          cmake -G "Visual Studio 16 2019" -DCMAKE_INSTALL_PREFIX=D:/a/redatam-converter/redatam-converter/xerceswin ..
           cmake --build . --config Release
           cmake --install . --config Release
 

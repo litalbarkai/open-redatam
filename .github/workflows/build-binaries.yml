@@ -38,7 +38,7 @@ jobs:
         run: |
           choco install wget -y
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies -y
-          choco install qt --version 5.15.2 -y
+          choco install qt-default -y
 
       - name: Install Xerces on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -113,4 +113,3 @@ jobs:
           path: |
             D:/a/redatam-converter/redatam-converter/buildwin/Release/redatam.exe
             D:/a/redatam-converter/redatam-converter/buildwin/Release/redatamgui.exe
-            

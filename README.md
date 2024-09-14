@@ -25,11 +25,40 @@ bash dev/01-install-xerces.sh
 
 ## Installation
 
-To install the program, run the following commands:
+### From binary
+
+Download the latest release from here:
+
+- Linux: https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-linux.zip
+- Mac (Intel): https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
+- Windows: https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-windows.zip
+
+On Linux/Mac,run the following commands:
 
 ```bash
+unzip redatam-linux.zip # or redatam-macos.zip
+chmod +x redatam
+chmod +x redatamgui
+sudo mv redatam /usr/local/bin/
+sudo mv redatamgui /usr/local/bin/
+```
+
+Then you can run `redatam` or `redatamgui`.
+
+On Windows, download the Windows version and run the exe file directly from the folder.
+
+### From source
+
+Clone the repository and run the following command:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y build-essential wget libqt5widgets5 qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools cmake
+bash dev/01-install-xerces.sh
 make
 ```
+
+Then run `./redatam` or copy it with `redatamgui `/usr/local/bin/` as in the previous section.
 
 ## Usage
 
@@ -47,18 +76,39 @@ Tested on Ubuntu 22.04.
 
 Ticked = Passed; Blank = Failed
 
-- [ ] Argentina 2010 (`downloads/CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dicx`)
-- [ ] Bolivia 2001 (`downloads/CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dicx`)
-- [ ] Bolivia 2001 CELADE (`downloads/CP2001BOL/Cp2001BOL/Celade/CPV2001BOL_Celade.dicx`)
-- [x] Bolivia 2012 (`downloads/CP2012BOL/BaseMunicipio_V3/CPV2012Comunidad.dicx`)
-- [x] Chile 2017 (`downloads/CP2017CHL/BaseOrg16/CPV2017-16.dicx`)
-- [ ] Dominican Republic 2002 (`downloads/CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dicx`)
-- [ ] Ecuador 2010 (`downloads/CP2010ECU/Base/cpv2010ecu.dicx`)
-- [ ] El Salvador 2007 (`downloads/CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dicx`)
-- [ ] Mexico 2000 (`downloads/CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dicx`)
-- [ ] Mexico 2010 (`downloads/CP2010MEX/BasePubM/MC10.dicx`)
-- [ ] Mexico 2010 CELADE (`downloads/CP2000MEX/Cp2000MEX/Celade/CPV2000MEX_Celade.dicx`)
-- [ ] Peru 2010 (`downloads/CP2010PER/CP2007PER/BasePub/CPV2007PER_PUB.dicx`)
+### DIC format
+
+- [ ] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dic`)
+- [ ] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dic`)
+- [ ] Bolivia 2001 CELADE (`CP2001BOL/Cp2001BOL/Celade/CPV2001BOL_Celade.dic`)
+- [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic`)
+- [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dic`)
+- [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dic`)
+- [x] Ecuador 2010 (`downloads/CP2010ECU/Base/CE11.dic`)
+- [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dic`)
+- [ ] Guatemala 2018 (`CP2018GTM/BasePub/CPV2018GT_BasePublica.dic`)
+- [x] Mexico 2000 (`downloads/CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
+- [ ] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dic`)
+- [x] Myanmar 2014 (`CP2014MMR/Union.dic`)
+- [ ] Peru 2010 (`CP2010PER/CP2007PER/BasePub/CPV2007PER_PUB.dic`)
+- [ ] Peru 2017 (`CP2017PER/BaseD/BaseR/CPVPER2017D.dic`)
+- [ ] Uruguay 2011 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`) *corrupted file*
+
+### DICX format
+
+- [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dicx`)
+- [ ] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dicx`)
+- [ ] Bolivia 2001 CELADE (`CP2001BOL/Cp2001BOL/Celade/CPV2001BOL_Celade.dicx`)
+- [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Comunidad.dicx`)
+- [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dicx`)
+- [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dicx`)
+- [x] Ecuador 2010 (`CP2010ECU/Base/cpv2010ecu.dicx`)
+- [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dicx`)
+- [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dicx`)
+- [x] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dicx`)
+- [x] Mexico 2015 (`ECI2015MEX/BaseR/ECI2015MX.dicX`)
+- [x] Peru 2010 (`CP2010PER/CP2007PER/BasePub/CPV2007PER_PUB.dicx`)
+- [x] Uruguay 2011 (`CP2011URY/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX`)
 
 ## Credits
 

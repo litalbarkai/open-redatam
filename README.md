@@ -58,7 +58,7 @@ bash dev/01-install-xerces.sh
 make
 ```
 
-Then run `./redatam` or copy it with `redatamgui `/usr/local/bin/` as in the previous section.
+Then run `./redatam` or copy it with `redatamgui` to `/usr/local/bin/` as in the previous section.
 
 ## Usage
 

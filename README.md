@@ -31,7 +31,7 @@ Download the latest release from here:
 
 - Linux: https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-linux.zip
 - Mac (Intel): https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
-- Windows: https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-windows.zip
+- Windows: We need to polish the Windows version. You can use the Linux version with WSL.
 
 On Linux/Mac,run the following commands:
 
@@ -45,15 +45,23 @@ sudo mv redatamgui /usr/local/bin/
 
 Then you can run `redatam` or `redatamgui`.
 
-On Windows, download the Windows version and run the exe file directly from the folder.
-
 ### From source
 
-Clone the repository and run the following command:
+For Linux, clone the repository and run the following command:
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y build-essential wget libqt5widgets5 qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools cmake
+sudo apt-get install libwxgtk3.0-gtk3-dev
+bash dev/01-install-xerces.sh
+make
+```
+
+For Mac, clone the repository and run the following command:
+
+```bash
+brew install wxwidgets
+echo "$(brew --prefix wxwidgets)/bin" >> $GITHUB_PATH
+echo "PKG_CONFIG_PATH=$(brew --prefix wxwidgets)/lib/pkgconfig" >> $GITHUB_ENV
 bash dev/01-install-xerces.sh
 make
 ```

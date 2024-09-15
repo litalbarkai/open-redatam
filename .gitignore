@@ -36,3 +36,4 @@ x64
 .vscode/settings.json
 .vscode/launch.json
 .vscode/c_cpp_properties.json
+guiwindows/wxWidgets-3.0.5.zip

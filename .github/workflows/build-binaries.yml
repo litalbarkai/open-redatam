@@ -23,12 +23,12 @@ jobs:
         if: matrix.os == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake wget libwxgtk3.0-gtk3-dev
+          sudo apt-get install -y libwxgtk3.0-gtk3-dev
 
       - name: Set up environment on macOS
         if: matrix.os == 'macos-latest'
         run: |
-          brew install cmake wxwidgets
+          brew install wxwidgets
           echo "$(brew --prefix wxwidgets)/bin" >> $GITHUB_PATH
           echo "PKG_CONFIG_PATH=$(brew --prefix wxwidgets)/lib/pkgconfig" >> $GITHUB_ENV
 
@@ -81,13 +81,12 @@ jobs:
           cmake -G "Visual Studio 16 2019" -DCMAKE_PREFIX_PATH="D:/a/redatam-converter/redatam-converter/xerceswin" .
           cmake --build . --config Release
 
-      - name: Build redatamgui on Windows
+      - name: Build redatamgui for Windows
         if: matrix.os == 'windows-2019'
         run: |
           cd D:/a/redatam-converter/redatam-converter/guiwindows
-          cmake -G "Visual Studio 16 2019" -DBUILD_GUI=ON -DCMAKE_PREFIX_PATH="D:/a/redatam-converter/redatam-converter/xerceswin" .
-          cmake --build . --target redatamgui --config Release
-
+          cmake -G "Visual Studio 16 2019" -DCMAKE_PREFIX_PATH="D:/a/redatam-converter/redatam-converter/guiwindows" .
+          cmake --build . --config Release
 
       - name: Verify build output on Windows
         if: matrix.os == 'windows-2019'
@@ -119,5 +118,5 @@ jobs:
         with:
           name: windows-binaries
           path: |
-            D:/a/redatam-converter/redatam-converter/buildwin/Release/redatam.exe
-            D:/a/redatam-converter/redatam-converter/buildwin/Release/redatamgui.exe
+            D:/a/redatam-converter/redatam-converter/redatamwindows/Release/redatam.exe
+            D:/a/redatam-converter/redatam-converter/guiwindows/Release/redatamgui.exe

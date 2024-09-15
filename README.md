@@ -45,6 +45,20 @@ sudo mv redatamgui /usr/local/bin/
 
 Then you can run `redatam` or `redatamgui`.
 
+On Linux, you need to install `libxerces-c-dev`:
+
+```bash
+# Ubuntu
+sudo apt-get update
+sudo apt-get install libxerces-c-dev
+```
+
+On Mac, you need to install `xerces-c`:
+
+```bash
+brew install xerces-c
+```
+
 ### From source
 
 For Linux, clone the repository and run the following command:

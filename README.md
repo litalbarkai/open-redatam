@@ -31,7 +31,7 @@ Download the latest release from here:
 
 - Linux: https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-linux.zip
 - Mac (Intel): https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
-- Windows: We need to polish the Windows version. You can use the Linux version with WSL.
+- Windows: We need to polish the Windows version. You can use the Linux version with WSL. You can use the good old [Redatam Converter](https://github.com/discontinuos/redatam-converter/blob/master/release/setup-win32.exe?raw=true).
 
 On Linux/Mac,run the following commands:
 

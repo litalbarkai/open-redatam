@@ -29,7 +29,7 @@ wget https://redatam.org/cdr/descargas/censos/poblacion/CP2018GTM.zip -O downloa
 # Mexico
 wget https://redatam.org/cdr/descargas/censos/poblacion/CP2000MEX.zip -O downloads/CP2000MEX.zip
 wget https://redatam.org/cdr/descargas/censos/poblacion/CP2010MEX.zip -O downloads/CP2010MEX.zip
-wget https://redatam.org/cdr/descargas/censos/poblacion/CP2015MEX.zip -O downloads/CP2015MEX.zip
+wget https://redatam.org/cdr/descargas/censos/poblacion/ECI2015MEX.zip -O downloads/ECI2015MEX.zip
 wget https://redatam.org/cdr/descargas/censos/poblacion/CP2020MEX.zip -O downloads/CP2020MEX.zip
 
 # Myammar

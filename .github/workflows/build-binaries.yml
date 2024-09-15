@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-latest, windows-2019]
+        os: [ubuntu-22.04, macos-latest]
 
     steps:
       - name: Checkout code
@@ -32,16 +32,6 @@ jobs:
           echo "$(brew --prefix wxwidgets)/bin" >> $GITHUB_PATH
           echo "PKG_CONFIG_PATH=$(brew --prefix wxwidgets)/lib/pkgconfig" >> $GITHUB_ENV
 
-      - name: Set up MSBuild
-        if: matrix.os == 'windows-2019'
-        uses: microsoft/setup-msbuild@v1.0.2
-
-      - name: Set up environment on Windows
-        if: matrix.os == 'windows-2019'
-        run: |
-          choco install wget -y
-          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies -y
-
       - name: Install Xerces on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: |
@@ -54,18 +44,6 @@ jobs:
           chmod +x dev/01-install-xerces.sh
           ./dev/01-install-xerces.sh
 
-      - name: Install Xerces on Windows
-        if: matrix.os == 'windows-2019'
-        run: |
-          wget https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.2.3.tar.gz
-          tar -xzf xerces-c-3.2.3.tar.gz
-          cd xerces-c-3.2.3
-          mkdir build
-          cd build
-          cmake -G "Visual Studio 16 2019" -DCMAKE_INSTALL_PREFIX=D:/a/redatam-converter/redatam-converter/xerceswin ..
-          cmake --build . --config Release
-          cmake --install . --config Release
-
       - name: Build redatam on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: make all
@@ -73,26 +51,6 @@ jobs:
       - name: Build redatam and redatamgui on macOS
         if: matrix.os == 'macos-latest'
         run: make all
-
-      - name: Build redatam on Windows
-        if: matrix.os == 'windows-2019'
-        run: |
-          cd D:/a/redatam-converter/redatam-converter/redatamwindows
-          cmake -G "Visual Studio 16 2019" -DCMAKE_PREFIX_PATH="D:/a/redatam-converter/redatam-converter/xerceswin" .
-          cmake --build . --config Release
-
-      - name: Build redatamgui for Windows
-        if: matrix.os == 'windows-2019'
-        run: |
-          cd D:/a/redatam-converter/redatam-converter/guiwindows
-          cmake -G "Visual Studio 16 2019" -DCMAKE_PREFIX_PATH="D:/a/redatam-converter/redatam-converter/guiwindows" .
-          cmake --build . --config Release
-
-      - name: Verify build output on Windows
-        if: matrix.os == 'windows-2019'
-        run: |
-          dir buildwin
-          dir buildwin/Release
 
       - name: Upload binaries on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -111,12 +69,3 @@ jobs:
           path: |
             redatam
             redatamgui
-
-      - name: Upload binaries on Windows
-        if: matrix.os == 'windows-2019'
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-binaries
-          path: |
-            D:/a/redatam-converter/redatam-converter/redatamwindows/Release/redatam.exe
-            D:/a/redatam-converter/redatam-converter/guiwindows/Release/redatamgui.exe

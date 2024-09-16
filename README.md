@@ -25,33 +25,23 @@ bash dev/01-install-xerces.sh
 
 ## Installation
 
-### From binary
-
-Download the latest release from here:
-
-- Linux: https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-linux.zip
-- Mac (Intel): https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
-- Windows: We need to polish the Windows version. You can use the Linux version with WSL. You can use the good old [Redatam Converter](https://github.com/discontinuos/redatam-converter/blob/master/release/setup-win32.exe?raw=true).
+### From binaries
 
 On Ubuntu, run the following commands:
 
 ```bash
+# needs "sudo apt install gdebi-core" if you don't have gdebi
 wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam_0.0.1_amd64.deb
-sudo dpkg -i redatam_0.0.1_amd64.deb # needs "sudo apt install gdebi-core" if you don't have gdebi
+sudo dpkg -i redatam_0.0.1_amd64.deb
 ```
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry.
 
-On Mac, run the following commands:
+On Mac, run the following command:
 
 ```bash
-wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
-brew install xerces-c wxwidgets
-unzip redatam-macos.zip
-chmod +x redatam
-chmod +x redatamgui
-sudo mv redatam /usr/local/bin/
-sudo mv redatamgui /usr/local/bin/
+# needs "brew", install it from https://brew.sh/ if you don't have it
+sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/redatam-converter/main/install/mac.sh)"
 ```
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies.
@@ -67,6 +57,8 @@ sudo apt-get install libwxgtk3.0-gtk3-dev
 bash dev/01-install-xerces.sh
 make
 ```
+
+Then run `./redatam` or `./redatamgui`.
 
 On Mac, run the following commands:
 

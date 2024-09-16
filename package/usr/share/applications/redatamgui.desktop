@@ -1,0 +1,7 @@
+[Desktop Entry]
+          Version=1.0
+          Name=Redatam GUI
+          Exec=/usr/local/bin/redatamgui
+          Icon=utilities-terminal
+          Type=Application
+          Categories=Utility;

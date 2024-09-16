@@ -33,46 +33,45 @@ Download the latest release from here:
 - Mac (Intel): https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
 - Windows: We need to polish the Windows version. You can use the Linux version with WSL. You can use the good old [Redatam Converter](https://github.com/discontinuos/redatam-converter/blob/master/release/setup-win32.exe?raw=true).
 
-On Linux/Mac,run the following commands:
+On Ubuntu, run the following commands:
 
 ```bash
-unzip redatam-linux.zip # or redatam-macos.zip
+wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam_0.0.1_amd64.deb
+sudo dpkg -i redatam_0.0.1_amd64.deb # needs "sudo apt install gdebi-core" if you don't have gdebi
+```
+
+This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry.
+
+On Mac, run the following commands:
+
+```bash
+wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
+brew install xerces-c wxwidgets
+unzip redatam-macos.zip
 chmod +x redatam
 chmod +x redatamgui
 sudo mv redatam /usr/local/bin/
 sudo mv redatamgui /usr/local/bin/
 ```
 
-Then you can run `redatam` or `redatamgui`.
-
-On Linux, you need to install `libxerces-c-dev` and `libwxgtk3.0-gtk3-0v5`:
-
-```bash
-# Ubuntu
-sudo apt-get update
-sudo apt-get install libxerces-c-dev libwxgtk3.0-gtk3-0v5
-```
-
-On Mac, you need to install `xerces-c` and `wxwidgets`:
-
-```bash
-brew install xerces-c wxwidgets
-```
+This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies.
 
 ### From source
 
-For Linux, clone the repository and run the following command:
+On Linux, run the following commands:
 
 ```bash
+git clone https://github.com/pachadotdev/redatam-converter.git
 sudo apt-get update
 sudo apt-get install libwxgtk3.0-gtk3-dev
 bash dev/01-install-xerces.sh
 make
 ```
 
-For Mac, clone the repository and run the following command:
+On Mac, run the following commands:
 
 ```bash
+git clone https://github.com/pachadotdev/redatam-converter.git
 brew install wxwidgets
 echo "$(brew --prefix wxwidgets)/bin" >> $GITHUB_PATH
 echo "PKG_CONFIG_PATH=$(brew --prefix wxwidgets)/lib/pkgconfig" >> $GITHUB_ENV
@@ -80,7 +79,7 @@ bash dev/01-install-xerces.sh
 make
 ```
 
-Then run `./redatam` or copy it with `redatamgui` to `/usr/local/bin/` as in the previous section.
+Then run `./redatam` or `./redatamgui`.
 
 ## Usage
 

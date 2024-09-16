@@ -57,8 +57,8 @@ jobs:
         run: |
           mkdir -p package/usr/local/bin
           mkdir -p package/usr/share/applications
-          mv redatam package/usr/local/bin/
-          mv redatamgui package/usr/local/bin/
+          cp redatam package/usr/local/bin/
+          cp redatamgui package/usr/local/bin/
           chmod +x package/usr/local/bin/redatam
           chmod +x package/usr/local/bin/redatamgui
           echo "[Desktop Entry]
@@ -85,8 +85,8 @@ jobs:
           mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           mkdir -p rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin
           mkdir -p rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/share/applications
-          mv redatam rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
-          mv redatamgui rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
+          cp redatam rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
+          cp redatamgui rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
           chmod +x rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/redatam
           chmod +x rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/redatamgui
           echo "[Desktop Entry]

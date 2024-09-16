@@ -23,7 +23,7 @@ jobs:
         if: matrix.os == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwxgtk3.0-gtk3-dev
+          sudo apt-get install -y libwxgtk3.0-gtk3-dev rpm rpm-build
 
       - name: Set up environment on macOS
         if: matrix.os == 'macos-latest'
@@ -44,7 +44,7 @@ jobs:
           chmod +x dev/01-install-xerces.sh
           ./dev/01-install-xerces.sh
 
-      - name: Build redatam on Ubuntu
+      - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: make all
 
@@ -79,6 +79,52 @@ jobs:
           Description: Redatam and Redatam GUI" > package/DEBIAN/control
           dpkg-deb --build package redatam_0.0.1_amd64.deb
 
+      - name: Create RPM package on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+          mkdir -p rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin
+          mkdir -p rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/share/applications
+          mv redatam rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
+          mv redatamgui rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
+          chmod +x rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/redatam
+          chmod +x rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/redatamgui
+          echo "[Desktop Entry]
+          Version=1.0
+          Name=Redatam GUI
+          Exec=/usr/local/bin/redatamgui
+          Icon=utilities-terminal
+          Type=Application
+          Categories=Utility;" > rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/share/applications/redatamgui.desktop
+          echo "Name: redatam
+          Version: 0.0.1
+          Release: 1%{?dist}
+          Summary: Redatam and Redatam GUI
+          License: GPL
+          Group: Applications/System
+          URL: https://github.com/yourusername/redatam
+          Source0: %{name}-%{version}.tar.gz
+          BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+          Requires: wxGTK, xerces-c
+          %description
+          Redatam and Redatam GUI
+          %prep
+          %setup -q
+          %build
+          %install
+          mkdir -p %{buildroot}/usr/local/bin
+          mkdir -p %{buildroot}/usr/share/applications
+          cp -a rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/* %{buildroot}/usr/local/bin/
+          cp -a rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/share/applications/* %{buildroot}/usr/share/applications/
+          %files
+          /usr/local/bin/redatam
+          /usr/local/bin/redatamgui
+          /usr/share/applications/redatamgui.desktop
+          %changelog
+          * Wed Oct 13 2021 Your Name <you@example.com> - 0.0.1-1
+          - Initial package" > rpmbuild/SPECS/redatam.spec
+          rpmbuild -ba rpmbuild/SPECS/redatam.spec
+
       - name: Upload DEB on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         uses: actions/upload-artifact@v4
@@ -86,7 +132,14 @@ jobs:
           name: ubuntu-deb
           path: |
             redatam_0.0.1_amd64.deb
-          archive: false
+
+      - name: Upload RPM on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-rpm
+          path: |
+            rpmbuild/RPMS/x86_64/redatam-0.0.1-1.x86_64.rpm
 
       - name: Upload binaries on macOS
         if: matrix.os == 'macos-latest'

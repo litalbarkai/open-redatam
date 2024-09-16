@@ -23,7 +23,7 @@ jobs:
         if: matrix.os == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwxgtk3.0-gtk3-dev rpm rpm-build
+          sudo apt-get install -y libwxgtk3.0-gtk3-dev rpm
 
       - name: Set up environment on macOS
         if: matrix.os == 'macos-latest'

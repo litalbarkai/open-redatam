@@ -79,6 +79,14 @@ jobs:
           Description: Redatam and Redatam GUI" > package/DEBIAN/control
           dpkg-deb --build package redatam_0.0.1_amd64.deb
 
+      - name: Upload DEB on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-deb
+          path: |
+            redatam_0.0.1_amd64.deb
+
       - name: Upload binaries on macOS
         if: matrix.os == 'macos-latest'
         uses: actions/upload-artifact@v4

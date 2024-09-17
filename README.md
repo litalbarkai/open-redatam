@@ -53,7 +53,7 @@ On Linux, run the following commands:
 ```bash
 git clone https://github.com/pachadotdev/redatam-converter.git
 sudo apt-get update
-sudo apt-get install libwxgtk3.0-gtk3-dev
+sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qt5-qmake
 bash dev/01-install-xerces.sh
 make
 ```

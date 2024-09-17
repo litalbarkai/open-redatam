@@ -15,6 +15,7 @@ lib
 obj
 redatam
 redatamgui
+redatamguiwindows/build
 redatamwindows/CMakeFiles
 redatamwindows/redatam.dir
 redatamwindows/redatamgui.dir
@@ -29,9 +30,7 @@ RedatamConverter.sln
 xerces
 xerceswin
 xerces-c-3.2.5
-vs_Community2019.exe
-wxWidgets-3.1.5
-wxwidgets
+vs_Community.exe
 x64
 *.gz
 *.sha256
@@ -39,5 +38,6 @@ x64
 .vscode/settings.json
 .vscode/launch.json
 .vscode/c_cpp_properties.json
-guiwindows/wxWidgets-3.0.5.zip
 redatam_0.0.1_amd64.deb
+qt-online-installer-windows-x64-4.8.0.exe
+redatamwindows/install_manifest.txt

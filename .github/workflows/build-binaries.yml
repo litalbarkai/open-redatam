@@ -23,7 +23,7 @@ jobs:
         if: matrix.os == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwxgtk3.0-gtk3-dev rpm
+          sudo apt-get install -y qtbase5-dev
 
       - name: Set up environment on macOS
         if: matrix.os == 'macos-latest'
@@ -75,54 +75,9 @@ jobs:
           Priority: optional
           Architecture: amd64
           Maintainer: Mauricio Pacha Vargas Sepulveda <m.sepulveda@mail.utoronto.ca>
-          Depends: libxerces-c-dev, libwxgtk3.0-gtk3-0v5
+          Depends: libxerces-c-dev, qtbase5-dev
           Description: Redatam and Redatam GUI" > package/DEBIAN/control
           dpkg-deb --build package redatam_0.0.1_amd64.deb
-
-      - name: Create RPM package on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
-        run: |
-          mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-          mkdir -p rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin
-          mkdir -p rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/share/applications
-          cp redatam rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
-          cp redatamgui rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/
-          chmod +x rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/redatam
-          chmod +x rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/local/bin/redatamgui
-          echo "[Desktop Entry]
-          Version=1.0
-          Name=Redatam GUI
-          Exec=/usr/local/bin/redatamgui
-          Icon=utilities-terminal
-          Type=Application
-          Categories=Utility;" > rpmbuild/BUILDROOT/redatam-0.0.1-1.x86_64/usr/share/applications/redatamgui.desktop
-          tar czf rpmbuild/SOURCES/redatam-0.0.1.tar.gz .
-          echo "Name: redatam
-          Version: 0.0.1
-          Release: 1%{?dist}
-          Summary: Redatam and Redatam GUI
-          Group: Applications/System
-          Source0: %{name}-%{version}.tar.gz
-          BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-          Requires: wxGTK, xerces-c
-          %description
-          Redatam and Redatam GUI
-          %prep
-          %setup -q
-          %build
-          %install
-          mkdir -p %{buildroot}/usr/local/bin
-          mkdir -p %{buildroot}/usr/share/applications
-          cp -a %{_builddir}/redatam-0.0.1/* %{buildroot}/usr/local/bin/
-          cp -a %{_builddir}/redatam-0.0.1/* %{buildroot}/usr/share/applications/
-          %files
-          /usr/local/bin/redatam
-          /usr/local/bin/redatamgui
-          /usr/share/applications/redatamgui.desktop
-          %changelog
-          * Mon Sep 16 2024 Mauricio Pacha Vargas Sepulveda <m.sepulveda@mail.utoronto.ca> - 0.0.1
-          - Initial package" > rpmbuild/SPECS/redatam.spec
-          rpmbuild -ba rpmbuild/SPECS/redatam.spec
 
       - name: Upload DEB on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -131,14 +86,6 @@ jobs:
           name: ubuntu-deb
           path: |
             redatam_0.0.1_amd64.deb
-
-      - name: Upload RPM on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ubuntu-rpm
-          path: |
-            rpmbuild/RPMS/x86_64/redatam-0.0.1-1.x86_64.rpm
 
       - name: Upload binaries on macOS
         if: matrix.os == 'macos-latest'

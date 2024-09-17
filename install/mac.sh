@@ -28,4 +28,4 @@ Icon=utilities-terminal
 Type=Application
 Categories=Utility;" | sudo tee /usr/share/applications/redatamgui.desktop
 
-echo "Installation complete. You can run 'redatam' and 'redatamgui' from the terminal."
+echo "Installation complete. You can run 'redatam' and 'redatamgui' from the terminal or search for 'redatamgui' in your application menu."

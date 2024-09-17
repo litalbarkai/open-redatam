@@ -1,8 +1,0 @@
-Package: redatam
-Version: 0.0.1
-Section: base
-Priority: optional
-Architecture: amd64
-Maintainer: Mauricio Pacha Vargas Sepulveda <m.sepulveda@mail.utoronto.ca>
-Depends: libxerces-c-dev, libwxgtk3.0-gtk3-0v5
-Description: Redatam and Redatam GUI

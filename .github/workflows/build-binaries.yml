@@ -28,9 +28,7 @@ jobs:
       - name: Set up environment on macOS
         if: matrix.os == 'macos-latest'
         run: |
-          brew install wxwidgets
-          echo "$(brew --prefix wxwidgets)/bin" >> $GITHUB_PATH
-          echo "PKG_CONFIG_PATH=$(brew --prefix wxwidgets)/lib/pkgconfig" >> $GITHUB_ENV
+          brew install qt@5 qwt-qt5
 
       - name: Install Xerces on Ubuntu
         if: matrix.os == 'ubuntu-22.04'

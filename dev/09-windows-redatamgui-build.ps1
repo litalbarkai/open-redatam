@@ -15,9 +15,6 @@ choco install directx -y
 
 # copy C:\Program Files (x86)\Windows Kits\10\Redist\D3D\x64\dxil.dll to Z:\redatamguiwindows\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug
 
-$env:PATH = "C:\Qt\6.7.2\mingw_64\bin;$env:PATH"
-$env:CMAKE_PREFIX_PATH = "C:\Qt\6.7.2\mingw_64\lib\cmake"
-
 mkdir build
 cd Z:\redatamguiwindows\build
 cmake .. -G "Visual Studio 16 2019"

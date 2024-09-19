@@ -13,8 +13,6 @@ choco install directx -y
 # 3. Copy sources from gui/: mainwindow.h, mainwindow.cpp, and main.cpp
 # 4. Build: Build -> Build Project "redatamguiwindows"
 
-# copy C:\Program Files (x86)\Windows Kits\10\Redist\D3D\x64\dxil.dll to Z:\redatamguiwindows\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug
-
 mkdir build
 cd Z:\redatamguiwindows\build
 cmake .. -G "Visual Studio 16 2019"

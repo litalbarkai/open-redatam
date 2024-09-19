@@ -4,14 +4,7 @@ cd Z:\redatamguiwindows\build
 # it has to be Qt 5 for MSVC 2019 64-bit
 
 # install directx
-choco install directx -y
-
-# then
-
-# 1. Open Qt Creator.
-# 2. Create a New Project: Create Project -> Application -> Qt Widgets Application
-# 3. Copy sources from gui/: mainwindow.h, mainwindow.cpp, and main.cpp
-# 4. Build: Build -> Build Project "redatamguiwindows"
+choco install directx -t
 
 mkdir build
 cd Z:\redatamguiwindows\build

@@ -8,32 +8,24 @@
 using namespace cpp11;
 
 // Helper function to convert variable details into an R-friendly list format
-writable::list convert_variable_to_list(const RedatamLib::Variable& variable) {
+list convert_variable_to_list(const RedatamLib::Variable& variable) {
   writable::list var_list;
   var_list.push_back(cpp11::r_string(variable.GetName()));  // Variable name
-  // Adjust these based on available methods:
-  // var_list.push_back(cpp11::r_string(variable.GetLabel()));  // Variable
-  // label if available var_list.push_back(variable.GetFieldSize()); // Field
-  // size if available var_list.push_back(variable.GetTag()); // Tag if
-  // available
+  var_list.push_back(
+      cpp11::r_string(variable.GetFilePath()));  // Variable file path
+
+  // Set names for the list elements
+  var_list.names() = {"name", "filePath"};
 
   return var_list;
 }
 
 // Helper function to convert entities into an R-friendly list format
-writable::list convert_entities_to_list(
-    const std::vector<RedatamLib::Entity>& entities) {
+list convert_entities_to_list(const std::vector<RedatamLib::Entity>& entities) {
   writable::list result;
   for (const auto& entity : entities) {
     writable::list entity_list;
-    entity_list.push_back(
-        cpp11::r_string(entity.GetName()));  // Add entity name
-    // Adjust these based on available methods:
-    // entity_list.push_back(cpp11::r_string(entity.GetLabel())); // Add entity
-    // label if available
-    // entity_list.push_back(cpp11::r_string(entity.GetFilename())); // Add
-    // filename if available entity_list.push_back(entity.GetTag()); // Add tag
-    // if available
+    entity_list.push_back(cpp11::r_string(entity.GetName()));  // Entity name
 
     // Dereference the shared_ptr to access the vector of variables
     const auto& variables =
@@ -45,10 +37,15 @@ writable::list convert_entities_to_list(
       variable_list.push_back(
           convert_variable_to_list(variable));  // Convert variable
     }
-    entity_list.push_back(variable_list);  // Add variable list to the entity
 
-    result.push_back(entity_list);  // Add the entity to the result
+    // Set names for the entity list elements
+    entity_list.push_back(variable_list);  // Add variable list to the entity
+    entity_list.names() = {"name", "variables"};  // Name the entity elements
+
+    // Add the entity to the result with the entity's name as the list name
+    result.push_back(entity_list);
   }
+
   return result;
 }
 

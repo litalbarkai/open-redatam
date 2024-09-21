@@ -30,6 +30,10 @@ jobs:
         run: |
           brew install qt@5 qwt-qt5
 
+      - name: Set PKG_CONFIG_PATH on macOS
+        if: matrix.os == 'macos-latest'
+        run: echo "/usr/local/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
+
       - name: Install Xerces on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: |
@@ -93,3 +97,4 @@ jobs:
           path: |
             redatam
             redatamgui
+            

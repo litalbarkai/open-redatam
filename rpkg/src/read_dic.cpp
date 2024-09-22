@@ -15,14 +15,17 @@ list convert_variable_to_list(const RedatamLib::Variable& variable) {
       cpp11::r_string(variable.GetFilePath()));  // Variable file path
 
   // Set names for the list elements
-  var_list.names() = {"name", "filePath"};
+  var_list.names() = {"name", "filepath"};
 
   return var_list;
 }
 
 // Helper function to convert entities into an R-friendly list format
-list convert_entities_to_list(const std::vector<RedatamLib::Entity>& entities) {
+list convert_entities_to_list(
+    const std::vector<RedatamLib::Entity>& entities) {
   writable::list result;
+  writable::strings entity_names;
+
   for (const auto& entity : entities) {
     writable::list entity_list;
     entity_list.push_back(cpp11::r_string(entity.GetName()));  // Entity name
@@ -42,9 +45,12 @@ list convert_entities_to_list(const std::vector<RedatamLib::Entity>& entities) {
     entity_list.push_back(variable_list);  // Add variable list to the entity
     entity_list.names() = {"name", "variables"};  // Name the entity elements
 
-    // Add the entity to the result with the entity's name as the list name
-    result.push_back(entity_list);
+    result.push_back(entity_list);  // Add the entity to the result
+    entity_names.push_back(cpp11::r_string(
+        entity.GetName()));  // Collect the entity name for list naming
   }
+
+  result.names() = entity_names;  // Assign entity names as names for the list
 
   return result;
 }

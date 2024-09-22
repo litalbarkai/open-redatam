@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-12]
+        os: [ubuntu-22.04, macos-14]
 
     steps:
       - name: Checkout code
@@ -26,12 +26,12 @@ jobs:
           sudo apt-get install -y qtbase5-dev
 
       - name: Set up environment on macOS
-        if: matrix.os == 'macos-12'
+        if: matrix.os == 'macos-14'
         run: |
           brew install make cmake qt@5
 
       - name: Add Qt tools to PATH on macOS
-        if: matrix.os == 'macos-12'
+        if: matrix.os == 'macos-14'
         run: |
           echo "PATH=/usr/local/opt/qt@5/bin:\$PATH" >> $GITHUB_ENV
           echo "LDFLAGS=-L/usr/local/opt/qt@5/lib" >> $GITHUB_ENV
@@ -45,10 +45,8 @@ jobs:
           ./dev/01-install-xerces.sh
 
       - name: Install Xerces on macOS
-        if: matrix.os == 'macos-12'
+        if: matrix.os == 'macos-14'
         shell: bash
-        env:
-          PATH: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
         run: |
           chmod +x dev/01-install-xerces.sh
           ./dev/01-install-xerces.sh
@@ -58,7 +56,7 @@ jobs:
         run: make all
 
       - name: Build redatam and redatamgui on macOS
-        if: matrix.os == 'macos-12'
+        if: matrix.os == 'macos-14'
         run: make all
 
       - name: Create DEB package on Ubuntu
@@ -97,7 +95,7 @@ jobs:
             redatam_0.0.1_amd64.deb
 
       - name: Upload binaries on macOS
-        if: matrix.os == 'macos-12'
+        if: matrix.os == 'macos-14'
         uses: actions/upload-artifact@v4
         with:
           name: macos-binaries

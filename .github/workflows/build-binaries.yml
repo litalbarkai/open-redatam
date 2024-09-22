@@ -35,6 +35,11 @@ jobs:
         run: |
           echo "PKG_CONFIG_PATH=/usr/local/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
 
+      - name: Add Qt tools to PATH on macOS
+        if: matrix.os == 'macos-12'
+        run: |
+          echo "/usr/local/opt/qt@5/bin" >> $GITHUB_ENV
+
       - name: Install Xerces on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: |
@@ -53,6 +58,9 @@ jobs:
 
       - name: Build redatam and redatamgui on macOS
         if: matrix.os == 'macos-12'
+        env:
+          PKG_CONFIG_PATH: /usr/local/opt/qt@5/lib/pkgconfig
+          PATH: /usr/local/opt/qt@5/bin:$PATH
         run: make all
 
       - name: Create DEB package on Ubuntu
@@ -98,3 +106,4 @@ jobs:
           path: |
             redatam
             redatamgui
+            

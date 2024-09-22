@@ -28,7 +28,7 @@ jobs:
       - name: Set up environment on macOS
         if: matrix.os == 'macos-14'
         run: |
-          brew install make cmake qt@5
+          brew install make cmake qt@5 wget
 
       - name: Add Qt tools to PATH on macOS
         if: matrix.os == 'macos-14'

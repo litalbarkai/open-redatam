@@ -33,10 +33,10 @@ jobs:
       - name: Add Qt tools to PATH on macOS
         if: matrix.os == 'macos-14'
         run: |
-          echo "PATH=/usr/local/opt/qt@5/bin:\$PATH" >> $GITHUB_PATH
-          echo "LDFLAGS=-L/usr/local/opt/qt@5/lib" >> $GITHUB_ENV
-          echo "CPPFLAGS=-I/usr/local/opt/qt@5/include" >> $GITHUB_ENV
-          echo "PKG_CONFIG_PATH=/usr/local/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
+          echo "/opt/homebrew/opt/qt@5/bin" >> $GITHUB_PATH
+          echo "LDFLAGS=-L/opt/homebrew/opt/qt@5/lib" >> $GITHUB_ENV
+          echo "CPPFLAGS=-I/opt/homebrew/opt/qt@5/include" >> $GITHUB_ENV
+          echo "PKG_CONFIG_PATH=/opt/homebrew/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
 
       - name: Install Xerces on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -101,3 +101,4 @@ jobs:
           path: |
             redatam
             redatamgui
+            

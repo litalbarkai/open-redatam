@@ -28,7 +28,7 @@ jobs:
       - name: Set up environment on macOS
         if: matrix.os == 'macos-12'
         run: |
-          brew install cmake qt@5
+          brew install make cmake qt@5
 
       - name: Add Qt tools to PATH on macOS
         if: matrix.os == 'macos-12'
@@ -104,4 +104,3 @@ jobs:
           path: |
             redatam
             redatamgui
-            

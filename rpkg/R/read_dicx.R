@@ -46,14 +46,13 @@ read_dicx_ <- function(filepath) {
     label = xml_text(xml_find_first(variable, ".//label")),
     type = xml_text(xml_find_first(variable, ".//varType")),
     fieldsize = as.integer(
-      xml_text(xml_find_first(variable, ".//fieldSize"))),
-    # decimals = as.integer(
-    #   xml_text(xml_find_first(variable, ".//decimals"))),
-    range = as.integer(
-      xml_text(xml_find_first(variable, ".//range"))),
+      xml_text(xml_find_first(variable, ".//fieldSize"))
+    ),
+    range = xml_text(xml_find_first(variable, ".//range")),
     filename = variable_filename
   )
 
+  # Extract all entities, but ignore nested entities (only direct children of each entity)
   entities <- xml_find_all(dicx, ".//entity")
 
   for (entity in entities) {
@@ -69,8 +68,9 @@ read_dicx_ <- function(filepath) {
       )
     )
 
+    # Only extract variables that are direct children of the current entity, excluding nested variables
     variable_list <- lapply(
-      xml_find_all(entity, ".//variable"),
+      xml_find_all(entity, "./variable"), # Note the change from ".//variable" to "./variable"
       function(variable) {
         variable_type <- get_variable_type(
           xml_text(
@@ -102,15 +102,10 @@ read_dicx_ <- function(filepath) {
         list(
           name = xml_text(xml_find_first(variable, ".//name")),
           label = xml_text(xml_find_first(variable, ".//label")),
-          type = get_variable_type(
-            xml_text(
-              xml_find_first(
-                xml_find_first(variable, ".//varDicChoice"), ".//datasetType"
-              )
-            )
-          ),
+          type = variable_type,
           fieldsize = as.integer(
-            xml_text(xml_find_first(variable, ".//fieldSize"))),
+            xml_text(xml_find_first(variable, ".//fieldSize"))
+          ),
           filename = variable_filename,
           valuelabels = value_label_list
         )

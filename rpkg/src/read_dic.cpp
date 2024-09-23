@@ -1,6 +1,7 @@
 #include <cpp11.hpp>
 #include <string>
 #include <vector>
+// #include <iostream>
 
 #include "Entity.hpp"
 #include "FuzzyEntityParser.hpp"
@@ -8,7 +9,7 @@
 
 using namespace cpp11;
 
-// Function to get the variable type from RedatamLib::VarType
+// get the variable type from RedatamLib::VarType
 std::string GetVarType(RedatamLib::VarType type) {
   switch (type) {
     case RedatamLib::CHR:
@@ -27,7 +28,7 @@ std::string GetVarType(RedatamLib::VarType type) {
   }
 }
 
-// Function to convert value labels to an R-friendly list
+// convert value labels to an R list
 list convert_value_labels_to_list(
     const std::vector<std::pair<std::string, std::string>>& tags) {
   writable::list value_labels_list;
@@ -40,7 +41,7 @@ list convert_value_labels_to_list(
   return value_labels_list;
 }
 
-// Function to convert variables to an R-friendly list format
+// convert variables to an R list
 list convert_variable_to_list(const RedatamLib::Variable& variable) {
   writable::list var_list;
 
@@ -51,11 +52,14 @@ list convert_variable_to_list(const RedatamLib::Variable& variable) {
   var_list.push_back(integers({static_cast<int>(variable.GetDecimals())}));
   var_list.push_back(writable::strings({variable.GetFilter()}));
   var_list.push_back(writable::strings({variable.GetRange()}));
-  // var_list.push_back(convert_value_labels_to_list(variable.GetTags()));
   var_list.push_back(writable::strings({variable.GetFilePath()}));
+  var_list.push_back(convert_value_labels_to_list(variable.GetTags()));
+
+  // var_list.names() = {"name", "label", "type", "fieldsize", "decimals",
+  //                     "filter", "range", "filename"};
 
   var_list.names() = {"name", "label", "type", "fieldsize", "decimals",
-                      "filter", "range", "valuelabels", "filename"};
+                      "filter", "range", "filename", "valuelabels"};
 
   return var_list;
 }
@@ -69,13 +73,15 @@ list convert_entities_to_list(const std::vector<RedatamLib::Entity>& entities) {
     entity_list.push_back(writable::strings({entity.GetName()}));
     entity_list.push_back(writable::strings({entity.GetPTRPath()}));
 
+    // std::cout << entity.GetName() << std::endl;
+
     writable::list variable_list;
     writable::strings variable_names;
     const auto& variables = *(entity.GetVariables());
     for (const auto& variable : variables) {
       list var_list = convert_variable_to_list(variable);
       variable_list.push_back(var_list);
-      variable_names.push_back(var_list[0]);
+      variable_names.push_back(variable.GetName());
     }
     variable_list.names() = variable_names;
 

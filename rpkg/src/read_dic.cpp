@@ -8,7 +8,7 @@
 
 using namespace cpp11;
 
-// taken from XMLExporter.cpp in the original C++ code
+// Function to get the variable type from RedatamLib::VarType
 std::string GetVarType(RedatamLib::VarType type) {
   switch (type) {
     case RedatamLib::CHR:
@@ -27,58 +27,63 @@ std::string GetVarType(RedatamLib::VarType type) {
   }
 }
 
+// Function to convert value labels to an R-friendly list
+list convert_value_labels_to_list(
+    const std::vector<std::pair<std::string, std::string>>& tags) {
+  writable::list value_labels_list;
+  for (const auto& tag : tags) {
+    writable::list value_label;
+    value_label.push_back(writable::strings({tag.first}));   // Value
+    value_label.push_back(writable::strings({tag.second}));  // Label
+    value_labels_list.push_back(value_label);
+  }
+  return value_labels_list;
+}
+
+// Function to convert variables to an R-friendly list format
 list convert_variable_to_list(const RedatamLib::Variable& variable) {
   writable::list var_list;
-  var_list.push_back(cpp11::r_string(variable.GetName()));
-  var_list.push_back(cpp11::r_string(variable.GetDescription()));
-  var_list.push_back(cpp11::r_string(GetVarType(variable.GetType())));
+
+  var_list.push_back(writable::strings({variable.GetName()}));
+  var_list.push_back(writable::strings({variable.GetDescription()}));
+  var_list.push_back(writable::strings({GetVarType(variable.GetType())}));
   var_list.push_back(integers({static_cast<int>(variable.GetDataSize())}));
+  var_list.push_back(integers({static_cast<int>(variable.GetDecimals())}));
+  var_list.push_back(writable::strings({variable.GetFilter()}));
+  var_list.push_back(writable::strings({variable.GetRange()}));
+  // var_list.push_back(convert_value_labels_to_list(variable.GetTags()));
+  var_list.push_back(writable::strings({variable.GetFilePath()}));
 
-  // writable::list tag_list;
-  // for (const auto& tag : variable.GetTags()) {
-  //   writable::list tag_entry;
-  //   tag_entry.push_back(cpp11::r_string(tag.first));   // Value
-  //   tag_entry.push_back(cpp11::r_string(tag.second));  // Label
-  //   tag_list.push_back(tag_entry);
-  // }
-  // var_list.push_back(tag_list);
-
-  var_list.push_back(cpp11::r_string(variable.GetFilePath()));
-
-  // Set names for the list elements
-  // var_list.names() = {"name", "label", "type", "fieldSize", "tag", 
-  //                     "filename", "valueLabels"};
-  var_list.names() = {"name", "label", "type", "fieldSize", "filename",
-                      "valueLabels"};
+  var_list.names() = {"name", "label", "type", "fieldsize", "decimals",
+                      "filter", "range", "valuelabels", "filename"};
 
   return var_list;
 }
 
-list convert_entities_to_list(
-    const std::vector<RedatamLib::Entity>& entities) {
+list convert_entities_to_list(const std::vector<RedatamLib::Entity>& entities) {
   writable::list result;
   writable::strings entity_names;
 
   for (const auto& entity : entities) {
     writable::list entity_list;
-    entity_list.push_back(cpp11::r_string(entity.GetName()));
-    entity_list.push_back(cpp11::r_string(entity.GetPTRPath()));
+    entity_list.push_back(writable::strings({entity.GetName()}));
+    entity_list.push_back(writable::strings({entity.GetPTRPath()}));
 
-    // Dereference the shared_ptr to access the vector of variables
-    const auto& variables = *(entity.GetVariables());
-
-    // Convert each variable within the entity
     writable::list variable_list;
+    writable::strings variable_names;
+    const auto& variables = *(entity.GetVariables());
     for (const auto& variable : variables) {
-      variable_list.push_back(convert_variable_to_list(variable));
+      list var_list = convert_variable_to_list(variable);
+      variable_list.push_back(var_list);
+      variable_names.push_back(var_list[0]);
     }
+    variable_list.names() = variable_names;
 
-    // Set names for the entity list elements
     entity_list.push_back(variable_list);
     entity_list.names() = {"name", "filename", "variables"};
 
     result.push_back(entity_list);
-    entity_names.push_back(cpp11::r_string(entity.GetName()));
+    entity_names.push_back(entity.GetName());
   }
 
   result.names() = entity_names;
@@ -89,11 +94,8 @@ list convert_entities_to_list(
 [[cpp11::register]] list read_dic_(const std::string& filepath) {
   try {
     RedatamLib::FuzzyEntityParser parser(filepath);
-
     std::vector<RedatamLib::Entity> entities = parser.ParseEntities();
-
     return convert_entities_to_list(entities);
-
   } catch (const std::exception& e) {
     stop("Error reading DIC file: %s", e.what());
   }

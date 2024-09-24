@@ -63,3 +63,22 @@ tidy_dic_dicx_ <- function(dictionary) {
 
   return(dic)
 }
+
+subset_filename_elements_ <- function(dic) {
+  if (is.list(dic)) {
+    result <- list()
+    if (!is.null(dic$filename)) {
+      result$filename <- dic$filename
+    }
+    for (name in names(dic)) {
+      if (is.list(dic[[name]])) {
+        nested_result <- subset_filename_elements_(dic[[name]])
+        if (length(nested_result) > 0) {
+          result[[name]] <- nested_result
+        }
+      }
+    }
+    return(result)
+  }
+  return(NULL)
+}

@@ -3,3 +3,7 @@
 read_dic_ <- function(filepath) {
   .Call(`_redatam_read_dic_`, filepath)
 }
+
+parse_ptr_ <- function(path) {
+  .Call(`_redatam_parse_ptr_`, path)
+}

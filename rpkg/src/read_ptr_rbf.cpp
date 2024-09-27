@@ -3,7 +3,6 @@
 #include <iostream>
 #include <mutex>
 #include <string>
-#include <thread>
 #include <unordered_map>
 #include <vector>
 
@@ -18,17 +17,6 @@ using namespace cpp11;
 using namespace std;
 using namespace RedatamLib;
 
-std::mutex mtx;
-
-void ThreadParse(std::mutex& mtx, size_t start, size_t end,
-                 vector<Entity>& entities, const std::string& path) {
-  ByteArrayReader reader(path);
-  FuzzyVariableParser varParser(reader, FindRootPath(path));
-  for (size_t i = start; i < end; ++i) {
-    varParser.ParseAllVariables(entities);
-  }
-}
-
 Entity initialize_entity(const std::string& path) {
   std::cout << "Opening file: " << path << std::endl;
   ByteArrayReader reader(path);
@@ -41,33 +29,14 @@ Entity initialize_entity(const std::string& path) {
 }
 
 void parse_variables(Entity& entity, const std::string& path) {
-  vector<Entity> entities = {entity};
-
-  size_t numThreads = std::thread::hardware_concurrency();
-  numThreads = std::min(entities.size(), numThreads);
-
-  size_t chunkSize = entities.size() / numThreads;
-
-  std::vector<std::thread> threads;
-  for (size_t i = 0; i < numThreads; ++i) {
-    size_t start = i * chunkSize;
-    size_t end = (i == numThreads - 1) ? entities.size() : start + chunkSize;
-
-    threads.push_back(std::thread(ThreadParse, std::ref(mtx), start, end,
-                                  std::ref(entities), path));
-  }
-
-  for (auto& t : threads) {
-    t.join();
-  }
+  ByteArrayReader reader(path);
+  FuzzyVariableParser varParser(reader, FindRootPath(path));
+  std::vector<Entity> entities = {entity};
+  varParser.ParseAllVariables(entities);
 
   // Attach parsed variables to the entity
-  if (!entities.empty()) {
-    std::cout << "Attaching variables to entity..." << std::endl;
-    entity.AttachVariables(entities[0].GetVariables());
-  } else {
-    std::cout << "No entities found after parsing." << std::endl;
-  }
+  std::cout << "Attaching variables to entity..." << std::endl;
+  entity.AttachVariables(entity.GetVariables());
 }
 
 writable::list convert_to_r_list(Entity& entity) {

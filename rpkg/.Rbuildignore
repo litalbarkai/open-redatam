@@ -7,5 +7,5 @@
 ^\.vscode$
 ^dev$
 ^LICENSE\.md$
-^README$
+^README\.md$
 ^README\.Rmd$

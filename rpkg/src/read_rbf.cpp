@@ -82,12 +82,28 @@ sexp read_variable_data(const std::string& filename, RedatamLib::VarType type,
   }
 }
 
-[[cpp11::register]] sexp read_rbf_(list variable_meta) {
-  std::string filename = as_cpp<std::string>(variable_meta["filename"]);
-  std::string var_type_str = as_cpp<std::string>(variable_meta["type"]);
-  size_t fieldsize = as_cpp<int>(variable_meta["fieldsize"]);
+sexp read_rbf_(list variable) {
+  std::string filename = as_cpp<std::string>(variable["filename"]);
+  std::string var_type_str = as_cpp<std::string>(variable["type"]);
+  size_t fieldsize = as_cpp<int>(variable["fieldsize"]);
 
   RedatamLib::VarType var_type = GetVarTypeFromString(var_type_str);
 
   return read_variable_data(filename, var_type, fieldsize);
+}
+
+[[cpp11::register]] list read_entity_(list entity) {
+  list variables = as_cpp<list>(entity["variables"]);
+
+  writable::list out;
+
+  for (R_xlen_t i = 0; i < variables.size(); i++) {
+    list variable_i = variables[i];
+    // out[i] = read_rbf_(variable_i);
+    out.push_back(read_rbf_(variable_i));
+  }
+
+  out.names() = variables.names();
+
+  return out;
 }

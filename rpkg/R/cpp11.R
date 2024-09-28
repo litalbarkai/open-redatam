@@ -4,6 +4,6 @@ read_dic_ <- function(filepath) {
   .Call(`_redatam_read_dic_`, filepath)
 }
 
-read_rbf_ <- function(variable_meta) {
-  .Call(`_redatam_read_rbf_`, variable_meta)
+read_entity_ <- function(entity) {
+  .Call(`_redatam_read_entity_`, entity)
 }

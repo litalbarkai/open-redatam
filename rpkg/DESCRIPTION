@@ -25,4 +25,6 @@ VignetteBuilder: knitr
 LinkingTo: cpp11
 SystemRequirements: C++17
 Imports: 
+    janitor,
+    stringi,
     xml2

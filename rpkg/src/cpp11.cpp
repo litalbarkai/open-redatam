@@ -12,18 +12,18 @@ extern "C" SEXP _redatam_read_dic_(SEXP filepath) {
     return cpp11::as_sexp(read_dic_(cpp11::as_cpp<cpp11::decay_t<const std::string&>>(filepath)));
   END_CPP11
 }
-// read_ptr_rbf.cpp
-sexp read_rbf_(list variable_meta);
-extern "C" SEXP _redatam_read_rbf_(SEXP variable_meta) {
+// read_rbf.cpp
+list read_entity_(list entity);
+extern "C" SEXP _redatam_read_entity_(SEXP entity) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_rbf_(cpp11::as_cpp<cpp11::decay_t<list>>(variable_meta)));
+    return cpp11::as_sexp(read_entity_(cpp11::as_cpp<cpp11::decay_t<list>>(entity)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_redatam_read_dic_", (DL_FUNC) &_redatam_read_dic_, 1},
-    {"_redatam_read_rbf_", (DL_FUNC) &_redatam_read_rbf_, 1},
+    {"_redatam_read_dic_",    (DL_FUNC) &_redatam_read_dic_,    1},
+    {"_redatam_read_entity_", (DL_FUNC) &_redatam_read_entity_, 1},
     {NULL, NULL, 0}
 };
 }

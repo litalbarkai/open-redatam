@@ -1,3 +1,5 @@
+// TODO: REVERT OR MOVE CHANGES HERE
+
 #include "FuzzyVariableParser.hpp"
 
 #include <algorithm>  //  std::replace
@@ -273,6 +275,50 @@ void FuzzyVariableParser::ThreadParseVars(
 
     std::lock_guard<std::mutex> lock(mutex);
     entities[i].AttachVariables(vars);
+  }
+}
+
+void FuzzyVariableParser::ParseVariablesWithLogging(
+    shared_ptr<vector<Variable>> output, pair<size_t, size_t> bounds,
+    const string& rootPath, ByteArrayReader reader) {
+  try {
+    std::cout << "Starting ParseVariablesWithLogging with bounds: "
+              << bounds.first << " to " << bounds.second << std::endl;
+    reader.SetPos(bounds.first);
+
+    while (true) {
+      std::cout << "Reader position before searching for DATASET: "
+                << reader.GetPos() << std::endl;
+      reader.MovePosTo("DATASET");
+
+      ThrowIfBad(reader.GetPos() < bounds.second,
+                 std::out_of_range(
+                     "Error: DATASET doesn't belong to current entity."));
+
+      reader.MovePos(-2);  // Move back to start of the dataset length indicator
+      string varName = reader.GetFormerString();
+      std::cout << "Found variable name: " << varName << std::endl;
+
+      reader.MovePos(10);  // Move past the "DATASET" marker
+      VarType type = ParseType(&reader);
+      std::cout << "Variable type: " << type << std::endl;
+
+      string idxFileName = ParseIdxFileName(rootPath, &reader);
+      std::cout << "Parsed idxFileName: " << idxFileName << std::endl;
+
+      size_t dataSize = ParseDataSize(type, &reader);
+      std::cout << "Parsed dataSize: " << dataSize << std::endl;
+
+      // You can log more information here if necessary.
+      output->push_back(
+          Variable(varName, type, idxFileName, dataSize, "", "", {}, ""));
+    }
+  } catch (const std::out_of_range&) {
+    std::cout << "Reached end of bounds during ParseVariablesWithLogging."
+              << std::endl;
+  } catch (const std::exception& e) {
+    std::cout << "Exception during variable parsing with logging: " << e.what()
+              << std::endl;
   }
 }
 }  // namespace RedatamLib

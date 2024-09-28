@@ -54,22 +54,14 @@ I wrote this function https://github.com/pachadotdev/redatam-converter/blob/main
 I tested the function exactly as in step 2, it returns
 
 ```
-> result <- parse_ptr_("dev/BaseOrg16/CPV2017-1601.ptr")
-Opening file: dev/BaseOrg16/CPV2017-1601.ptr
-Reading PTR data...
-
- *** caught segfault ***
-address (nil), cause 'memory not mapped'
-
-Traceback:
- 1: .Call(`_redatam_parse_ptr_`, path)
- 2: parse_ptr_("dev/BaseOrg16/CPV2017-1601.ptr")
-
-Possible actions:
-1: abort (with core dump, if enabled)
-2: normal R exit
-3: exit R without saving workspace
-4: exit R saving workspace
+> foo <- print_rbf_paths_with_logging(absolute_path, rbf_paths, "REGION", "CENSO16R")
+Entity initialized: REGION
+Rows in entity: 16
+Parsing RBF file: /home/pacha/github/redatam-converter/rpkg/dev/BaseOrg16/CPV2017-1601.rbf
+Parsing RBF file: /home/pacha/github/redatam-converter/rpkg/dev/BaseOrg16/CPV2017-16_LKP.rbf
+Parsing RBF file: /home/pacha/github/redatam-converter/rpkg/dev/BaseOrg16/CPV2017-16_REGION_REDCODEN.rbf
+Error: No variables found for the entity.
+Error: Exception: std::exception
 ```
 
 As you can see here: https://github.com/pachadotdev/redatam-converter/blob/main/rpkg/src/read_dic.cpp the adaptation to read binary dic files works well!

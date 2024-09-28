@@ -1,106 +1,72 @@
 #include <cpp11.hpp>
-#include <fstream>
 #include <iostream>
-#include <mutex>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
-#include "ByteArrayReader.hpp"
 #include "Entity.hpp"
 #include "FuzzyVariableParser.hpp"
-#include "ParentIDCalculator.hpp"
 #include "Variable.hpp"
 #include "utils.hpp"
 
 using namespace cpp11;
-using namespace std;
 using namespace RedatamLib;
 
-Entity initialize_entity(const std::string& path) {
-  std::cout << "Opening file: " << path << std::endl;
-  ByteArrayReader reader(path);
-
-  std::cout << "Reading PTR data..." << std::endl;
-  Entity entity("EntityName", "ParentName", "Description", path, {0, 0});
-  ParentIDCalculator pIDCalc(&entity);
-
-  return entity;
-}
-
-void parse_variables(Entity& entity, const std::string& path) {
-  ByteArrayReader reader(path);
-  FuzzyVariableParser varParser(reader, FindRootPath(path));
-  std::vector<Entity> entities = {entity};
-  varParser.ParseAllVariables(entities);
-
-  // Attach parsed variables to the entity
-  std::cout << "Attaching variables to entity..." << std::endl;
-  entity.AttachVariables(entity.GetVariables());
-}
-
-writable::list convert_to_r_list(Entity& entity) {
-  std::cout << "Checking variables..." << std::endl;
-  auto variables_ptr = entity.GetVariables();
-  if (!variables_ptr || variables_ptr->empty()) {
-    stop("Error: No variables found in entity or variables pointer is null.");
+std::string VarTypeToString(VarType type) {
+  switch (type) {
+    case CHR:
+      return "CHR";
+    case DBL:
+      return "DBL";
+    case INT:
+      return "INT";
+    case LNG:
+      return "LNG";
+    case BIN:
+      return "BIN";
+    case PCK:
+      return "PCK";
+    default:
+      return "UNKNOWN";
   }
-
-  std::cout << "Variables found: " << variables_ptr->size() << std::endl;
-
-  writable::list result;
-
-  for (Variable& v : *variables_ptr) {
-    std::cout << "Variable: " << v.GetName() << std::endl;
-
-    auto values_ptr = v.GetValues();
-    if (!values_ptr) {
-      stop("Error: Null values pointer for variable " + v.GetName());
-    }
-
-    switch (v.GetType()) {
-      case BIN:
-      case PCK:
-      case INT:
-      case LNG: {
-        auto int_values_ptr = static_cast<vector<uint32_t>*>(values_ptr.get());
-        if (int_values_ptr && !int_values_ptr->empty()) {
-          writable::integers int_values(int_values_ptr->begin(),
-                                        int_values_ptr->end());
-          result[v.GetName()] = int_values;
-        } else {
-          stop("Error: Invalid integer data for variable " + v.GetName());
-        }
-        break;
-      }
-      case CHR: {
-        auto char_values_ptr = static_cast<vector<string>*>(values_ptr.get());
-        if (char_values_ptr && !char_values_ptr->empty()) {
-          writable::strings char_values(char_values_ptr->begin(),
-                                        char_values_ptr->end());
-          result[v.GetName()] = char_values;
-        } else {
-          stop("Error: Invalid string data for variable " + v.GetName());
-        }
-        break;
-      }
-      default:
-        stop("Error: Unsupported variable type.");
-    }
-  }
-
-  return result;
 }
 
-[[cpp11::register]] list parse_ptr_(const std::string& path) {
+void parse_variables_with_metadata(Entity& entity,
+                                   const std::vector<std::string>& rbf_paths) {
+  for (const auto& rbf_path : rbf_paths) {
+    std::cout << "Parsing RBF file: " << rbf_path << std::endl;
+    ByteArrayReader reader(rbf_path);
+    FuzzyVariableParser varParser(reader, FindRootPath(rbf_path));
+    std::vector<Entity> entities = {entity};
+    varParser.ParseAllVariables(entities);
+  }
+}
+
+[[cpp11::register]] SEXP print_rbf_paths_with_logging(
+    const std::string& path, const std::vector<std::string>& rbf_paths,
+    const std::string& entityName, const std::string& parentName) {
   try {
-    Entity entity = initialize_entity(path);
-    parse_variables(entity, path);
-    writable::list result = convert_to_r_list(entity);
+    std::cout << "Entity initialized: " << entityName << std::endl;
+    Entity entity(entityName, parentName, "Description", path, {0, 0});
+    std::cout << "Rows in entity: " << entity.GetRowsCount() << std::endl;
 
-    std::cout << "Returning result..." << std::endl;
-    return result;
+    parse_variables_with_metadata(entity, rbf_paths);
 
+    auto variables = entity.GetVariables();
+    if (variables && !variables->empty()) {
+      cpp11::writable::list var_list;
+      for (const auto& var : *variables) {
+        cpp11::writable::list single_var;
+        single_var["name"] = writable::strings({var.GetName()});
+        single_var["type"] =
+            writable::strings({VarTypeToString(var.GetType())});
+        single_var["description"] = writable::strings({var.GetDescription()});
+
+        var_list.push_back(single_var);
+      }
+      return var_list;
+    } else {
+      stop("No variables found for the entity.");
+    }
   } catch (const std::exception& e) {
     stop("Exception: " + std::string(e.what()));
   } catch (...) {

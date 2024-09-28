@@ -26,4 +26,18 @@ chl2files$REGION
 # chl2files$REGION[1]
 # dev/BaseOrg16/CPV2017-1601.ptr
 
-result <- parse_ptr_("dev/BaseOrg16/CPV2017-1601.ptr")
+load_all()
+
+# Define the path to the .ptr file
+absolute_path <- normalizePath("dev/BaseOrg16/CPV2017-1601.ptr")
+
+# Define the paths to the .rbf files (as detected by your DIC/DICX parsing)
+rbf_paths <- c(
+  normalizePath("dev/BaseOrg16/CPV2017-1601.rbf"),
+  normalizePath("dev/BaseOrg16/CPV2017-16_LKP.rbf"),
+  normalizePath("dev/BaseOrg16/CPV2017-16_REGION_REDCODEN.rbf")
+)
+
+# Call the function with the .ptr file, the .rbf files, entity name, and parent entity name
+foo <- print_rbf_paths_with_logging(absolute_path, rbf_paths, "REGION", "CENSO16R")
+foo

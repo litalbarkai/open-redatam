@@ -1,3 +1,5 @@
+// TODO: REVERT OR MOVE CHANGES HERE
+
 #ifndef REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 #define REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 
@@ -25,6 +27,11 @@ class FuzzyVariableParser {
   FuzzyVariableParser& operator=(const FuzzyVariableParser&) = delete;
 
   void ParseAllVariables(vector<Entity>& entities);
+
+  void ParseVariablesWithLogging(shared_ptr<vector<Variable>> output,
+                                 pair<size_t, size_t> bounds,
+                                 const string& rootPath,
+                                 ByteArrayReader reader);
 
  private:
   ByteArrayReader m_reader;

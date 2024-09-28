@@ -13,17 +13,17 @@ extern "C" SEXP _redatam_read_dic_(SEXP filepath) {
   END_CPP11
 }
 // read_ptr_rbf.cpp
-SEXP print_rbf_paths_with_logging(const std::string& path, const std::vector<std::string>& rbf_paths, const std::string& entityName, const std::string& parentName);
-extern "C" SEXP _redatam_print_rbf_paths_with_logging(SEXP path, SEXP rbf_paths, SEXP entityName, SEXP parentName) {
+sexp read_rbf_(list variable_meta);
+extern "C" SEXP _redatam_read_rbf_(SEXP variable_meta) {
   BEGIN_CPP11
-    return cpp11::as_sexp(print_rbf_paths_with_logging(cpp11::as_cpp<cpp11::decay_t<const std::string&>>(path), cpp11::as_cpp<cpp11::decay_t<const std::vector<std::string>&>>(rbf_paths), cpp11::as_cpp<cpp11::decay_t<const std::string&>>(entityName), cpp11::as_cpp<cpp11::decay_t<const std::string&>>(parentName)));
+    return cpp11::as_sexp(read_rbf_(cpp11::as_cpp<cpp11::decay_t<list>>(variable_meta)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_redatam_print_rbf_paths_with_logging", (DL_FUNC) &_redatam_print_rbf_paths_with_logging, 4},
-    {"_redatam_read_dic_",                    (DL_FUNC) &_redatam_read_dic_,                    1},
+    {"_redatam_read_dic_", (DL_FUNC) &_redatam_read_dic_, 1},
+    {"_redatam_read_rbf_", (DL_FUNC) &_redatam_read_rbf_, 1},
     {NULL, NULL, 0}
 };
 }

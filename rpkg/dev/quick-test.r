@@ -10,34 +10,35 @@ if (getwd() != "/home/pacha/github/redatam-converter/rpkg") {
   setwd("rpkg")
 }
 
+devtools::clean_dll()
 cpp11::cpp_register()
 devtools::document()
 
 devtools::load_all()
 
+# TEST DIC ----
+
+dictionary <- "dev/BaseOrg16/CPV2017-16.dic"
+
+# chl <- tidy_dic_dicx_("dev/BaseOrg16/CPV2017-16.dic")
+
+chl <- read_dic_(dictionary)
+
+# fix later: Error in nchar(x) : invalid multibyte string, element 1
+replace_empty_with_na_(chl)
+
+# TEST DICX ----
+
 chl2 <- tidy_dic_dicx_("dev/BaseOrg16/CPV2017-16.dicx")
 
 chl2$REGION
 
-chl2files <- subset_filename_elements_(chl2)
+names(chl2$REGION$variables)
 
-chl2files$REGION
+x1 <- read_rbf_(chl2$REGION$variables$IDREGION)
+x2 <- read_rbf_(chl2$REGION$variables$NREGION)
+x3 <- read_rbf_(chl2$REGION$variables$REDCODEN)
 
-# chl2files$REGION[1]
-# dev/BaseOrg16/CPV2017-1601.ptr
+tibble::tibble(x1, x2, x3)
 
-load_all()
-
-# Define the path to the .ptr file
-absolute_path <- normalizePath("dev/BaseOrg16/CPV2017-1601.ptr")
-
-# Define the paths to the .rbf files (as detected by your DIC/DICX parsing)
-rbf_paths <- c(
-  normalizePath("dev/BaseOrg16/CPV2017-1601.rbf"),
-  normalizePath("dev/BaseOrg16/CPV2017-16_LKP.rbf"),
-  normalizePath("dev/BaseOrg16/CPV2017-16_REGION_REDCODEN.rbf")
-)
-
-# Call the function with the .ptr file, the .rbf files, entity name, and parent entity name
-foo <- print_rbf_paths_with_logging(absolute_path, rbf_paths, "REGION", "CENSO16R")
-foo
+rm(x1,x2,x3)

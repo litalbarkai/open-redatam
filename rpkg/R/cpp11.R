@@ -4,6 +4,6 @@ read_dic_ <- function(filepath) {
   .Call(`_redatam_read_dic_`, filepath)
 }
 
-print_rbf_paths_with_logging <- function(path, rbf_paths, entityName, parentName) {
-  .Call(`_redatam_print_rbf_paths_with_logging`, path, rbf_paths, entityName, parentName)
+read_rbf_ <- function(variable_meta) {
+  .Call(`_redatam_read_rbf_`, variable_meta)
 }

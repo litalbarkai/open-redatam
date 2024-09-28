@@ -28,11 +28,6 @@ class FuzzyVariableParser {
 
   void ParseAllVariables(vector<Entity>& entities);
 
-  void ParseVariablesWithLogging(shared_ptr<vector<Variable>> output,
-                                 pair<size_t, size_t> bounds,
-                                 const string& rootPath,
-                                 ByteArrayReader reader);
-
  private:
   ByteArrayReader m_reader;
   string m_rootPath;

@@ -7,7 +7,17 @@ tidy_entities_ <- function(dictionary) {
 
   for (entity in entities) {
     message(paste0("Processing entity: ", entity, " (",
-      length(dictionary[[entity]][["variables"]]), "variables)"))
+      length(dictionary[[entity]][["variables"]]), " variables)"))
+
+    cat(".")
+
+    if (!any("list" %in% sapply(dictionary[[entity]][["variables"]], class))) {
+      # nest dictionary[[entity]][["variables"]]
+      # dictionary[[entity]][["variables"]] <- list(dictionary[[entity]][["variables"]])
+      # names(dictionary[[entity]][["variables"]]) <- janitor::make_clean_names(dictionary[[entity]][["variables"]][["label"]])
+
+      next
+    }
 
     out[[entity]] <- read_entity_(dictionary[[entity]])
 
@@ -22,6 +32,8 @@ tidy_entities_ <- function(dictionary) {
       }
     })
 
+    cat(".")
+
     # replace multiple spaces with a single space +
     # remove leading and trailing spaces
     out[[entity]] <- lapply(out[[entity]], function(x) {
@@ -32,7 +44,11 @@ tidy_entities_ <- function(dictionary) {
       }
     })
 
+    cat(".")
+
     out[[entity]] <- as.data.frame(out[[entity]])
+
+    cat(".")
 
     class(out[[entity]]) <- c("tbl_df", "tbl", "data.frame")
   }

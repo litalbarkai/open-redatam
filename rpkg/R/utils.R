@@ -10,9 +10,19 @@ fix_encoding_ <- function(x) {
 
 tidy_names_ <- function(x) {
   if (is.list(x)) {
+    element_names <- names(x)
+
+    # Check for NULL or empty names and replace them with temporary placeholders
+    if (is.null(element_names)) {
+      element_names <- rep("", length(x))
+    }
+
+    # Apply janitor to the non-empty names
+    cleaned_names <- ifelse(element_names == "", element_names, janitor::make_clean_names(element_names))
+
+    names(x) <- cleaned_names
+
     return(lapply(x, tidy_names_))
-  } else if (is.character(x)) {
-    return(janitor::make_clean_names(x))
   } else {
     return(x)
   }

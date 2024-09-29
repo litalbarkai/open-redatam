@@ -16,5 +16,8 @@ tidy_dic_dicx_ <- function(dictionary) {
   # 3. remove list[["name"]] because the name is already in the list name
   dic <- remove_name_(dic)
 
+  # 4. convert REGION, Region, Regi\u00f3n, etc. to region and so on
+  dic <- tidy_names_(dic)
+
   return(dic)
 }

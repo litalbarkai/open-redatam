@@ -1,12 +1,15 @@
 # tibble::as_tibble(as.data.frame(read_entity_(chl$REGION)))
 
 tidy_entities_ <- function(dictionary) {
+  # dictionary = chl2
   entities <- names(dictionary)
 
   out <- list()
 
   for (entity in entities) {
-    message(paste0("Processing entity: ", entity, " (",
+    # entity = "region"
+    # entity = "area"
+    cat(paste0("Processing entity: ", entity, " (",
       length(dictionary[[entity]][["variables"]]), " variables)"))
 
     cat(".")
@@ -14,7 +17,7 @@ tidy_entities_ <- function(dictionary) {
     if (!any("list" %in% sapply(dictionary[[entity]][["variables"]], class))) {
       # nest dictionary[[entity]][["variables"]]
       # dictionary[[entity]][["variables"]] <- list(dictionary[[entity]][["variables"]])
-      # names(dictionary[[entity]][["variables"]]) <- janitor::make_clean_names(dictionary[[entity]][["variables"]][["label"]])
+      # names(dictionary[[entity]][["variables"]]) <- tidy_names_(dictionary[[entity]][["variables"]][["label"]])
 
       next
     }

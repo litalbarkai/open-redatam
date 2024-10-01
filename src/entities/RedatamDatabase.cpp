@@ -1,8 +1,8 @@
 // #include <numeric>    //  std::accumulate
 #include <string>       //  find_last_of, substr, npos
 #include <stdexcept>    //  std::invalid_argument
-
 #include <cctype>       //  std::tolower
+#include <iostream>     //  std::cout
 
 #include "RedatamDatabase.hpp"
 #include "FuzzyEntityParser.hpp"
@@ -17,6 +17,7 @@ using std::string, std::vector, std::invalid_argument;
 
 RedatamDatabase::RedatamDatabase(const string& fileName)
 {
+    std::cout << "Opening dictionary file..." << std::endl;
     OpenDictionary(fileName);
 }
 

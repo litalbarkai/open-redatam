@@ -17,8 +17,8 @@ devtools::document()
 devtools::load_all()
 
 # dic <- "dev/BaseOrg16/CPV2017-16.dic"
-# dic <- "dev/BaseOrg16/CPV2017-16.dicx"
-dic <- "dev/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX"
+dic <- "dev/BaseOrg16/CPV2017-16.dicx"
+# dic <- "dev/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX"
 dic <- normalizePath(dic)
 
 dout <- "dev/dicx-from-r"

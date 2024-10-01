@@ -76,7 +76,10 @@ cpp11::list ListExporter::ExportAllR(
                 static_cast<std::vector<std::string>*>(v.GetValues().get());
             cpp11::writable::strings rvalues(numRows);
             for (size_t i = 0; i < numRows; i++) {
-              rvalues[i] = values->at(i);
+              // replace '\0' with ' '
+              std::string clean_string = values->at(i);
+              std::replace(clean_string.begin(), clean_string.end(), '\0', ' ');
+              rvalues[i] = clean_string;
             }
             entityList.push_back(rvalues);
             break;

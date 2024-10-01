@@ -39,9 +39,6 @@ public:
     size_t GetDecimals() const;
     std::shared_ptr<void> GetValues() const;
 
-    // for R's cpp11
-    void Parse() { ParseValues(); }
-
 private:
     string m_name;
     VarType m_type;

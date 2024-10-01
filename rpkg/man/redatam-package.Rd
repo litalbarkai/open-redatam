@@ -4,20 +4,25 @@
 \name{redatam-package}
 \alias{redatam}
 \alias{redatam-package}
-\title{redatam: ADD TITLE}
+\title{redatam: Import 'REDATAM' Files}
 \description{
-ADD DESCRIPTION. TWO OR MORE LINES
+Import 'REDATAM' files into R. 'REDATAM' is a software for the manipulation of microdata from censuses and surveys. This package provides functions to import 'REDATAM' files into R. It is based on De Grande (2016) \url{https://www.jstor.org/stable/24890658}.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://WEBSITE.COM}
-  \item Report bugs at \url{https://github.com/USERNAME/PKGNAME/issues}
+  \item \url{https://github.com/pachadotdev/redatam-converter}
+  \item Report bugs at \url{https://github.com/pachadotdev/redatam-converter/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: YOUR NAME \email{YOUR@EMAIL.COM} (\href{https://orcid.org/0000-0001-0002-0003}{ORCID})
+\strong{Maintainer}: Mauricio Vargas Sepulveda \email{m.sepulveda@mail.utoronto.ca} (\href{https://orcid.org/0000-0003-1017-7574}{ORCID})
+
+Authors:
+\itemize{
+  \item Lital Barkai
+}
 
 }
 \keyword{internal}

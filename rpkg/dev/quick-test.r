@@ -16,31 +16,19 @@ devtools::document()
 
 devtools::load_all()
 
-# chl2 <- tidy_dic_dicx_("dev/BaseOrg16/CPV2017-16.dicx")
-# saveRDS(chl2, "dev/chl2.rds")
+# dic <- "dev/BaseOrg16/CPV2017-16.dic"
+# dic <- "dev/BaseOrg16/CPV2017-16.dicx"
+dic <- "dev/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX"
+dic <- normalizePath(dic)
 
-chl2 <- readRDS("dev/chl2.rds")
+dout <- "dev/dicx-from-r"
+try(dir.create(dout))
+dout <- normalizePath(dout)
 
-chl2$region
+foo <- export_redatam_to_csv_(dic, dout)
 
-names(chl2$region$variables)
+foo <- export_redatam_to_list_(dic)
 
-# out <- tidy_entities_(chl2)
+foo <- read_redatam(dic)
 
-dictionary <- chl2
-
-entities <- names(dictionary)
-
-entities
-
-out <- list()
-
-entity <- "region"
-entity <- "provinci"
-entity <- "comuna"
-entity <- "distrito"
-entity <- "area"
-
-out[[entity]] <- read_entity_(dictionary[[entity]])
-
-out
+foo

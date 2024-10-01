@@ -5,25 +5,25 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// read_dic.cpp
-list read_dic_(const std::string& filepath);
-extern "C" SEXP _redatam_read_dic_(SEXP filepath) {
+// main.cpp
+strings export_redatam_to_csv_(std::string dicFilePath, std::string outputDirPath);
+extern "C" SEXP _redatam_export_redatam_to_csv_(SEXP dicFilePath, SEXP outputDirPath) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_dic_(cpp11::as_cpp<cpp11::decay_t<const std::string&>>(filepath)));
+    return cpp11::as_sexp(export_redatam_to_csv_(cpp11::as_cpp<cpp11::decay_t<std::string>>(dicFilePath), cpp11::as_cpp<cpp11::decay_t<std::string>>(outputDirPath)));
   END_CPP11
 }
-// read_rbf.cpp
-list read_entity_(list entity);
-extern "C" SEXP _redatam_read_entity_(SEXP entity) {
+// main.cpp
+cpp11::list export_redatam_to_list_(std::string dicFilePath);
+extern "C" SEXP _redatam_export_redatam_to_list_(SEXP dicFilePath) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_entity_(cpp11::as_cpp<cpp11::decay_t<list>>(entity)));
+    return cpp11::as_sexp(export_redatam_to_list_(cpp11::as_cpp<cpp11::decay_t<std::string>>(dicFilePath)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_redatam_read_dic_",    (DL_FUNC) &_redatam_read_dic_,    1},
-    {"_redatam_read_entity_", (DL_FUNC) &_redatam_read_entity_, 1},
+    {"_redatam_export_redatam_to_csv_",  (DL_FUNC) &_redatam_export_redatam_to_csv_,  2},
+    {"_redatam_export_redatam_to_list_", (DL_FUNC) &_redatam_export_redatam_to_list_, 1},
     {NULL, NULL, 0}
 };
 }

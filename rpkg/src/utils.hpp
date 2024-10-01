@@ -2,7 +2,6 @@
 #define REDATAMLIB_UTILS_HPP
 
 #include <string>
-#include <iostream>     //  std::cerr, std::endl
 #include <stdexcept>    //  std::invalid_argument
 #include <system_error> //  std::error_code, std::generic_category
 
@@ -10,7 +9,7 @@
 
 namespace RedatamLib
 {
-using std::string, std::cerr, std::endl;
+using std::string;
 
 string FindRootPath(const string& fileName);
 string ReplaceRootPath(const string& rootPath, const string& fileName);
@@ -25,7 +24,6 @@ void ThrowIfBad(bool is_good_, std::error_code err_, const string& e_msg_)
 {
     if (!is_good_)
     {
-        // cerr << e_msg_ << endl;
         throw E(err_, e_msg_);
     }
 }
@@ -35,7 +33,6 @@ void ThrowIfBad(bool is_good_, int errno_)
 {
     if (!is_good_)
     {
-        // cerr << std::strerror(errno_) << endl;
         throw E(std::error_code(errno_, std::generic_category()),
                                             string(std::strerror(errno_)));
     }
@@ -46,7 +43,6 @@ void ThrowIfBad(bool is_good_, const E& e_)
 {
     if (!is_good_)
     {
-        // cerr << e_.what() << endl;
         throw e_;
     }
 }

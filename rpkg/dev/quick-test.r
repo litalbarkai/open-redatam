@@ -17,18 +17,14 @@ devtools::document()
 devtools::load_all()
 
 # dic <- "dev/BaseOrg16/CPV2017-16.dic"
-dic <- "dev/BaseOrg16/CPV2017-16.dicx"
-# dic <- "dev/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX"
+# dic <- "dev/BaseOrg16/CPV2017-16.dicx"
+dic <- "dev/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX"
 dic <- normalizePath(dic)
 
 dout <- "dev/dicx-from-r"
 try(dir.create(dout))
 dout <- normalizePath(dout)
 
-foo <- export_redatam_to_csv_(dic, dout)
+res <- read_redatam(dic)
 
-foo <- export_redatam_to_list_(dic)
-
-foo <- read_redatam(dic)
-
-foo
+res

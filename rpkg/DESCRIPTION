@@ -15,6 +15,7 @@ Authors@R: c(
         role = "aut")
     )
 Imports:
+    data.table,
     janitor,
     stringi
 Suggests: 

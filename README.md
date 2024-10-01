@@ -1,4 +1,4 @@
-# REDATAM CONVERTER
+# REDATAM CONVERTER <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
 ## About
 

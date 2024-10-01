@@ -1,7 +1,6 @@
 #include "RListExporter.hpp"
 
 #include <cpp11.hpp>
-#include <iostream>  // For debug statements
 #include <sstream>
 
 #include "Entity.hpp"
@@ -10,6 +9,7 @@
 namespace RedatamLib {
 using std::ostringstream, std::endl;
 
+// just to mimic the original CSVExporter
 ListExporter::ListExporter(const std::string& outputDirectory)
     : m_path(outputDirectory) {
   if ('/' != m_path.back()) {
@@ -20,14 +20,13 @@ ListExporter::ListExporter(const std::string& outputDirectory)
 cpp11::list ListExporter::ExportAllR(
     const std::vector<Entity>& entities) const {
   cpp11::writable::list result;
-  cpp11::writable::strings entityNames;
+  cpp11::writable::strings resultNames;
+
   for (const Entity& entity : entities) {
     std::string exportingEntityMgs = "Exporting " + entity.GetName() + "...";
     cpp11::message(exportingEntityMgs.c_str());
 
     cpp11::writable::list entityList;
-    entityNames.push_back(entity.GetName());
-
     cpp11::writable::strings variableNames;
 
     // Add REF_ID and PARENT_REF_ID columns
@@ -95,26 +94,63 @@ cpp11::list ListExporter::ExportAllR(
             break;
           }
           default:
-            std::string unknownTypeMsg = "Unknown variable type: " +
-              v.GetName();
+            std::string unknownTypeMsg =
+                "Unknown variable type: " + v.GetName();
             cpp11::message(unknownTypeMsg.c_str());
             break;
         }
       } catch (const std::exception& e) {
-        std::string errorExportingVariableMsg = "Error exporting variable: " +
-          v.GetName() + " - " + e.what();
+        std::string errorExportingVariableMsg =
+            "Error exporting variable: " + v.GetName() + " - " + e.what();
         cpp11::message(errorExportingVariableMsg.c_str());
       }
 
       variableNames.push_back(v.GetName());
+
+      // Add variable labels to the main list
+      AddVariableLabels(v, result, resultNames, entity.GetName());
     }
 
     if (variableNames.size() > 0) {
       entityList.names() = variableNames;
     }
     result.push_back(entityList);
+    resultNames.push_back(entity.GetName());
   }
-  result.names() = entityNames;
+  result.names() = resultNames;
   return result;
+}
+
+void ListExporter::AddVariableLabels(const Variable& v,
+                                     cpp11::writable::list& result,
+                                     cpp11::writable::strings& resultNames,
+                                     const std::string& entityName) {
+  if (!v.GetTags().empty()) {
+    cpp11::writable::list labelTable;
+    cpp11::writable::strings variableColumn;
+    cpp11::writable::strings meaningColumn;
+
+    for (const Tag& t : v.GetTags()) {
+      variableColumn.push_back(cpp11::r_string(t.first));
+      meaningColumn.push_back(cpp11::r_string(t.second));
+    }
+
+    labelTable.push_back(variableColumn);
+    labelTable.push_back(meaningColumn);
+
+    std::string variableColumnName = v.GetName();
+    std::string meaningColumnName = v.GetName() + "_DESCRIPTION";
+    cpp11::writable::strings columnNames = {variableColumnName,
+                                            meaningColumnName};
+    labelTable.names() = columnNames;
+
+    std::string tableName = entityName + "_LABELS_" + v.GetName();
+
+    // Append the label table to the result list
+    result.push_back(labelTable);
+
+    // Append the table name to the list of names
+    resultNames.push_back(tableName);
+  }
 }
 }  // namespace RedatamLib

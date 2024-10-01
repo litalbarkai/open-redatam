@@ -6,7 +6,6 @@
 #include <string>     //  find_last_of, substr, npos
 #include <cpp11.hpp>
 
-#include "CSVExporter.hpp"
 #include "FuzzyEntityParser.hpp"
 #include "RListExporter.hpp"
 #include "XMLParser.hpp"
@@ -18,11 +17,6 @@ using std::string, std::vector, std::invalid_argument;
 RedatamDatabase::RedatamDatabase(const string& fileName) {
   cpp11::message("Opening dictionary file...");
   OpenDictionary(fileName);
-}
-
-void RedatamDatabase::ExportCSVFiles(const string& outputDir) {
-  CSVExporter exporter(outputDir);
-  exporter.ExportAll(m_entities);
 }
 
 cpp11::list RedatamDatabase::ExportRLists() const {

@@ -43,6 +43,9 @@ qt-online-installer-windows-x64-4.8.0.exe
 redatamwindows/install_manifest.txt
 rpkg/dev/BaseOrg16
 rpkg/dev/CP2011URY
+rpkg/dev/*.rds
 rpkg/.vscode
 rpkg/src/*.o
 rpkg/src/*.so
+rpkg/src/*/*.o
+rpkg/src/*/*.so

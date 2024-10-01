@@ -22,6 +22,10 @@ class ListExporter {
   static void CreateVariablesLegend(Entity& e, cpp11::writable::list& result);
   static void CreateVariablesLabels(Entity& e, cpp11::writable::list& result);
   static void CreateVariablesData(Entity& e, cpp11::writable::list& result);
+  static void AddVariableLabels(const Variable& v,
+                                cpp11::writable::list& result,
+                                cpp11::writable::strings& resultNames,
+                                const std::string& entityName);
 };
 
 }  // namespace RedatamLib

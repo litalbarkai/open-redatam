@@ -1,2 +1,29 @@
 CXX_STD = CXX17
-# PKG_CXXFLAGS = -I../inst/include/pugixml
+PKG_CPPFLAGS = -Ivendor -Iredatamlib
+PKG_LIBS = -Lvendor -Lredatamlib
+
+# Explicitly list all source files
+SOURCES = vendor/pugixml.cpp \
+          redatamlib/BitArrayReader.cpp \
+          redatamlib/ByteArrayReader.cpp \
+          redatamlib/Entity.cpp \
+          redatamlib/FuzzyEntityParser.cpp \
+          redatamlib/FuzzyVariableParser.cpp \
+          redatamlib/ParentIDCalculator.cpp \
+          redatamlib/RListExporter.cpp \
+          redatamlib/RedatamDatabase.cpp \
+          redatamlib/Variable.cpp \
+          redatamlib/XMLParser.cpp \
+          redatamlib/utils.cpp \
+          cpp11.cpp \
+          main.cpp
+
+# Convert source files to object files
+OBJECTS = $(SOURCES:.cpp=.o)
+
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
+
+clean:
+	rm -f $(OBJECTS) $(SHLIB)

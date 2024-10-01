@@ -6,13 +6,6 @@
 #include <R_ext/Visibility.h>
 
 // main.cpp
-strings export_redatam_to_csv_(std::string dicFilePath, std::string outputDirPath);
-extern "C" SEXP _redatam_export_redatam_to_csv_(SEXP dicFilePath, SEXP outputDirPath) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(export_redatam_to_csv_(cpp11::as_cpp<cpp11::decay_t<std::string>>(dicFilePath), cpp11::as_cpp<cpp11::decay_t<std::string>>(outputDirPath)));
-  END_CPP11
-}
-// main.cpp
 cpp11::list export_redatam_to_list_(std::string dicFilePath);
 extern "C" SEXP _redatam_export_redatam_to_list_(SEXP dicFilePath) {
   BEGIN_CPP11
@@ -22,7 +15,6 @@ extern "C" SEXP _redatam_export_redatam_to_list_(SEXP dicFilePath) {
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_redatam_export_redatam_to_csv_",  (DL_FUNC) &_redatam_export_redatam_to_csv_,  2},
     {"_redatam_export_redatam_to_list_", (DL_FUNC) &_redatam_export_redatam_to_list_, 1},
     {NULL, NULL, 0}
 };

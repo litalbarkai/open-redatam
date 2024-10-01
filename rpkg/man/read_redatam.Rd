@@ -4,11 +4,17 @@
 \alias{read_redatam}
 \title{Read REDATAM dictionary}
 \usage{
-read_redatam(dictionary)
+read_redatam(dictionary, labels_as_factors = FALSE)
 }
 \arguments{
 \item{dictionary}{A character string with the path to the dictionary file. It
 allows relative paths.}
+
+\item{labels_as_factors}{Logical. If FALSE, the labels are kept as tags and
+additional tables with their descriptions are provided If TRUE, the labels
+are converted to factors (e.g., labels such as "01" become "Montevideo").
+The default is FALSE as it is more flexible and converting to factors can
+without filtering the tables can be slow.}
 }
 \value{
 A list of tibbles, each one representing a table with the census

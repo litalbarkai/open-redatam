@@ -1,5 +1,6 @@
 detect_encoding_ <- function(strings) {
-  valid_strings <- paste(strings[!is.na(strings) & strings != ""], collapse = " ")
+  valid_strings <- paste(strings[!is.na(strings) & strings != ""],
+    collapse = " ")
   if (length(valid_strings) > 0) {
     detected_encoding <- stri_enc_detect(valid_strings)
     if (length(detected_encoding) > 0) {
@@ -40,9 +41,14 @@ fix_encoding_ <- function(x) {
   # Extract the unique values of the "chr" vectors in the lists
   strings <- unique(unlist(lapply(x, function(y) {
     if (is.data.table(y)) {
-      return(unlist(y[, lapply(.SD, function(col) if (is.character(col)) col else NULL)]))
+      return(unlist(y[, lapply(
+        .SD,
+        function(col) {
+          if (is.character(col)) col else NULL
+        }
+      )]))
     } else {
-      return(y[sapply(y, is.character)])
+      return(y[vapply(y, is.character, logical(1))])
     }
   })))
 
@@ -52,8 +58,12 @@ fix_encoding_ <- function(x) {
   # Apply the encoding fix recursively
   return(lapply(x, function(y) {
     if (is.data.table(y)) {
-      char_cols <- names(y)[sapply(y, is.character)]
-      y[, (char_cols) := lapply(.SD, function(col) fix_encoding_recursive_(col, encoding)), .SDcols = char_cols]
+      char_cols <- names(y)[vapply(y, is.character, logical(1))]
+      y[, (char_cols) := lapply(.SD,
+        function(col) {
+          fix_encoding_recursive_(col, encoding)
+        }),
+        .SDcols = char_cols]
       return(y)
     } else {
       return(fix_encoding_recursive_(y, encoding))
@@ -71,7 +81,8 @@ tidy_names_ <- function(x) {
     }
 
     # apply janitor to the non-empty names
-    cleaned_names <- ifelse(element_names == "", element_names, make_clean_names(element_names))
+    cleaned_names <- ifelse(element_names == "", element_names,
+      make_clean_names(element_names))
 
     names(x) <- cleaned_names
 
@@ -100,8 +111,9 @@ trim_and_clean_internal_ <- function(x) {
 
 trim_and_clean_ <- function(x) {
   lapply(x, function(dt) {
-    char_cols <- names(dt)[sapply(dt, is.character)]
-    dt[, (char_cols) := lapply(.SD, trim_and_clean_internal_), .SDcols = char_cols]
+    char_cols <- names(dt)[vapply(dt, is.character, logical(1))]
+    dt[, (char_cols) := lapply(.SD, trim_and_clean_internal_),
+      .SDcols = char_cols]
   })
 }
 
@@ -131,7 +143,7 @@ harmonize_types_ <- function(x) {
   return(x)
 }
 
-merge_descriptions_ <- function(x, labels_as_factors) {
+merge_descriptions_ <- function(x) {
   description_elements <- grep("_labels_", names(x), value = TRUE)
 
   for (element in description_elements) {
@@ -141,35 +153,15 @@ merge_descriptions_ <- function(x, labels_as_factors) {
     noncommon_col <- setdiff(colnames(x[[element]]), common_col)
 
     # convert to factor for non-common columns
-    x[[element]][, (noncommon_col) := lapply(.SD, as.factor), .SDcols = noncommon_col]
-
-    # merge the description with the entity
-    if (isTRUE(labels_as_factors)) {
-      x[[entity]] <- merge(x[[entity]], x[[element]], by = common_col, all.x = TRUE, allow.cartesian = TRUE)
-
-      # add the description to replace the numeric labels
-      for (col in common_col) {
-        new_col <- paste0(col, ".y")
-        if (new_col %in% colnames(x[[entity]])) {
-          x[[entity]][, (col) := get(new_col)]
-          x[[entity]][, (new_col) := NULL]
-        }
-      }
-    }
+    x[[element]][, (noncommon_col) := lapply(.SD, as.factor),
+      .SDcols = noncommon_col]
 
     # convert any other character column to factor
-    char_cols <- names(x[[entity]])[sapply(x[[entity]], is.character)]
+    char_cols <- names(x[[entity]])[vapply(x[[entity]], is.character,
+      logical(1))]
     x[[entity]][, (char_cols) := lapply(.SD, as.factor), .SDcols = char_cols]
   }
 
-  return(x)
-}
-
-remove_extra_labels_ <- function(x) {
-  description_elements <- grep("_labels_", names(x), value = TRUE)
-  for (element in description_elements) {
-    x[[element]] <- NULL
-  }
   return(x)
 }
 

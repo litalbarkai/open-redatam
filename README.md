@@ -1,9 +1,12 @@
 # REDATAM CONVERTER <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
+[![Standalone C++ app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-binaries.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-binaries.yml)
+[![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
+
 ## About
 
 The Redatam Converter is an open source software for extracting raw information from REDATAM databases.
-It is a full C++ ground-up rewrite in C++ of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md). It provides a command line interface and a graphical user interface for extracting data from REDATAM databases. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
+It is a full C++ ground-up rewrite of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md). It provides a command line interface and a graphical user interface for extracting data from REDATAM databases. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
 
 The original Redtam Converter was written in C#. Rewriting in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
 

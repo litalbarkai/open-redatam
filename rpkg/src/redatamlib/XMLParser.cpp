@@ -10,6 +10,9 @@ namespace RedatamLib {
 vector<Entity> XMLParser::ParseFile(const string& fileName) {
   m_rootPath = FindRootPath(fileName);
 
+  // cpp11::message("THE ROOT PATH IS");
+  // cpp11::message(m_rootPath.c_str());
+
   vector<Entity> ret;
 
   try {
@@ -17,20 +20,17 @@ vector<Entity> XMLParser::ParseFile(const string& fileName) {
     pugi::xml_parse_result result = doc.load_file(fileName.c_str());
     if (!result) {
       std::string errorMsg = "Error parsing file: " + std::string(result.description());
-      cpp11::message(errorMsg.c_str());
-      throw std::runtime_error("Error parsing file");
+      throw std::runtime_error(errorMsg);
     }
 
     // Look for the correct root element
     pugi::xml_node redDictionaryNode = doc.child("redDictionary_XML");
     if (!redDictionaryNode) {
-      cpp11::message("Error: redDictionary_XML element not found");
       throw std::runtime_error("redDictionary_XML element not found");
     }
 
     pugi::xml_node rootElement = redDictionaryNode.child("root");
     if (!rootElement) {
-      cpp11::message("Error: Root element not found");
       throw std::runtime_error("Root element not found");
     }
 
@@ -66,6 +66,9 @@ pugi::xml_node XMLParser::ParseEntity(vector<Entity>* results,
 
   string idxFileName = GetTagValue(node, "filename");
   idxFileName = ReplaceRootPath(m_rootPath, idxFileName);
+
+  // cpp11::message("THE FILE IS:");
+  // cpp11::message(idxFileName.c_str());
 
   Entity curr(name, parentName, description, idxFileName,
               pair<size_t, size_t>(0, 0));

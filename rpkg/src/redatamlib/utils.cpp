@@ -6,15 +6,52 @@ namespace RedatamLib
 {
 using std::invalid_argument;
 
-string FindRootPath(const string& fileName)
-{
-    return fileName.substr(0, fileName.find_last_of('/') + 1);
+string FindRootPath(const string& fileName) {
+#ifdef _WIN32
+    // Windows
+    size_t pos = fileName.find_last_of('\\');
+#else
+    // Unix
+    size_t pos = fileName.find_last_of('/');
+#endif
+
+    // Return the root path up to and including the last path separator
+    return (pos == string::npos) ? "" : fileName.substr(0, pos + 1);
 }
 
-string ReplaceRootPath(const string& rootPath, const string& fileName)
-{
-    string ret = rootPath;
-    ret.append(fileName.substr(fileName.find_last_of('\\') + 1));
+string ReplaceRootPath(const string& rootPath, const string& fileName) {
+    // Ensure rootPath ends with a path separator
+    string normalizedRootPath = rootPath;
+    if (normalizedRootPath.back() != '/' && normalizedRootPath.back() != '\\') {
+        normalizedRootPath.append("/");
+    }
+
+    // Remove any leading path separators or relative path components from
+    // fileName
+    string cleanedFileName = fileName;
+    while (!cleanedFileName.empty() &&
+        (cleanedFileName.front() == '/' || cleanedFileName.front() == '\\' ||
+         cleanedFileName.substr(0, 2) == ".\\" ||
+        cleanedFileName.substr(0, 2) == "./")) {
+        if (cleanedFileName.front() == '/' ||
+            cleanedFileName.front() == '\\') {
+            cleanedFileName = cleanedFileName.substr(1);
+        } else if (cleanedFileName.substr(0, 2) == ".\\" ||
+                cleanedFileName.substr(0, 2) == "./") {
+            cleanedFileName = cleanedFileName.substr(2);
+        }
+    }
+    
+    // Construct the new path
+    string ret = normalizedRootPath;
+    ret.append(cleanedFileName);
+
+    // Normalize the path separators to the platform-specific separator
+#ifdef _WIN32
+    std::replace(ret.begin(), ret.end(), '/', '\\');  // Windows
+#else
+    std::replace(ret.begin(), ret.end(), '\\', '/');  // Unix
+#endif
 
     return ret;
 }

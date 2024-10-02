@@ -1,6 +1,6 @@
 # REDATAM CONVERTER <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
-[![Standalone C++ app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-binaries.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-binaries.yml)
+[![Standalone C++ app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml)
 [![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
 
 ## About

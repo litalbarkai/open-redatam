@@ -20,7 +20,8 @@ Imports:
     stringi
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 Depends: R(>= 3.5.0)
 Description: Import 'REDATAM' files into R. 'REDATAM' is a software for the
     manipulation of microdata from censuses and surveys. This package provides
@@ -35,3 +36,4 @@ NeedsCompilation: yes
 VignetteBuilder: knitr
 LinkingTo: cpp11
 SystemRequirements: C++17
+Config/testthat/edition: 3

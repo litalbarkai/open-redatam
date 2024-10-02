@@ -157,8 +157,12 @@ merge_descriptions_ <- function(x) {
       .SDcols = noncommon_col]
 
     # convert any other character column to factor
-    char_cols <- names(x[[entity]])[vapply(x[[entity]], is.character,
-      logical(1))]
+    char_cols <- names(x[[element]])[vapply(
+      x[[element]], is.character, logical(1))]
+    x[[element]][, (char_cols) := lapply(.SD, as.factor), .SDcols = char_cols]
+
+    char_cols <- names(x[[entity]])[vapply(
+      x[[entity]], is.character, logical(1))]
     x[[entity]][, (char_cols) := lapply(.SD, as.factor), .SDcols = char_cols]
   }
 

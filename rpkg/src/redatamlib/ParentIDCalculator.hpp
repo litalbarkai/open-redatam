@@ -23,4 +23,3 @@ private:
 } // namespace RedatamLib
 
 #endif // REDATAMLIB_PARENTIDCALCULATOR_HPP
-

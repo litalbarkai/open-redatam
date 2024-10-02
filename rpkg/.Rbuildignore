@@ -12,3 +12,4 @@
 ^vignettes/CP2017CHL\.zip$
 ^vignettes/CP2017CHL$
 ^\.covrignore$
+^cran-comments\.md$

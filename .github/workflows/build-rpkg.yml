@@ -41,27 +41,12 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          path: rpkg
           extra-packages: any::rcmdcheck
           needs: check
-
-      - name: Install redatam package
-        run: |
-          options(warn = 2)
-          pak::local_install_dev_deps("rpkg", dependencies = TRUE)
-          install.packages("rpkg", repos = NULL, type = "source")
-        shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           path: rpkg
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
-
-      - name: Run redatam tests
-        run: |
-          setwd("rpkg/tests")
-          library(testthat)
-          library(redatam)
-          test_check("redatam", reporter = "progress")
-        shell: Rscript {0}
-        

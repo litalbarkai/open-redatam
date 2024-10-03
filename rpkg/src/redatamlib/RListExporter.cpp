@@ -1,5 +1,6 @@
 #include "RListExporter.hpp"
 
+#include <algorithm>  // For std::replace
 #include <cpp11.hpp>
 #include <sstream>
 
@@ -131,8 +132,13 @@ void ListExporter::AddVariableLabels(const Variable& v,
     cpp11::writable::strings meaningColumn;
 
     for (const Tag& t : v.GetTags()) {
-      variableColumn.push_back(cpp11::r_string(t.first));
-      meaningColumn.push_back(cpp11::r_string(t.second));
+      std::string clean_key = t.first;
+      std::string clean_value = t.second;
+      std::replace(clean_key.begin(), clean_key.end(), '\0', ' ');
+      std::replace(clean_value.begin(), clean_value.end(), '\0', ' ');
+
+      variableColumn.push_back(cpp11::r_string(clean_key));
+      meaningColumn.push_back(cpp11::r_string(clean_value));
     }
 
     labelTable.push_back(variableColumn);

@@ -13,4 +13,4 @@
 ^vignettes/CP2017CHL$
 ^\.covrignore$
 ^cran-comments\.md$
-^inst/extdata/uruguay$
+^inst/extdata/galapagos$

@@ -39,11 +39,8 @@ x64
 .vscode/launch.json
 .vscode/c_cpp_properties.json
 redatam_0.0.1_amd64.deb
-qt-online-installer-windows-x64-4.8.0.exe
 redatamwindows/install_manifest.txt
-rpkg/dev/BaseOrg16
-rpkg/dev/CP2011URY
-rpkg/dev/*.rds
+rpkg/inst/extdata/galapagos
 rpkg/.vscode
 rpkg/src/*.o
 rpkg/src/*.so

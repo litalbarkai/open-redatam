@@ -1,8 +1,9 @@
 #include "XMLParser.hpp"
 
 #include <algorithm>  //  std::replace
-#include <fstream>    //  std::ifstream
 #include <cpp11.hpp>  //  replace std::cerr
+#include <fstream>    //  std::ifstream
+
 #include "utils.hpp"
 
 namespace RedatamLib {
@@ -19,7 +20,8 @@ vector<Entity> XMLParser::ParseFile(const string& fileName) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(fileName.c_str());
     if (!result) {
-      std::string errorMsg = "Error parsing file: " + std::string(result.description());
+      std::string errorMsg =
+          "Error parsing file: " + std::string(result.description());
       throw std::runtime_error(errorMsg);
     }
 

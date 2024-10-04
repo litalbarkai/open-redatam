@@ -1,7 +1,7 @@
 Package: redatam
 Type: Package
 Title: Import 'REDATAM' Files 
-Version: 0.1
+Version: 0.2
 Authors@R: c(
     person(
         given = "Mauricio",
@@ -35,5 +35,4 @@ Encoding: UTF-8
 NeedsCompilation: yes
 VignetteBuilder: knitr
 LinkingTo: cpp11
-SystemRequirements: C++17
 Config/testthat/edition: 3

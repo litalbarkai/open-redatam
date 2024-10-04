@@ -3,23 +3,22 @@
 
 #include "Entity.hpp"
 
-namespace RedatamLib
-{
+namespace RedatamLib {
 class ParentIDCalculator {
-public:
-    explicit ParentIDCalculator(Entity* child);
-    ~ParentIDCalculator() = default;
+ public:
+  explicit ParentIDCalculator(Entity* child);
+  ~ParentIDCalculator() = default;
 
-    ParentIDCalculator(const ParentIDCalculator&) = delete;
-    ParentIDCalculator& operator=(const ParentIDCalculator&) = delete;
+  ParentIDCalculator(const ParentIDCalculator&) = delete;
+  ParentIDCalculator& operator=(const ParentIDCalculator&) = delete;
 
-    size_t GetParentID(size_t currRow);
+  size_t GetParentID(size_t currRow);
 
-private:
-    Entity* m_child;
-    size_t m_currID;
-    size_t m_currLimit;
+ private:
+  Entity* m_child;
+  size_t m_currID;
+  size_t m_currLimit;
 };
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif // REDATAMLIB_PARENTIDCALCULATOR_HPP
+#endif  // REDATAMLIB_PARENTIDCALCULATOR_HPP

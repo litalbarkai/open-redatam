@@ -1,33 +1,26 @@
-# REDATAM CONVERTER <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
+# REDATAM Converter <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
 [![Standalone C++ app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml)
 [![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
 
 ## About
 
-The Redatam Converter is an open source software for extracting raw information from REDATAM databases.
-It is a full C++ ground-up rewrite of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md). It provides a command line interface and a graphical user interface for extracting data from REDATAM databases. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
+The REDATAM Converter is an open source software for extracting raw information from REDATAM databases.
+It is a full C++ ground-up rewrite of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md) written in C#.
 
-The original Redtam Converter was written in C#. Rewriting in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
+This software provides a command line interface and a graphical user interface for exporting data from REDATAM databases to CSV files and an XML summary of the tables and variables. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
+
+Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
+
+For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.
 
 ## Compatibility
 
-The converter was tested with REDATAM databases of different versions.
-The current version exports to comma separated files (CSV) using `;`.
+The converter was tested with REDATAM databases of different versions. The current version exports to comma separated files (CSV) using `;`.
 
 ## Installation
 
-### R package
-
-We have an R package to read REDATAM files without saving as CSV and then re-reading in R. The R package is available [here](https://github.com/pachadotdev/redatam-converter/tree/main/rpkg).
-
-To install the R package, run the following command:
-
-```r
-remotes::install_github("pachadotdev/redatam-converter/rpkg", subdir = "rpkg")
-```
-
-### Standalone Application From binaries
+### From binaries
 
 On Ubuntu, run the following commands:
 
@@ -48,9 +41,9 @@ sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/redatam-
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies.
 
-### Standalone application from source
+### From source
 
-The standalone C++ program uses **Xerces-C++ XML Parser** and requires C++17 or higher to compile.
+The software requires C++17 or higher to compile.
 
 On Linux, run the following commands:
 
@@ -80,16 +73,6 @@ make
 Then run `./redatam` or `./redatamgui`.
 
 ## Usage
-
-### R package
-
-For the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:
-
-```r
-redatam::read_redatam("CP2017CHL/BaseOrg16/CPV2017-16.dicx")
-```
-
-### Standalone application
 
 For the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:
 
@@ -139,7 +122,7 @@ Ticked = Passed; Blank = Failed
 
 ## Credits
 
-This Redatam Converter was created and is supported by Lital Barkai (barkailital@gmail.com).
+This REDATAM Converter was created and is supported by Lital Barkai (barkailital@gmail.com).
 
 The tests, installation instructions and R package were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)
 

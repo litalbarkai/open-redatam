@@ -1,10 +1,9 @@
-// #include <numeric>    //  std::accumulate
 #include "RedatamDatabase.hpp"
 
-#include <cctype>     //  std::tolower
+#include <cctype>  //  std::tolower
+#include <cpp11.hpp>
 #include <stdexcept>  //  std::invalid_argument
 #include <string>     //  find_last_of, substr, npos
-#include <cpp11.hpp>
 
 #include "FuzzyEntityParser.hpp"
 #include "RListExporter.hpp"

@@ -28,7 +28,7 @@ class XMLParser {
   string m_rootPath;
 
   string GetTagValue(pugi::xml_node node, const string& tag, size_t idx = 0);
-  //  returns the next <entity> pugi::xml_node
+  //  returns the next <entity>
   pugi::xml_node ParseEntity(vector<Entity>* results, pugi::xml_node node,
                              const string& parentName = "");
   shared_ptr<vector<Variable>> ParseVariables(pugi::xml_node node);

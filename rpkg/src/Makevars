@@ -1,4 +1,3 @@
-CXX_STD = CXX17
 PKG_CPPFLAGS = -Ivendor -Iredatamlib
 PKG_LIBS = -Lvendor -Lredatamlib
 

@@ -8,8 +8,10 @@
 #include <vector>
 
 namespace RedatamLib {
-using std::out_of_range, std::length_error;
-using std::vector, std::string;
+using std::out_of_range;
+using std::length_error;
+using std::vector;
+using std::string;
 
 class ByteArrayReader {
  public:

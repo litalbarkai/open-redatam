@@ -10,7 +10,10 @@
 #include "Variable.hpp"
 
 namespace RedatamLib {
-using std::string, std::vector, std::shared_ptr, std::pair;
+using std::string;
+using std::vector;
+using std::shared_ptr;
+using std::pair;
 
 class Entity {
  public:

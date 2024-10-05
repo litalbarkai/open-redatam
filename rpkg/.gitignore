@@ -1,2 +1,7 @@
-inst/extdata/galapagos
+.vscode
 dev
+inst/extdata/galapagos
+src/*.o
+src/*.so
+src/*/*.o
+src/*/*.so

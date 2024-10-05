@@ -20,7 +20,6 @@ class RedatamDatabase {
   RedatamDatabase(const RedatamDatabase&) = delete;
   RedatamDatabase& operator=(const RedatamDatabase&) = delete;
 
-  void ExportCSVFiles(const string& outputDir);
   cpp11::list ExportRLists() const;
 
  private:

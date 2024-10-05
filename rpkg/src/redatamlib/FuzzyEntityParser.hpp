@@ -11,7 +11,10 @@
 #include "Entity.hpp"
 
 namespace RedatamLib {
-using std::vector, std::string, std::pair, std::unordered_map;
+using std::vector;
+using std::string;
+using std::pair;
+using std::unordered_map;
 
 class FuzzyEntityParser {
  public:

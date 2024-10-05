@@ -11,7 +11,9 @@
 #include "Variable.hpp"
 
 namespace RedatamLib {
-using std::vector, std::string, std::pair;
+using std::vector;
+using std::string;
+using std::pair;
 
 class FuzzyVariableParser {
  public:

@@ -8,7 +8,8 @@
 #include "ParentIDCalculator.hpp"
 
 namespace RedatamLib {
-using std::ostringstream, std::endl;
+using std::ostringstream;
+using std::endl;
 
 // just to mimic the original CSVExporter
 ListExporter::ListExporter(const std::string& outputDirectory)

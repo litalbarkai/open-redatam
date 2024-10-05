@@ -9,7 +9,10 @@
 #include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
-using std::vector, std::string, std::pair, std::shared_ptr;
+using std::vector;
+using std::string;
+using std::pair;
+using std::shared_ptr;
 
 enum VarType { BIN, CHR, DBL, INT, LNG, PCK, NA };
 using Tag = pair<string, string>;  //  Tag = <Key, Value>

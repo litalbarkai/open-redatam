@@ -40,9 +40,3 @@ x64
 .vscode/c_cpp_properties.json
 redatam_0.0.1_amd64.deb
 redatamwindows/install_manifest.txt
-rpkg/inst/extdata/galapagos
-rpkg/.vscode
-rpkg/src/*.o
-rpkg/src/*.so
-rpkg/src/*/*.o
-rpkg/src/*/*.so

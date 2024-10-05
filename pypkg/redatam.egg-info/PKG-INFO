@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: redatam
+Version: 0.1.0
+Summary: A package for Redatam data conversion
+Author-email: Mauricio Vargas Sepulveda <m.sepulveda@mail.utoronto.ca>
+License-File: LICENSE.md
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: chardet
+Requires-Dist: pyjanitor

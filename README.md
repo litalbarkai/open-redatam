@@ -14,6 +14,8 @@ Rewriting the original C# code in C++ allows for better portability and the abil
 
 For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.
 
+For the Python package that allows to directly read REDATAM databases in Python, see the [pypkg](pypkg) directory.
+
 ## Compatibility
 
 The converter was tested with REDATAM databases of different versions. The current version exports to comma separated files (CSV) using `;`.
@@ -124,6 +126,6 @@ Ticked = Passed; Blank = Failed
 
 This REDATAM Converter was created and is supported by Lital Barkai (barkailital@gmail.com).
 
-The tests, installation instructions and R package were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)
+The tests, installation instructions and R and Python package were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)
 
 The original converter was created by [Pablo De Grande](https://github.com/discontinuos). See [here](https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0186-72102016000300811) for more information.

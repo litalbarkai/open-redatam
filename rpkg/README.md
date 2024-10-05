@@ -7,13 +7,13 @@
 
 The REDATAM Converter is a software for extracting raw information from REDATAM databases.
 
+For the standalone C++ command line application, see the [main directory](https://github.com/pachadotdev/redatam-converter/) of this repository.
+
 To install the R package, run the following command:
 
 ```r
 remotes::install_github("pachadotdev/redatam-converter/rpkg", subdir = "rpkg")
 ```
-
-For the standalone C++ command line application, see the [main directory](https://github.com/pachadotdev/redatam-converter/) of this repository.
 
 ## Usage
 

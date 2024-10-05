@@ -25,8 +25,12 @@ cpp11::list ListExporter::ExportAllR(
   cpp11::writable::strings resultNames;
 
   for (const Entity& entity : entities) {
-    std::string exportingEntityMgs = "Exporting " + entity.GetName() + "...";
-    cpp11::message(exportingEntityMgs.c_str());
+    std::string entityName = entity.GetName();
+    std::transform(entityName.begin(), entityName.end(), entityName.begin(),
+                   ::tolower);
+
+    std::string exportingEntityMsg = "Exporting " + entityName + "...";
+    cpp11::message(exportingEntityMsg.c_str());
 
     cpp11::writable::list entityList;
     cpp11::writable::strings variableNames;

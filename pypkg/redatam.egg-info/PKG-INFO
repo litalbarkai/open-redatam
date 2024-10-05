@@ -7,4 +7,3 @@ License-File: LICENSE.md
 Requires-Dist: pandas
 Requires-Dist: numpy
 Requires-Dist: chardet
-Requires-Dist: pyjanitor

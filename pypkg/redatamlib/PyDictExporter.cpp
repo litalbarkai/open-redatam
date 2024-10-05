@@ -42,7 +42,11 @@ pybind11::dict ListExporter::ExportAllPy(
   pybind11::dict result;
 
   for (const Entity& entity : entities) {
-    std::string exportingEntityMsg = "Exporting " + entity.GetName() + "...";
+    std::string entityName = entity.GetName();
+    std::transform(entityName.begin(), entityName.end(), entityName.begin(),
+                   ::tolower);
+
+    std::string exportingEntityMsg = "Exporting " + entityName + "...";
     pybind11::print(exportingEntityMsg);
 
     pybind11::dict entityDict;

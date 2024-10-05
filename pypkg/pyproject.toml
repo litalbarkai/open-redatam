@@ -12,6 +12,5 @@ authors = [
 dependencies = [
   "pandas",
   "numpy",
-  "chardet",
-  "pyjanitor"
+  "chardet"
 ]

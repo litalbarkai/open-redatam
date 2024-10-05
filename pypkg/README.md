@@ -17,7 +17,7 @@ cd redatam-converter/pypkg
 
 conda create -n "redatam" python=3.8.0 ipython
 conda activate redatam
-conda install pandas numpy chardet pybind11
+conda install pandas numpy pybind11
 
 pip install --use-pep517 .
 ```

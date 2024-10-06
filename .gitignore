@@ -13,7 +13,6 @@ guiwindows/*.sln
 guiwindows/*.vcxproj*
 lib
 obj
-redatam
 redatamgui
 redatamguiwindows/build
 redatamwindows/CMakeFiles

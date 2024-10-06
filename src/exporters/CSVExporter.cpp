@@ -171,6 +171,7 @@ void CSVExporter::ThreadExport(std::mutex& mutex,
 {
     for (size_t i = start; i < end; ++i)
     {
+        std::cout << "Exporting " << entities[i].GetName() << "..." << std::endl;
         CreateVariablesLegend(mutex, entities[i], outputDirectory);
         CreateVariablesLabels(mutex, entities[i], outputDirectory);
         CreateVariablesData(mutex, entities[i], outputDirectory);

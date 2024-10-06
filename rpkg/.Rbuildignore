@@ -1,0 +1,16 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.Renviron$
+^docs$
+^vignettes/images$
+^\.github$
+^\.vscode$
+^dev$
+^LICENSE\.md$
+^README\.md$
+^README\.Rmd$
+^vignettes/CP2017CHL\.zip$
+^vignettes/CP2017CHL$
+^\.covrignore$
+^cran-comments\.md$
+^inst/extdata/galapagos$

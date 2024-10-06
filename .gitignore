@@ -1,3 +1,4 @@
+article
 buildwin
 cmake_install.cmake
 CMakeFiles
@@ -12,10 +13,8 @@ guiwindows/*.sln
 guiwindows/*.vcxproj*
 lib
 obj
-xerces
-xerceswin
-redatam
 redatamgui
+redatamguiwindows/build
 redatamwindows/CMakeFiles
 redatamwindows/redatam.dir
 redatamwindows/redatamgui.dir
@@ -27,8 +26,10 @@ redatamwindows/*.vcxproj*
 redatam.dir
 redatamgui.dir
 RedatamConverter.sln
+xerces
+xerceswin
 xerces-c-3.2.5
-vs_Community2019.exe
+vs_Community.exe
 x64
 *.gz
 *.sha256
@@ -36,4 +37,5 @@ x64
 .vscode/settings.json
 .vscode/launch.json
 .vscode/c_cpp_properties.json
-guiwindows/wxWidgets-3.0.5.zip
+redatam_0.0.1_amd64.deb
+redatamwindows/install_manifest.txt

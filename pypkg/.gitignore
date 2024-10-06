@@ -1,0 +1,6 @@
+*.so
+*.o
+tests/galapagos
+tests/uru2011
+tests/chl2017
+build/

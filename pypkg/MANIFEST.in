@@ -1,0 +1,4 @@
+include redatam/*.so
+include redatam/*.py
+recursive-include vendor *
+recursive-include redatamlib *

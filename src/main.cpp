@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     if (!fs::exists(dicFilePath))
     {
-        cerr << "Error: Input dicionary file does not exist." << endl;
+        cerr << "Error: Input dictionary file does not exist." << endl;
         return 1;
     }
 

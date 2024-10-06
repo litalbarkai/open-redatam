@@ -1,82 +1,86 @@
-# REDATAM CONVERTER
+# REDATAM Converter <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
+
+[![Standalone C++ app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml)
+[![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
 
 ## About
 
-Program for extracting raw information from REDATAM databases.
-This program is a CLI adaptation of the original [redatam-converter](https://github.com/discontinuos/redatam-converter).
+The REDATAM Converter is an open source software for extracting raw information from REDATAM databases.
+It is a full C++ ground-up rewrite of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md) written in C#.
 
-Redatam Converter is an open source project that lets you read Redatam databases in order to export their microdata. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
+This software provides a command line interface and a graphical user interface for exporting data from REDATAM databases to CSV files and an XML summary of the tables and variables. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
+
+Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
+
+For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.
+
+For the Python package that allows to directly read REDATAM databases in Python, see the [pypkg](pypkg) directory.
 
 ## Compatibility
 
-The converter was tested with REDATAM databases of different versions.
-The current version exports to comma separated files (CSV).
-
-## Prerequisites
-
-This program uses **Xerces-C++ XML Parser** and requires C++17 or higher to compile.
-See [here](https://xerces.apache.org/xerces-c/) for download and installation guide.
-
-We provide a script for Ubuntu users to install Xerces-C++ XML Parser. Run the following command:
-
-```bash
-bash dev/01-install-xerces.sh
-```
+The converter was tested with REDATAM databases of different versions. The current version exports to comma separated files (CSV) using `;`.
 
 ## Installation
 
-### From binary
+### From binaries
 
-Download the latest release from here:
-
-- Linux: https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-linux.zip
-- Mac (Intel): https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip
-- Windows: We need to polish the Windows version. You can use the Linux version with WSL. You can use the good old [Redatam Converter](https://github.com/discontinuos/redatam-converter/blob/master/release/setup-win32.exe?raw=true).
-
-On Linux/Mac,run the following commands:
+On Ubuntu, run the following commands:
 
 ```bash
-unzip redatam-linux.zip # or redatam-macos.zip
-chmod +x redatam
-chmod +x redatamgui
-sudo mv redatam /usr/local/bin/
-sudo mv redatamgui /usr/local/bin/
+# needs "sudo apt install gdebi-core" if you don't have gdebi
+wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam_0.0.1_amd64.deb
+sudo dpkg -i redatam_0.0.1_amd64.deb
 ```
 
-Then you can run `redatam` or `redatamgui`.
+This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry.
+
+On Mac, run the following command:
+
+```bash
+# needs "brew", install it from https://brew.sh/ if you don't have it
+sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/redatam-converter/main/install/mac.sh)"
+```
+
+This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies.
 
 ### From source
 
-For Linux, clone the repository and run the following command:
+The software requires C++17 or higher to compile.
+
+On Linux, run the following commands:
 
 ```bash
+git clone https://github.com/pachadotdev/redatam-converter.git
 sudo apt-get update
-sudo apt-get install libwxgtk3.0-gtk3-dev
+sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qt5-qmake
 bash dev/01-install-xerces.sh
 make
 ```
 
-For Mac, clone the repository and run the following command:
+Then run `./redatam` or `./redatamgui`.
+
+On Mac, run the following commands:
 
 ```bash
-brew install wxwidgets
-echo "$(brew --prefix wxwidgets)/bin" >> $GITHUB_PATH
-echo "PKG_CONFIG_PATH=$(brew --prefix wxwidgets)/lib/pkgconfig" >> $GITHUB_ENV
+git clone https://github.com/pachadotdev/redatam-converter.git
+brew install qt@5
+export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig"
 bash dev/01-install-xerces.sh
 make
 ```
 
-Then run `./redatam` or copy it with `redatamgui` to `/usr/local/bin/` as in the previous section.
+Then run `./redatam` or `./redatamgui`.
 
 ## Usage
 
-To use the program, run the following command:
+For the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:
 
 ```bash
-redatam input.dic(x) output-csv/
+redatam redatam CP2017CHL/BaseOrg16/CPV2017-16.dicx Chile_2017/
 ```
-
-For the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), this would be `redatam downloads/CP2017CHL/BaseOrg16/CPV2017-16.dicx Chile_2017/`.
 
 ## Testing
 
@@ -92,10 +96,10 @@ Ticked = Passed; Blank = Failed
 - [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic`)
 - [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dic`)
 - [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dic`)
-- [x] Ecuador 2010 (`downloads/CP2010ECU/Base/CE11.dic`)
+- [x] Ecuador 2010 (`CP2010ECU/Base/CE11.dic`)
 - [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dic`)
 - [ ] Guatemala 2018 (`CP2018GTM/BasePub/CPV2018GT_BasePublica.dic`)
-- [x] Mexico 2000 (`downloads/CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
+- [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
 - [ ] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dic`)
 - [x] Myanmar 2014 (`CP2014MMR/Union.dic`)
 - [ ] Peru 2010 (`CP2010PER/CP2007PER/BasePub/CPV2007PER_PUB.dic`)
@@ -120,8 +124,8 @@ Ticked = Passed; Blank = Failed
 
 ## Credits
 
-This Redatam Converter was created and is supported by Lital Barkai (barkailital@gmail.com).
+This REDATAM Converter was created and is supported by Lital Barkai (barkailital@gmail.com).
+
+The tests, installation instructions and R and Python package were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)
 
 The original converter was created by [Pablo De Grande](https://github.com/discontinuos). See [here](https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0186-72102016000300811) for more information.
-
-The tests and installation instructions were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)

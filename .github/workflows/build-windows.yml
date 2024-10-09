@@ -44,7 +44,7 @@ jobs:
           cd redatamguiwindows
           cmake . -G "Visual Studio 16 2019"
           cmake --build . --config Release
-          & "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
+          & "C:\Qt\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
           cp ..\redatamwindows\Release\redatam.exe Release\redatam.exe
           cd Release
           7z a -tzip ../../redatamwindows.zip *

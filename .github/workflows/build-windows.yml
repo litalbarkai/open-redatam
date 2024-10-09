@@ -1,0 +1,50 @@
+name: Cross-compile Windows executables
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-windows:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mingw-w64 qtbase5-dev
+
+      - name: Build redatam for Windows
+        run: |
+          mkdir -p build
+          cd build
+          x86_64-w64-mingw32-qmake-qt5 ..
+          make
+
+      - name: Build redatamgui for Windows
+        run: |
+          mkdir -p build
+          cd build
+          x86_64-w64-mingw32-cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="/usr/x86_64-w64-mingw32" ..
+          x86_64-w64-mingw32-make
+
+      - name: Package redatamgui for Windows
+        run: |
+          cd build
+          x86_64-w64-mingw32-strip redatamgui.exe
+          zip redatamgui-windows.zip redatamgui.exe
+
+      - name: Upload Windows binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binaries
+          path: |
+            build/redatam.exe
+            build/redatamgui-windows.zip

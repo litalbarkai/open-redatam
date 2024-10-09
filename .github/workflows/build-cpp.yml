@@ -41,13 +41,13 @@ jobs:
           [System.Net.ServicePointManager]::SecurityProtocol = `
           [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
           iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-          choco install -y wget
           choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies
           choco install -y mingw
           choco install -y qt5-default
           choco install -y directx
           echo "C:\tools\mingw64\bin" >> $GITHUB_PATH
           echo "C:\Qt\5.15.2\mingw81_64\bin" >> $GITHUB_PATH
+          echo "C:\Qt\5.15.2\mingw81_64\lib\pkgconfig" >> $GITHUB_ENV:PKG_CONFIG_PATH
 
       - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'

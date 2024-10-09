@@ -1,7 +1,7 @@
 Package: redatam
 Type: Package
 Title: Import 'REDATAM' Files 
-Version: 0.2
+Version: 0.2.1
 Authors@R: c(
     person(
         given = "Mauricio",
@@ -12,7 +12,16 @@ Authors@R: c(
     person(
         given = "Lital",
         family = "Barkai",
-        role = "aut")
+        role = "aut"),
+    person(
+        given = "Arseny",
+        family = "Kapoulkine",
+        role = "ctb",
+        comment = "'pugixml' C++ library"),
+    person(
+        family = "Republic of Ecuador",
+        role = "dtc",
+        comment = "Galapagos census data")
     )
 Imports:
     data.table,

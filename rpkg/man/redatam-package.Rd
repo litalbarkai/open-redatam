@@ -24,5 +24,11 @@ Authors:
   \item Lital Barkai
 }
 
+Other contributors:
+\itemize{
+  \item Arseny Kapoulkine ('pugixml' C++ library) [contributor]
+  \item  Republic of Ecuador (Galapagos census data) [data contributor]
+}
+
 }
 \keyword{internal}

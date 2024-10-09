@@ -72,6 +72,13 @@ make
 
 Then run `./redatam` or `./redatamgui`.
 
+On Windows, you need Chocolatey and the following dependencies:
+
+```bash
+git clone https://github.com/pachadotdev/redatam-converter.git
+choco install make qt5-default
+```
+
 ## Usage
 
 For the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:

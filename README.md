@@ -93,6 +93,8 @@ cmake --build . --config Release
 "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\redatamgui.exe
 ```
 
+just to trigger gh build
+
 ## Usage
 
 For the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:

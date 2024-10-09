@@ -16,7 +16,12 @@ obj
 redatam
 redatamgui
 redatamguiwindows/build
+redatamguiwindows/moc_mainwindow.cpp
+redatamguiwindows/moc_mainwindow.cpp_parameters
+redatamguiwindows/redatamgui.sln
+redatamguiwindows/Release/redatamgui.exe
 redatamwindows/CMakeFiles
+redatamwindows/install_manifest.txt
 redatamwindows/redatam.dir
 redatamwindows/redatamgui.dir
 redatamwindows/Release
@@ -39,6 +44,3 @@ x64
 .vscode/launch.json
 .vscode/c_cpp_properties.json
 redatam_0.0.1_amd64.deb
-redatamwindows/install_manifest.txt
-test/galapagos/dic-to-csv/
-test/galapagos/dicx-to-csv/

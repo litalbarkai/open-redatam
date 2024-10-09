@@ -45,7 +45,7 @@ This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the neces
 
 ### From source
 
-The software requires C++17 or higher to compile.
+The software requires C++11 or higher to compile.
 
 On Linux, run the following commands:
 
@@ -53,7 +53,6 @@ On Linux, run the following commands:
 git clone https://github.com/pachadotdev/redatam-converter.git
 sudo apt-get update
 sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qt5-qmake
-bash dev/01-install-xerces.sh
 make
 ```
 
@@ -68,11 +67,29 @@ export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig"
-bash dev/01-install-xerces.sh
 make
 ```
 
 Then run `./redatam` or `./redatamgui`.
+
+On Windows, you need [Visual Studio Code 2019 with C++ development tools](https://web.archive.org/web/20211009045628if_/https://download.visualstudio.microsoft.com/download/pr/1051e775-b2c9-4b7a-a227-1e60bffe102a/c758f79e86d619d6d1998fd67820f4970d803c28f447f503acc183df003719ec/vs_Community.exe) and [Qt 5 for MSVC 2019 64-bit](https://d13lb3tujbc8s0.cloudfront.net/onlineinstallers/qt-online-installer-windows-x64-4.8.0.exe).
+
+Then run the following commands:
+
+```bash
+git clone https://github.com/pachadotdev/redatam-converter.git
+
+cd redatamwindows
+cmake -G "Visual Studio 16 2019" .
+cmake --build . --config Release
+cmake --install . --config Release
+
+cd redatamguiwindows
+cmake . -G "Visual Studio 16 2019"
+cmake --build . --config Release
+"C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
+cd ..
+```
 
 ## Usage
 
@@ -84,8 +101,6 @@ redatam redatam CP2017CHL/BaseOrg16/CPV2017-16.dicx Chile_2017/
 
 ## Testing
 
-Tested on Ubuntu 22.04.
-
 Ticked = Passed; Blank = Failed
 
 ### DIC format
@@ -96,7 +111,8 @@ Ticked = Passed; Blank = Failed
 - [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic`)
 - [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dic`)
 - [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dic`)
-- [x] Ecuador 2010 (`CP2010ECU/Base/CE11.dic`)
+- [x] Ecuador 2015 (`CP2010ECU/Base/CE11.dic`)
+- [x] Ecuador (Galapagos) 2015 (`test/galapagos/cg15.dic`)
 - [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dic`)
 - [ ] Guatemala 2018 (`CP2018GTM/BasePub/CPV2018GT_BasePublica.dic`)
 - [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
@@ -115,6 +131,7 @@ Ticked = Passed; Blank = Failed
 - [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dicx`)
 - [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dicx`)
 - [x] Ecuador 2010 (`CP2010ECU/Base/cpv2010ecu.dicx`)
+- [x] Ecuador (Galapagos) 2015 (`test/galapagos/cg15.dicX`)
 - [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dicx`)
 - [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dicx`)
 - [x] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dicx`)

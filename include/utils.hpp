@@ -10,7 +10,9 @@
 
 namespace RedatamLib
 {
-using std::string, std::cerr, std::endl;
+using std::string;
+using std::cerr;
+using std::endl;
 
 string FindRootPath(const string& fileName);
 string ReplaceRootPath(const string& rootPath, const string& fileName);

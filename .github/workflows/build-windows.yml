@@ -38,13 +38,10 @@ jobs:
       - name: Build redatamgui
         run: |
           cd redatamguiwindows
-          cmake -G "Visual Studio 16 2019" ..
+          cmake . -G "Visual Studio 16 2019"
           cmake --build . --config Release
-
-      - name: Deploy Qt dependencies
-        run: |
-          cd redatamguiwindows
           "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
+          cd ..
 
       - name: Upload Windows binaries
         uses: actions/upload-artifact@v4

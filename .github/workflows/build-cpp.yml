@@ -43,10 +43,17 @@ jobs:
           iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
           choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies
           choco install -y mingw
-          choco install -y qt5-default
           echo "C:\tools\mingw64\bin" >> $GITHUB_PATH
-          echo "C:\Qt\5.15.2\mingw81_64\bin" >> $GITHUB_PATH
-          echo "C:\Qt\5.15.2\mingw81_64\lib" >> $GITHUB_ENV
+
+      - name: Install Qt on Windows
+        if: matrix.os == 'windows-latest'
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw81'
+          dir: 'C:\Qt'
 
       - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -56,17 +63,21 @@ jobs:
         if: matrix.os == 'macos-14'
         run: make all
 
-      - name: Build redatam and redatamgui on Windows
+      - name: Build redatam on Windows
         if: matrix.os == 'windows-latest'
         run: |
           mingw32-make redatam
+
+      - name: Build redatamgui on Windows
+        if: matrix.os == 'windows-latest'
+        run: |
           mkdir build
           cd build
-          qmake ..
-          mingw32-make
+          cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/mingw81_64" ..
+          cmake --build . --config Release
           & "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" --release .\redatamgui.exe
 
-      - name: Test redatam with a DIC file on Mac/Linux
+        - name: Test redatam with a DIC file on Mac/Linux
         if: matrix.os != 'windows-latest'
         run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
 

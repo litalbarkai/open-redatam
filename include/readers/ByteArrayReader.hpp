@@ -43,7 +43,7 @@ public:
     string GetFormerString();
 
     //  throws std::out_of_range; LE = little-endian, BE = big-endian
-    byte ReadByte();
+    unsigned char ReadByte();
     uint16_t ReadInt16LE();
     uint32_t ReadInt32LE();
     uint16_t ReadInt16BE();

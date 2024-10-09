@@ -38,18 +38,6 @@ jobs:
           echo "CPPFLAGS=-I/opt/homebrew/opt/qt@5/include" >> $GITHUB_ENV
           echo "PKG_CONFIG_PATH=/opt/homebrew/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
 
-      - name: Install Xerces on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
-        run: |
-          chmod +x dev/01-install-xerces.sh
-          ./dev/01-install-xerces.sh
-
-      - name: Install Xerces on macOS
-        if: matrix.os == 'macos-14'
-        run: |
-          chmod +x dev/01-install-xerces.sh
-          ./dev/01-install-xerces.sh
-
       - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: make all
@@ -57,6 +45,12 @@ jobs:
       - name: Build redatam and redatamgui on macOS
         if: matrix.os == 'macos-14'
         run: make all
+
+      - name: Test redatam with a DIC file
+        run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+
+      - name: Test redatam with a DICX file
+        run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
 
       - name: Create DEB package on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -81,7 +75,7 @@ jobs:
           Priority: optional
           Architecture: amd64
           Maintainer: Mauricio Pacha Vargas Sepulveda <m.sepulveda@mail.utoronto.ca>
-          Depends: libxerces-c-dev, qtbase5-dev
+          Depends: qtbase5-dev
           Description: Redatam and Redatam GUI" > package/DEBIAN/control
           dpkg-deb --build package redatam_0.0.1_amd64.deb
 

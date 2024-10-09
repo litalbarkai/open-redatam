@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-14, windows-2019]
+        os: [ubuntu-22.04, macos-14]
 
     steps:
       - name: Checkout code
@@ -34,16 +34,6 @@ jobs:
           echo "CPPFLAGS=-I/opt/homebrew/opt/qt@5/include" >> $GITHUB_ENV
           echo "PKG_CONFIG_PATH=/opt/homebrew/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
 
-      - name: Install Qt on Windows
-        if: matrix.os == 'windows-2019'
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: '5.15.2'
-          host: 'windows'
-          target: 'desktop'
-          arch: 'win64_msvc2019_64'
-          dir: 'C:\Qt'
-
       - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: make all
@@ -52,41 +42,11 @@ jobs:
         if: matrix.os == 'macos-14'
         run: make all
 
-      - name: Build redatam on Windows
-        if: matrix.os == 'windows-2019'
-        shell: cmd
-        run: |
-          "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          nmake redatam
-
-      - name: Build redatamgui on Windows
-        if: matrix.os == 'windows-2019'
-        shell: cmd
-        run: |
-          "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          mkdir build
-          cd build
-          cmake -G "Visual Studio 16 2019" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/msvc2019_64" ..
-          cmake --build . --config Release
-          "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
-
       - name: Test redatam with a DIC file on Mac/Linux
-        if: matrix.os != 'windows-2019'
         run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
 
       - name: Test redatam with a DICX file on Mac/Linux
-        if: matrix.os != 'windows-2019'
         run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
-
-      - name: Test redatam with a DIC file on Windows
-        if: matrix.os == 'windows-2019'
-        shell: cmd
-        run: .\build\Release\redatam.exe test\galapagos\cg15.dic test\galapagos\dic-to-csv
-
-      - name: Test redatam with a DICX file on Windows
-        if: matrix.os == 'windows-2019'
-        shell: cmd
-        run: .\build\Release\redatam.exe test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
 
       - name: Create DEB package on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -131,13 +91,3 @@ jobs:
           path: |
             redatam
             redatamgui
-
-      - name: Upload binaries on Windows
-        if: matrix.os == 'windows-2019'
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-binaries
-          path: |
-            build/Release/redatam.exe
-            build/Release/redatamgui.exe
-            

@@ -1,4 +1,3 @@
-#include <boost/filesystem.hpp>
 #include <sstream>    //  std::ostringstream
 #include <fstream>    //  std::ofstream
 #include <iostream>   //  std::endl
@@ -7,12 +6,13 @@
 #include "XMLExporter.hpp"
 #include "utils.hpp"
 
-namespace RedatamLib
-{
-using std::ostringstream, std::ofstream, std::endl, std::runtime_error;
-namespace fs = boost::filesystem;
+namespace RedatamLib {
+using std::endl;
+using std::ofstream;
+using std::ostringstream;
+using std::runtime_error;
 
-XMLExporter::XMLExporter(const string& outputDirectory) : m_path(outputDirectory + "/redatam_converter_description.xml") {
+XMLExporter::XMLExporter(const std::string& outputDirectory) : m_path(outputDirectory + "/redatam_converter_description.xml") {
     pugi::xml_node decl = m_doc.append_child(pugi::node_declaration);
     decl.append_attribute("version") = "1.0";
     decl.append_attribute("encoding") = "UTF-8";
@@ -20,7 +20,7 @@ XMLExporter::XMLExporter(const string& outputDirectory) : m_path(outputDirectory
     m_doc.append_child("database");
 }
 
-void XMLExporter::ExportSummary(vector<Entity>& entities)
+void XMLExporter::ExportSummary(std::vector<Entity>& entities)
 {
     pugi::xml_node root = m_doc.child("database");
 
@@ -32,7 +32,7 @@ void XMLExporter::ExportSummary(vector<Entity>& entities)
     }
 }
 
-void XMLExporter::SetAttribute(pugi::xml_node& node, const string& name, const string& value)
+void XMLExporter::SetAttribute(pugi::xml_node& node, const std::string& name, const std::string& value)
 {
     node.append_attribute(name.c_str()) = value.c_str();
 }
@@ -84,7 +84,7 @@ void XMLExporter::CreateVariableElement(Variable& v, pugi::xml_node& parentTag)
 }
 
 //  static
-string XMLExporter::GetVarType(VarType type)
+std::string XMLExporter::GetVarType(VarType type)
 {
     switch (type)
     {

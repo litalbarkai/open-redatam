@@ -67,7 +67,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           mingw32-make redatam
-
+          
       - name: Build redatamgui on Windows
         if: matrix.os == 'windows-latest'
         run: |

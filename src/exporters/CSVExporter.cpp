@@ -1,4 +1,3 @@
-#include <boost/filesystem.hpp>
 #include <sstream>          //  std::ostringstream
 #include <fstream>          //  std::ofstream
 #include <iostream>         //  std::endl
@@ -10,10 +9,9 @@
 
 namespace RedatamLib
 {
-using std::ostringstream;
-using std::ofstream;
 using std::endl;
-namespace fs = boost::filesystem;
+using std::ofstream;
+using std::ostringstream;
 
 CSVExporter::CSVExporter(const string& outputDirectory) : m_path(outputDirectory)
 {
@@ -22,10 +20,9 @@ CSVExporter::CSVExporter(const string& outputDirectory) : m_path(outputDirectory
         m_path.append("/");
     }
 
-    fs::path p = m_path;
-    if (!fs::exists(p.append("Labels/")))
-    {
-        create_directories(p);
+    std::string labels_path = m_path + "Labels/";
+    if (!exists(labels_path)) {
+      create_directories(labels_path);
     }
 }
 
@@ -169,7 +166,7 @@ void CSVExporter::CreateVariablesData(std::mutex& mutex, Entity& e, const string
 void CSVExporter::ThreadExport(std::mutex& mutex,
                     size_t start, size_t end,
                     vector<Entity>& entities,
-                    const string&  outputDirectory)
+                    const string& outputDirectory)
 {
     for (size_t i = start; i < end; ++i)
     {

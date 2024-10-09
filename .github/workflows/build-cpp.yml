@@ -45,9 +45,11 @@ jobs:
           choco install -y mingw
           choco install -y qt5-default
           choco install -y directx
+          choco install -y pkgconfiglite
           echo "C:\tools\mingw64\bin" >> $GITHUB_PATH
           echo "C:\Qt\5.15.2\mingw81_64\bin" >> $GITHUB_PATH
-          echo "C:\Qt\5.15.2\mingw81_64\lib\pkgconfig" >> $GITHUB_ENV:PKG_CONFIG_PATH
+          echo "C:\Qt\5.15.2\mingw81_64\lib\pkgconfig" >> $GITHUB_ENV
+          echo "PKG_CONFIG_PATH=C:\Qt\5.15.2\mingw81_64\lib\pkgconfig" >> $GITHUB_ENV
 
       - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'

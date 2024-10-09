@@ -9,8 +9,10 @@
 #include <cstdint>      //  uint16_t, uint32_t
 
 namespace RedatamLib {
-using std::vector, std::string, std::byte;
-using std::out_of_range, std::length_error;
+using std::length_error;
+using std::out_of_range;
+using std::string;
+using std::vector;
 
 class ByteArrayReader
 {

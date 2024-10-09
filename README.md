@@ -78,19 +78,19 @@ On Windows, you need Chocolatey and the following dependencies:
 git clone https://github.com/pachadotdev/redatam-converter.git
 
 # install qt from https://d13lb3tujbc8s0.cloudfront.net/onlineinstallers/qt-online-installer-windows-x64-4.8.0.exe
-# be sure to select Qt 5 for MinGW
-
-choco install mingw
+# be sure to select Qt 5 for MSVC 2019 64-bit
 
 # redatam
-mingw32-make redatam
+call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+nmake redatam
 
 # redatamgui
+call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 mkdir build
 cd build
-cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/mingw81_64" ..
+cmake -G "NMake Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/msvc2019_64" ..
 cmake --build . --config Release
-& "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" --release .\redatamgui.exe
+"C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\redatamgui.exe
 ```
 
 ## Usage

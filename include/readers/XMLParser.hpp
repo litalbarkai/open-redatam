@@ -7,10 +7,7 @@
 #include <memory>           //  std::shared_ptr
 #include <utility>          //  std::pair
 
-#include <xercesc/util/PlatformUtils.hpp>
-#include <xercesc/dom/DOM.hpp>
-#include <xercesc/parsers/XercesDOMParser.hpp>
-#include <xercesc/util/XMLString.hpp>
+#include "pugixml.hpp"
 
 #include "Entity.hpp"
 #include "Variable.hpp"
@@ -18,7 +15,10 @@
 namespace RedatamLib
 {
 using namespace XERCES_CPP_NAMESPACE;
-using std::string, std::vector, std::shared_ptr, std::pair;
+using std::pair;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 
 class XMLParser
 {
@@ -32,19 +32,16 @@ public:
     vector<Entity> ParseFile(const string& fileName);
 
 private:
-    XercesDOMParser* m_parser;
     string m_rootPath;
-    
-    string GetTagValue(DOMElement* element, const string& tag, size_t idx = 0);
-    //  returns the next <entity> DOMElement*
-    DOMElement* ParseEntity(vector<Entity>* results,
-                        DOMElement* element,
-                        const string& parentName = "");
-    shared_ptr<vector<Variable>> ParseVariables(DOMElement* e);
-    vector<DOMElement*> GetChildren(DOMElement* parent, const string& tag);
-    pair<VarType, size_t> ParseVarTypeAndSize(DOMElement* var);
-    string ParseVarRange(DOMElement* var);
-    vector<Tag> ParseVarTags(DOMElement* var);
+
+    string GetTagValue(pugi::xml_node node, const string& tag, size_t idx = 0);
+    pugi::xml_node ParseEntity(vector<Entity>* results, pugi::xml_node node,
+                                const string& parentName = "");
+    shared_ptr<vector<Variable>> ParseVariables(pugi::xml_node node);
+    vector<pugi::xml_node> GetChildren(pugi::xml_node parent, const string& tag);
+    pair<VarType, size_t> ParseVarTypeAndSize(pugi::xml_node var);
+    string ParseVarRange(pugi::xml_node var);
+    vector<Tag> ParseVarTags(pugi::xml_node var);
 };
 } // namespace RedatamLib
 

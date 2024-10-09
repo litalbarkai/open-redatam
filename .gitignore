@@ -39,3 +39,4 @@ x64
 .vscode/c_cpp_properties.json
 redatam_0.0.1_amd64.deb
 redatamwindows/install_manifest.txt
+vendor/

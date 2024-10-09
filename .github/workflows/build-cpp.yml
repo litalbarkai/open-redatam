@@ -44,12 +44,9 @@ jobs:
           choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies
           choco install -y mingw
           choco install -y qt5-default
-          choco install -y directx
-          choco install -y pkgconfiglite
           echo "C:\tools\mingw64\bin" >> $GITHUB_PATH
           echo "C:\Qt\5.15.2\mingw81_64\bin" >> $GITHUB_PATH
-          echo "C:\Qt\5.15.2\mingw81_64\lib\pkgconfig" >> $GITHUB_ENV
-          echo "PKG_CONFIG_PATH=C:\Qt\5.15.2\mingw81_64\lib\pkgconfig" >> $GITHUB_ENV
+          echo "C:\Qt\5.15.2\mingw81_64\lib" >> $GITHUB_ENV
 
       - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -65,8 +62,8 @@ jobs:
           mingw32-make redatam
           mkdir build
           cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/mingw81_64" ..
-          cmake --build . --config Release
+          qmake ..
+          mingw32-make
           & "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" --release .\redatamgui.exe
 
       - name: Test redatam with a DIC file on Mac/Linux

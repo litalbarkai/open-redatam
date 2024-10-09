@@ -76,7 +76,7 @@ jobs:
           cmake --build . --config Release
           & "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" --release .\redatamgui.exe
 
-        - name: Test redatam with a DIC file on Mac/Linux
+      - name: Test redatam with a DIC file on Mac/Linux
         if: matrix.os != 'windows-latest'
         run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
 

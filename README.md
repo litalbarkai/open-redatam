@@ -79,6 +79,18 @@ git clone https://github.com/pachadotdev/redatam-converter.git
 
 # install qt from https://d13lb3tujbc8s0.cloudfront.net/onlineinstallers/qt-online-installer-windows-x64-4.8.0.exe
 # be sure to select Qt 5 for MinGW
+
+choco install mingw
+
+# redatam
+mingw32-make redatam
+
+# redatamgui
+mkdir build
+cd build
+cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/mingw81_64" ..
+cmake --build . --config Release
+& "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" --release .\redatamgui.exe
 ```
 
 ## Usage

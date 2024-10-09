@@ -76,7 +76,9 @@ On Windows, you need Chocolatey and the following dependencies:
 
 ```bash
 git clone https://github.com/pachadotdev/redatam-converter.git
-choco install make qt5-default
+
+# install qt from https://d13lb3tujbc8s0.cloudfront.net/onlineinstallers/qt-online-installer-windows-x64-4.8.0.exe
+# be sure to select Qt 5 for MinGW
 ```
 
 ## Usage

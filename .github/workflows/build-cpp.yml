@@ -34,12 +34,6 @@ jobs:
           echo "CPPFLAGS=-I/opt/homebrew/opt/qt@5/include" >> $GITHUB_ENV
           echo "PKG_CONFIG_PATH=/opt/homebrew/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
 
-      - name: Set up environment on Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional"
-          choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies
-
       - name: Install Qt on Windows
         if: matrix.os == 'windows-latest'
         uses: jurplel/install-qt-action@v2
@@ -142,3 +136,4 @@ jobs:
           path: |
             build/Release/redatam.exe
             build/Release/redatamgui.exe
+            

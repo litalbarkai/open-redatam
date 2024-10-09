@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-14]
+        os: [ubuntu-22.04, macos-14, windows-latest]
 
     steps:
       - name: Checkout code
@@ -25,38 +25,62 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y qtbase5-dev
 
-      - name: Set up environment on macOS
+      - name: Set up environment on Mac
         if: matrix.os == 'macos-14'
         run: |
           brew install qt@5
-
-      - name: Add Qt tools to PATH on macOS
-        if: matrix.os == 'macos-14'
-        run: |
           echo "/opt/homebrew/opt/qt@5/bin" >> $GITHUB_PATH
           echo "LDFLAGS=-L/opt/homebrew/opt/qt@5/lib" >> $GITHUB_ENV
           echo "CPPFLAGS=-I/opt/homebrew/opt/qt@5/include" >> $GITHUB_ENV
           echo "PKG_CONFIG_PATH=/opt/homebrew/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
 
-      - name: Install Xerces on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
+      - name: Set up environment on Windows
+        if: matrix.os == 'windows-latest'
         run: |
-          chmod +x dev/01-install-xerces.sh
-          ./dev/01-install-xerces.sh
-
-      - name: Install Xerces on macOS
-        if: matrix.os == 'macos-14'
-        run: |
-          chmod +x dev/01-install-xerces.sh
-          ./dev/01-install-xerces.sh
+          Set-ExecutionPolicy Bypass -Scope Process -Force; `
+          [System.Net.ServicePointManager]::SecurityProtocol = `
+          [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
+          iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+          choco install -y wget
+          choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies
+          choco install -y mingw
+          choco install -y qt5-default
+          choco install -y directx
+          echo "C:\tools\mingw64\bin" >> $GITHUB_PATH
+          echo "C:\Qt\5.15.2\mingw81_64\bin" >> $GITHUB_PATH
 
       - name: Build redatam and redatamgui on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
         run: make all
 
-      - name: Build redatam and redatamgui on macOS
+      - name: Build redatam and redatamgui on Mac
         if: matrix.os == 'macos-14'
         run: make all
+
+      - name: Build redatam and redatamgui on Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          mkdir build
+          cd build
+          cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/mingw81_64" ..
+          cmake --build . --config Release
+          & "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
+
+      - name: Test redatam with a DIC file on Mac/Linux
+        if: matrix.os != 'windows-latest'
+        run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+
+      - name: Test redatam with a DICX file on Mac/Linux
+        if: matrix.os != 'windows-latest'
+        run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
+
+      - name: Test redatam with a DIC file on Windows
+        if: matrix.os == 'windows-latest'
+        run: .\build\Release\redatam.exe test\galapagos\cg15.dic test\galapagos\dic-to-csv
+
+      - name: Test redatam with a DICX file on Windows
+        if: matrix.os == 'windows-latest'
+        run: .\build\Release\redatam.exe test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
 
       - name: Create DEB package on Ubuntu
         if: matrix.os == 'ubuntu-22.04'
@@ -81,7 +105,7 @@ jobs:
           Priority: optional
           Architecture: amd64
           Maintainer: Mauricio Pacha Vargas Sepulveda <m.sepulveda@mail.utoronto.ca>
-          Depends: libxerces-c-dev, qtbase5-dev
+          Depends: qtbase5-dev
           Description: Redatam and Redatam GUI" > package/DEBIAN/control
           dpkg-deb --build package redatam_0.0.1_amd64.deb
 
@@ -93,7 +117,7 @@ jobs:
           path: |
             redatam_0.0.1_amd64.deb
 
-      - name: Upload binaries on macOS
+      - name: Upload binaries on Mac
         if: matrix.os == 'macos-14'
         uses: actions/upload-artifact@v4
         with:
@@ -101,4 +125,12 @@ jobs:
           path: |
             redatam
             redatamgui
-            
+
+      - name: Upload binaries on Windows
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binaries
+          path: |
+            build/Release/redatam.exe
+            build/Release/redatamgui.exe

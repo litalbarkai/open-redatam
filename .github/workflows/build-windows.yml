@@ -1,4 +1,4 @@
-name: Cross-compile Windows executables
+name: Compile Windows executables from Ubuntu
 
 on:
   push:
@@ -21,19 +21,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mingw-w64 qtbase5-dev
 
-      - name: Build redatam for Windows
+      - name: Build redatam and redatamgui for Windows
         run: |
           mkdir -p build
           cd build
-          x86_64-w64-mingw32-qmake-qt5 ..
-          make
-
-      - name: Build redatamgui for Windows
-        run: |
-          mkdir -p build
-          cd build
-          x86_64-w64-mingw32-cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="/usr/x86_64-w64-mingw32" ..
-          x86_64-w64-mingw32-make
+          make CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ -f ../Makefile
 
       - name: Package redatamgui for Windows
         run: |

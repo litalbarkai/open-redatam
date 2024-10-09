@@ -37,13 +37,8 @@ jobs:
       - name: Set up environment on Windows
         if: matrix.os == 'windows-latest'
         run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force; `
-          [System.Net.ServicePointManager]::SecurityProtocol = `
-          [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
-          iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+          choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional"
           choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --apply-install-arguments-to-dependencies
-          choco install -y mingw
-          echo "C:\tools\mingw64\bin" >> $GITHUB_PATH
 
       - name: Install Qt on Windows
         if: matrix.os == 'windows-latest'
@@ -52,7 +47,7 @@ jobs:
           version: '5.15.2'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_mingw81'
+          arch: 'win64_msvc2019_64'
           dir: 'C:\Qt'
 
       - name: Build redatam and redatamgui on Ubuntu
@@ -65,16 +60,19 @@ jobs:
 
       - name: Build redatam on Windows
         if: matrix.os == 'windows-latest'
-        run: mingw32-make redatam
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          nmake redatam
 
       - name: Build redatamgui on Windows
         if: matrix.os == 'windows-latest'
         run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           mkdir build
           cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/mingw81_64" ..
+          cmake -G "NMake Makefiles" -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/msvc2019_64" ..
           cmake --build . --config Release
-          & "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" --release .\redatamgui.exe
+          "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\redatamgui.exe
 
       - name: Test redatam with a DIC file on Mac/Linux
         if: matrix.os != 'windows-latest'

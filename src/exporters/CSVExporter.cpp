@@ -1,4 +1,4 @@
-#include <filesystem>
+#include <boost/filesystem.hpp>
 #include <sstream>          //  std::ostringstream
 #include <fstream>          //  std::ofstream
 #include <iostream>         //  std::endl
@@ -10,8 +10,10 @@
 
 namespace RedatamLib
 {
-using std::ostringstream, std::ofstream, std::endl;
-namespace fs = std::filesystem;
+using std::ostringstream;
+using std::ofstream;
+using std::endl;
+namespace fs = boost::filesystem;
 
 CSVExporter::CSVExporter(const string& outputDirectory) : m_path(outputDirectory)
 {
@@ -71,7 +73,7 @@ void CSVExporter::CreateVariablesLegend(std::mutex& mutex, Entity& e, const stri
         os << v.GetName() << ";" << v.GetDescription() << endl;
     }
 
-    std::lock_guard lock(mutex);
+    std::lock_guard<std::mutex> lock(mutex);
     ofstream fs(outputDirectory + "Labels/" + entityName + "-VARIABLES.csv");
     ThrowIfBad<std::ios_base::failure>(fs.is_open(),
         std::ios_base::failure("Error: Failed to create file."));
@@ -95,7 +97,7 @@ void CSVExporter::CreateVariablesLabels(std::mutex& mutex, Entity& e, const stri
                 os << t.first << ";" << t.second << endl;
             }
 
-            std::lock_guard lock(mutex);
+            std::lock_guard<std::mutex> lock(mutex);
             ofstream fs(path + v.GetName() + "-LABELS.csv");
             ThrowIfBad<std::ios_base::failure>(fs.is_open(),
                 std::ios_base::failure("Error: Failed to create file."));
@@ -156,7 +158,7 @@ void CSVExporter::CreateVariablesData(std::mutex& mutex, Entity& e, const string
         }
     }
 
-    std::lock_guard lock(mutex);
+    std::lock_guard<std::mutex> lock(mutex);
     ofstream fs(outputDirectory + e.GetName() + ".csv");
     ThrowIfBad<std::ios_base::failure>(fs.is_open(),
         std::ios_base::failure("Error: Failed to create file."));

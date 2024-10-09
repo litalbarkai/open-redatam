@@ -1,4 +1,13 @@
-#include <algorithm>    //  std::transform
+#include <algorithm>  //  std::transform
+
+// avoid using boost
+// we only need to create directories and write simple files
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <sys/stat.h>  // mkdir
+#include <unistd.h>    // access
+#endif
 
 #include "utils.hpp"
 
@@ -46,5 +55,29 @@ string GetFileExtension(const string& fileName)
 
     return ext;
 }
+
+#ifdef _WIN32
+bool exists(const std::string& path) 
+{
+    DWORD attr = GetFileAttributes(path.c_str());
+    return (attr != INVALID_FILE_ATTRIBUTES);
+}
+
+bool create_directories(const std::string& path)
+{
+    return CreateDirectory(path.c_str(), NULL) ||
+        GetLastError() == ERROR_ALREADY_EXISTS;
+}
+#else
+bool exists(const std::string& path) {
+    return access(path.c_str(), F_OK) != -1;
+}
+
+bool create_directories(const std::string& path)
+{
+    mode_t mode = 0755;
+    return mkdir(path.c_str(), mode) == 0 || errno == EEXIST;
+}
+#endif
 
 } // namespace RedatamLib

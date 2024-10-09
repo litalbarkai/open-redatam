@@ -25,6 +25,9 @@ jobs:
           arch: 'win64_msvc2019_64'
           dir: 'C:\Qt'
 
+      - name: Install 7-Zip
+        run: choco install 7zip -y
+
       - name: Install DirectX
         run: choco install directx -y
 
@@ -34,13 +37,18 @@ jobs:
           cmake -G "Visual Studio 16 2019" .
           cmake --build . --config Release
           cmake --install . --config Release
+          cd ..
 
       - name: Build redatamgui
         run: |
           cd redatamguiwindows
           cmake . -G "Visual Studio 16 2019"
           cmake --build . --config Release
-          "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
+          & "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
+          cp ..\redatamwindows\Release\redatam.exe Release\redatam.exe
+          cd Release
+          7z a -tzip ../../redatamwindows.zip *
+          cd ..
           cd ..
 
       - name: Upload Windows binaries
@@ -48,5 +56,4 @@ jobs:
         with:
           name: windows-binaries
           path: |
-            build/Release/redatam.exe
-            build/Release/redatamgui.exe
+            redatamwindows.zip

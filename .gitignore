@@ -19,7 +19,7 @@ redatamguiwindows/build
 redatamguiwindows/moc_mainwindow.cpp
 redatamguiwindows/moc_mainwindow.cpp_parameters
 redatamguiwindows/redatamgui.sln
-redatamguiwindows/Release/redatamgui.exe
+redatamguiwindows/Release/
 redatamwindows/CMakeFiles
 redatamwindows/install_manifest.txt
 redatamwindows/redatam.dir

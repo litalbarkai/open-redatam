@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), process(new QProcess(this)) {
   // Set window geometry
   setGeometry(0, 0, 400, 300);
-  setWindowTitle("MainWindow");
+  setWindowTitle("Redatam Converter");
 
   // Central widget and layout
   QWidget *centralWidget = new QWidget(this);

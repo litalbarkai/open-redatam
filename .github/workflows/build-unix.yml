@@ -42,6 +42,11 @@ jobs:
         if: matrix.os == 'macos-14'
         run: make all
 
+      - name: Bundle Qt libraries on Mac
+        if: matrix.os == 'macos-14'
+        run: |
+          /opt/homebrew/opt/qt@5/bin/macdeployqt redatamgui.app
+
       - name: Test redatam with a DIC file on Mac/Linux
         run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
 
@@ -90,4 +95,4 @@ jobs:
           name: macos-binaries
           path: |
             redatam
-            redatamgui
+            redatamgui.app

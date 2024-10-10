@@ -73,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
           &MainWindow::onProcessFinished);
   connect(process, &QProcess::readyReadStandardOutput, this,
           &MainWindow::onReadyReadStandardOutput);
+  connect(process, &QProcess::readyReadStandardError, this,
+          &MainWindow::onReadyReadStandardError);
 }
 
 MainWindow::~MainWindow() { delete process; }

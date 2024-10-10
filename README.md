@@ -37,11 +37,12 @@ This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the neces
 On Mac, run the following command:
 
 ```bash
-# needs "brew", install it from https://brew.sh/ if you don't have it
 sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/redatam-converter/main/install/mac.sh)"
 ```
 
-This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies.
+This will install `redatam` and `redatamgui` in `/usr/local/bin/`.
+
+On Windows, download the [latest release](https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-windows.zip) and extract it. The executables are `redatam` and `redatamgui` directories, and ZIP is self-contained to ensure that the software works without extra software.
 
 ### From source
 

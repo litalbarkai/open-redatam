@@ -1,6 +1,8 @@
 # REDATAM Converter <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
-[![Standalone C++ app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-cpp.yml)
+[![Ubuntu app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml)
+[![Mac app]](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml)
+[![Windows app](http://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml)
 [![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
 
 ## About
@@ -12,9 +14,9 @@ This software provides a command line interface and a graphical user interface f
 
 Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
 
-For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.
+**For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.**
 
-For the Python package that allows to directly read REDATAM databases in Python, see the [pypkg](pypkg) directory.
+**For the Python package that allows to directly read REDATAM databases in Python, see the [pypkg](pypkg) directory.**
 
 ## Compatibility
 

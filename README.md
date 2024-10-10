@@ -1,7 +1,7 @@
 # REDATAM Converter <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
 [![Ubuntu app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml)
-[![Mac app]](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml)
+[![Mac app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml)
 [![Windows app](http://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml)
 [![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
 

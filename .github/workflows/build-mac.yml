@@ -1,4 +1,4 @@
-name: Standalone C++ app (macOS)
+name: Build Mac executables
 
 on:
   push:

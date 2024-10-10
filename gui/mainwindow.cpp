@@ -7,13 +7,14 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QTextEdit>
 #include <QUrl>
 #include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), process(new QProcess(this)) {
   // Set window geometry
-  setGeometry(0, 0, 400, 120);
+  setGeometry(0, 0, 400, 300);
   setWindowTitle("MainWindow");
 
   // Central widget and layout
@@ -41,6 +42,11 @@ MainWindow::MainWindow(QWidget *parent)
   QPushButton *convertButton = new QPushButton("Convert", this);
   vbox->addWidget(convertButton);
 
+  // Output text edit
+  outputTextEdit = new QTextEdit(this);
+  outputTextEdit->setReadOnly(true);
+  vbox->addWidget(outputTextEdit);
+
   // Footer
   QHBoxLayout *footerSizer = new QHBoxLayout();
   QLabel *footerText = new QLabel(this);
@@ -65,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(process,
           QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this,
           &MainWindow::onProcessFinished);
+  connect(process, &QProcess::readyReadStandardOutput, this,
+          &MainWindow::onReadyReadStandardOutput);
 }
 
 MainWindow::~MainWindow() { delete process; }
@@ -72,7 +80,7 @@ MainWindow::~MainWindow() { delete process; }
 void MainWindow::onSelectInputFile() {
   QString fileName = QFileDialog::getOpenFileName(
       this, tr("Select Input File"), "",
-      tr("Dictionary Files (*.dic *.dicx);;All Files (*)"));
+      tr("Dictionary Files (*.dic *.dicx *.dicX *.DIC *.DICX)"));
   if (!fileName.isEmpty()) {
     inputFileText->setText(fileName);
   }
@@ -132,4 +140,14 @@ void MainWindow::onProcessFinished(int exitCode,
   } else {
     QMessageBox::information(this, "Success", "Conversion successful!");
   }
+}
+
+void MainWindow::onReadyReadStandardOutput() {
+  QString output = process->readAllStandardOutput();
+  outputTextEdit->append(output);
+}
+
+void MainWindow::onReadyReadStandardError() {
+  QString error = process->readAllStandardError();
+  outputTextEdit->append(error);
 }

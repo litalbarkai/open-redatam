@@ -9,19 +9,24 @@
 ## About
 
 The REDATAM Converter is an open source software for extracting raw information from REDATAM databases.
-It is a full C++ ground-up rewrite of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md) written in C#.
 
-This software provides a command line interface and a graphical user interface for exporting data from REDATAM databases to CSV files and an XML summary of the tables and variables. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
+For a given census, such as the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:
 
-Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
+```bash
+redatam input-dir/dictionary.dicx output-dir
+```
+
+Or use the desktop app:
+
+![REDATAM Converter GUI](gui-demo.png)
+
+The REDATAM database will be exported to CSV files and an XML summary of the tables and variables. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
+
+This software is a full C++ ground-up rewrite of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md) created by Pablo de Grande and written in C#. Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
 
 **For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.**
 
 **For the Python package that allows to directly read REDATAM databases in Python, see the [pypkg](pypkg) directory.**
-
-## Compatibility
-
-The converter was tested with REDATAM databases of different versions. The current version exports to comma separated files (CSV) using `;`.
 
 ## Installation
 
@@ -95,14 +100,6 @@ cmake --build . --config Release
 cd ..
 ```
 
-## Usage
-
-For the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:
-
-```bash
-redatam redatam CP2017CHL/BaseOrg16/CPV2017-16.dicx Chile_2017/
-```
-
 ## Testing
 
 Ticked = Passed; Blank = Failed
@@ -149,6 +146,6 @@ This REDATAM Converter was created and is supported by Lital Barkai (barkailital
 
 The tests, installation instructions and R and Python package were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)
 
-The original converter was created by [Pablo De Grande](https://github.com/discontinuos). See [here](https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0186-72102016000300811) for more information.
+The original converter was created by Pablo De Grande. See [here](https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0186-72102016000300811) for more information.
 
 This project uses [pugixml](https://github.com/zeux/pugixml) created by Arseny Kapoulkine to structure a part of the output data.

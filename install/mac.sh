@@ -4,7 +4,7 @@
 mkdir -p /tmp/redatam
 
 # Download the binaries
-wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.0.1/redatam-macos.zip -O /tmp/redatam/redatam.zip
+wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.1/redatam-macos.zip -O /tmp/redatam/redatam.zip
 
 # Unzip the binaries
 unzip /tmp/redatam/redatam.zip -d /tmp/redatam

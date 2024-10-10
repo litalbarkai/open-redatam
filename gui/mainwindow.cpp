@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), process(new QProcess(this)) {
   // Set window geometry
   setGeometry(0, 0, 400, 300);
-  setWindowTitle("Redatam Converter");
+  setWindowTitle("Open Redatam");
 
   // Central widget and layout
   QWidget *centralWidget = new QWidget(this);
@@ -55,8 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
   footerText->setOpenExternalLinks(true);
   footerText->setText(
       "The documentation and source code is available at: "
-      "<a href=\"https://github.com/litalbarkai/redatam-converter\">https://"
-      "github.com/litalbarkai/redatam-converter</a>");
+      "<a href=\"https://github.com/litalbarkai/open-redatam\">https://"
+      "github.com/litalbarkai/open-redatam</a>");
   footerSizer->addWidget(footerText);
   vbox->addLayout(footerSizer);
 

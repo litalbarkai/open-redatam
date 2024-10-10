@@ -1,21 +1,21 @@
 # REDATAM Converter (R Package) <img src="man/figures/logo.svg" align="right" height="139" alt="" />
 
-[![Ubuntu app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml)
-[![Mac app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml)
-[![Build Windows executables](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml)
-[![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
+[![Ubuntu app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml)
+[![Mac app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml)
+[![Build Windows executables](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml)
+[![R Package](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml)
 [![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-white.svg)](https://buymeacoffee.com/pacha)
 
 ## About
 
 The REDATAM Converter is a software for extracting raw information from REDATAM databases.
 
-For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/redatam-converter/) of this repository.
+For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/open-redatam/) of this repository.
 
 To install the R package, run the following command:
 
 ```r
-remotes::install_github("pachadotdev/redatam-converter/rpkg", subdir = "rpkg")
+remotes::install_github("pachadotdev/open-redatam/rpkg", subdir = "rpkg")
 ```
 
 ## Usage

@@ -25,9 +25,6 @@ jobs:
           arch: 'win64_msvc2019_64'
           dir: 'C:\'
 
-      - name: Install 7-Zip
-        run: choco install 7zip -y
-
       - name: Install DirectX
         run: choco install directx -y
 
@@ -46,10 +43,6 @@ jobs:
           cmake --build . --config Release
           & "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
           cp ..\redatamwindows\Release\redatam.exe Release\redatam.exe
-          cd Release
-          7z a -tzip ..\..\redatamwindows.zip *
-          cd ..
-          cd ..
 
       - name: Test redatam with a DIC file on Windows
         run: redatamwindows\Release\redatam.exe test\galapagos\cg15.dic test\galapagos\dic-to-csv-windows
@@ -60,6 +53,6 @@ jobs:
       - name: Upload Windows binaries
         uses: actions/upload-artifact@v4
         with:
-          name: windows-binaries
+          name: redatam-windows
           path: |
-            redatamwindows.zip
+            redatamguiwindows\Release\

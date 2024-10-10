@@ -1,9 +1,9 @@
 # REDATAM Converter <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
-[![Ubuntu app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml)
-[![Mac app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml)
-[![Build Windows executables](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml)
-[![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
+[![Ubuntu app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml)
+[![Mac app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml)
+[![Build Windows executables](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml)
+[![R Package](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml)
 [![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-white.svg)](https://buymeacoffee.com/pacha)
 
 ## About
@@ -22,7 +22,7 @@ Or use the desktop app:
 
 The REDATAM database will be exported to CSV files and an XML summary of the tables and variables. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
 
-This software is a full C++ ground-up rewrite of the original [redatam-converter](https://github.com/discontinuos/redatam-converter/blob/master/README-EN.md) created by Pablo de Grande and written in C#. Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
+This software is a full C++ ground-up rewrite of the original [open-redatam](https://github.com/discontinuos/open-redatam/blob/master/README-EN.md) created by Pablo de Grande and written in C#. Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
 
 **For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.**
 
@@ -36,7 +36,7 @@ On Ubuntu, run the following commands:
 
 ```bash
 # needs "sudo apt install gdebi-core" if you don't have gdebi
-wget https://github.com/pachadotdev/redatam-converter/releases/download/v0.1/redatam_0.1_amd64.deb
+wget https://github.com/pachadotdev/open-redatam/releases/download/v0.1/redatam_0.1_amd64.deb
 sudo dpkg -i redatam_0.1_amd64.deb
 ```
 
@@ -45,12 +45,12 @@ This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the neces
 On Mac, run the following command:
 
 ```bash
-sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/redatam-converter/main/install/mac.sh)"
+sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/open-redatam/main/install/mac.sh)"
 ```
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/`.
 
-On Windows, download the [latest release](https://github.com/pachadotdev/redatam-converter/releases/download/v0.1/redatam-windows.zip) and extract it. The executables are `redatam` and `redatamgui` directories, and ZIP is self-contained to ensure that the software works without extra software.
+On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.1/redatam-windows.zip) and extract it. The executables are `redatam` and `redatamgui` directories, and ZIP is self-contained to ensure that the software works without extra software.
 
 ### From source
 
@@ -59,7 +59,7 @@ The software requires C++11 or higher to compile.
 On Linux, run the following commands:
 
 ```bash
-git clone https://github.com/pachadotdev/redatam-converter.git
+git clone https://github.com/pachadotdev/open-redatam.git
 sudo apt-get update
 sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qt5-qmake
 make
@@ -70,7 +70,7 @@ Then run `./redatam` or `./redatamgui`.
 On Mac, run the following commands:
 
 ```bash
-git clone https://github.com/pachadotdev/redatam-converter.git
+git clone https://github.com/pachadotdev/open-redatam.git
 brew install qt@5
 export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"
@@ -86,7 +86,7 @@ On Windows, you need [Visual Studio Code 2019 with C++ development tools](https:
 Then run the following commands:
 
 ```bash
-git clone https://github.com/pachadotdev/redatam-converter.git
+git clone https://github.com/pachadotdev/open-redatam.git
 
 cd redatamwindows
 cmake -G "Visual Studio 16 2019" .

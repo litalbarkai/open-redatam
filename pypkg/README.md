@@ -1,22 +1,22 @@
 # REDATAM Converter (Python Package) <img src="man/figures/logo.svg" align="right" height="139" alt="" />
 
-[![Ubuntu app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-ubuntu.yml)
-[![Mac app](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-mac.yml)
-[![Build Windows executables](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-windows.yml)
-[![R Package](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/redatam-converter/actions/workflows/build-rpkg.yml)
+[![Ubuntu app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml)
+[![Mac app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml)
+[![Build Windows executables](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml)
+[![R Package](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml)
 [![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-white.svg)](https://buymeacoffee.com/pacha)
 
 ## About
 
 The REDATAM Converter is a software for extracting raw information from REDATAM databases.
 
-For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/redatam-converter/) of this repository.
+For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/open-redatam/) of this repository.
 
 Install the Python package an end user using conda (see step 1 [here](https://github.com/pachadotdev/my-python-journey/) to install miniconda):
 
 ```
-git clone https://github.com/pachadotdev/redatam-converter.git
-cd redatam-converter/pypkg
+git clone https://github.com/pachadotdev/open-redatam.git
+cd open-redatam/pypkg
 
 conda create -n "redatam" python=3.8.0 ipython
 conda activate redatam

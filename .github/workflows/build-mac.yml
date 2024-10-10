@@ -40,7 +40,7 @@ jobs:
       - name: Upload binaries on Mac
         uses: actions/upload-artifact@v4
         with:
-          name: macos-binaries
+          name: redatam-mac
           path: |
             redatam
             redatamgui

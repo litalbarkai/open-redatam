@@ -11,8 +11,8 @@ Import 'REDATAM' files into R. 'REDATAM' is a software for the manipulation of m
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/litalbarkai/redatam-converter}
-  \item Report bugs at \url{https://github.com/litalbarkai/redatam-converter/issues}
+  \item \url{https://github.com/litalbarkai/open-redatam}
+  \item Report bugs at \url{https://github.com/litalbarkai/open-redatam/issues}
 }
 
 }

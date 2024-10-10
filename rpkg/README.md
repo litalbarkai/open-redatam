@@ -1,4 +1,4 @@
-# REDATAM Converter (R Package) <img src="man/figures/logo.svg" align="right" height="139" alt="" />
+# Open Redatam (R Package) <img src="man/figures/logo.svg" align="right" height="139" alt="" />
 
 [![Ubuntu app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml)
 [![Mac app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml)
@@ -8,7 +8,7 @@
 
 ## About
 
-The REDATAM Converter is a software for extracting raw information from REDATAM databases.
+Open Redatam is a software for extracting raw information from REDATAM databases.
 
 For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/open-redatam/) of this repository.
 
@@ -34,7 +34,7 @@ The R package uses a modified copy of the C++ code to read the REDATAM databases
 
 ## Credits
 
-This REDATAM Converter was created and is supported by Lital Barkai (barkailital@gmail.com).
+Open Redatam was created and is supported by Lital Barkai (barkailital@gmail.com).
 
 The tests, installation instructions and R package were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)
 

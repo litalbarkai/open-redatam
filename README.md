@@ -1,4 +1,4 @@
-# REDATAM Converter <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
+# Open Redatam <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
 [![Ubuntu app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml)
 [![Mac app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml)
@@ -8,7 +8,7 @@
 
 ## About
 
-The REDATAM Converter is an open source software for extracting raw information from REDATAM databases.
+Open Redatam is an open source software for extracting raw information from REDATAM databases.
 
 For a given census, such as the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:
 
@@ -18,7 +18,7 @@ redatam input-dir/dictionary.dicx output-dir
 
 Or use the desktop app:
 
-![REDATAM Converter GUI](gui-demo.png)
+![Open Redatam GUI](gui-demo.png)
 
 The REDATAM database will be exported to CSV files and an XML summary of the tables and variables. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
 
@@ -142,7 +142,7 @@ Ticked = Passed; Blank = Failed
 
 ## Credits
 
-This REDATAM Converter was created and is supported by Lital Barkai (barkailital@gmail.com).
+Open Redatam was created and is supported by Lital Barkai (barkailital@gmail.com).
 
 The tests, installation instructions and R and Python package were created by Mauricio "Pacha" Vargas Sepulveda (m.sepulveda@mail.utoronto.ca)
 

@@ -44,3 +44,6 @@ x64
 .vscode/launch.json
 .vscode/c_cpp_properties.json
 redatam_0.0.1_amd64.deb
+redatamguiwindows/__/gui/moc_mainwindow.cpp
+redatamguiwindows/__/gui/moc_mainwindow.cpp_parameters
+redatamguiwindows/gui/moc_mainwindow.cpp_parameters

@@ -97,9 +97,20 @@ void MainWindow::onConvert() {
     return;
   }
 
+#ifdef _WIN32
+  // Replace forward slashes with backslashes for Windows
+  inputFilePath.replace("/", "\\");
+  outputDirPath.replace("/", "\\");
+#endif
+
   QString program = "redatam";
   QStringList arguments;
+
+#ifdef _WIN32
+  arguments << inputFilePath << outputDirPath + "\\";
+#else
   arguments << inputFilePath << outputDirPath + "/";
+#endif
 
   process->start(program, arguments);
   if (!process->waitForStarted()) {

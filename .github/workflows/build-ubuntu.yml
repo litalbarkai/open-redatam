@@ -1,4 +1,4 @@
-name: Standalone C++ app
+name: Build Ubuntu executables
 
 on:
   push:
@@ -10,51 +10,27 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, macos-14]
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up environment on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
         run: |
           sudo apt-get update
           sudo apt-get install -y qtbase5-dev
 
-      - name: Set up environment on Mac
-        if: matrix.os == 'macos-14'
-        run: |
-          brew install qt@5
-          echo "/opt/homebrew/opt/qt@5/bin" >> $GITHUB_PATH
-          echo "LDFLAGS=-L/opt/homebrew/opt/qt@5/lib" >> $GITHUB_ENV
-          echo "CPPFLAGS=-I/opt/homebrew/opt/qt@5/include" >> $GITHUB_ENV
-          echo "PKG_CONFIG_PATH=/opt/homebrew/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
-
       - name: Build redatam and redatamgui on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
         run: make all
 
-      - name: Build redatam and redatamgui on Mac
-        if: matrix.os == 'macos-14'
-        run: make all
-
-      - name: Bundle Qt libraries on Mac
-        if: matrix.os == 'macos-14'
-        run: |
-          /opt/homebrew/opt/qt@5/bin/macdeployqt redatamgui.app
-
-      - name: Test redatam with a DIC file on Mac/Linux
+      - name: Test redatam with a DIC file on Ubuntu
         run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
 
-      - name: Test redatam with a DICX file on Mac/Linux
+      - name: Test redatam with a DICX file on Ubuntu
         run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
 
       - name: Create DEB package on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
         run: |
           mkdir -p package/usr/local/bin
           mkdir -p package/usr/share/applications
@@ -81,18 +57,8 @@ jobs:
           dpkg-deb --build package redatam_0.0.1_amd64.deb
 
       - name: Upload DEB on Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
         uses: actions/upload-artifact@v4
         with:
           name: ubuntu-deb
           path: |
             redatam_0.0.1_amd64.deb
-
-      - name: Upload binaries on Mac
-        if: matrix.os == 'macos-14'
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-binaries
-          path: |
-            redatam
-            redatamgui.app

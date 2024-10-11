@@ -36,8 +36,8 @@ On Ubuntu, run the following commands:
 
 ```bash
 # needs "sudo apt install gdebi-core" if you don't have gdebi
-wget https://github.com/pachadotdev/open-redatam/releases/download/v0.1/redatam_0.1_amd64.deb
-sudo dpkg -i redatam_0.1_amd64.deb
+wget https://github.com/pachadotdev/open-redatam/releases/download/v0.2/redatam_0.2_amd64.deb
+sudo dpkg -i redatam_0.2_amd64.deb
 ```
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry.
@@ -50,7 +50,7 @@ sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/open-red
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/`.
 
-On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.1/redatam-windows.zip) and extract it. The executables are `redatam` and `redatamgui` directories, and ZIP is self-contained to ensure that the software works without extra software.
+On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.2/redatam-windows.zip) and extract it. The executables are `redatam` and `redatamgui` directories, and ZIP is self-contained to ensure that the software works without extra software.
 
 ### From source
 
@@ -106,29 +106,37 @@ Ticked = Passed; Blank = Failed
 
 ### DIC format
 
-- [ ] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dic`)
-- [ ] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dic`)
-- [ ] Bolivia 2001 CELADE (`CP2001BOL/Cp2001BOL/Celade/CPV2001BOL_Celade.dic`)
+- [ ] Argentina 1991 (`CP1991ARG/datos/Arg91CPV.dic`)
+- [x] Argentina 2001 (`CP2001ARG-DATA/CpvAr01_pub_v12.dic`)
+- [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dic`)
+- [x] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dic`)
+- [ ] Bolivia 2001 CELADE (`CP2001BOL/Cp2001BOL/Celade/CPV2001BOL_Celade.dic`) *No PTR files, this doesn't work with REDATAM either*
 - [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic`)
+- [ ] Brazil 1991 (`CP1991BRA/BaseOriginal/C102.dic`) *This doesn't work with REDATAM either*
+- [ ] Brazil 2000 (`CP2000BRA/BaseOriginal/CD102_PUBLICO.dic`)
+- [ ] Brazil 2010 (CELADE) (`CP2000BRA/Celade/CPV2000BRA_Celade.dic`) *No PTR files, this doesn't work with REDATAM either* 
 - [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dic`)
 - [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dic`)
-- [x] Ecuador 2015 (`CP2010ECU/Base/CE11.dic`)
+- [x] Ecuador 2010 (`CP2010ECU/Base/CE11.dic`)
 - [x] Ecuador (Galapagos) 2015 (`test/galapagos/cg15.dic`)
 - [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dic`)
-- [ ] Guatemala 2018 (`CP2018GTM/BasePub/CPV2018GT_BasePublica.dic`)
+- [x] Guatemala 2018 (`CP2018GTM/BasePub/CPV2018GT_BasePublica.dic`)
 - [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
-- [ ] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dic`)
+- [x] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dic`)
 - [x] Myanmar 2014 (`CP2014MMR/Union.dic`)
-- [ ] Peru 2010 (`CP2010PER/CP2007PER/BasePub/CPV2007PER_PUB.dic`)
-- [ ] Peru 2017 (`CP2017PER/BaseD/BaseR/CPVPER2017D.dic`)
-- [ ] Uruguay 2011 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`) *corrupted file*
+- [x] Peru 2010 (`CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dic`)
+- [x] Peru 2017 (`CP2017PER/BaseD/BaseR/CPVPER2017D.dic`)
+- [x] Uruguay 2011 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
 
 ### DICX format
 
 - [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dicx`)
-- [ ] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dicx`)
-- [ ] Bolivia 2001 CELADE (`CP2001BOL/Cp2001BOL/Celade/CPV2001BOL_Celade.dicx`)
+- [x] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dicx`)
+- [ ] Bolivia 2001 CELADE (`CP2001BOL/Cp2001BOL/Celade/CPV2001BOL_Celade.dicx`) *No PTR files, this doesn't work with REDATAM either*
 - [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Comunidad.dicx`)
+- [ ] Brazil 1991 (`CP1991BRA/BaseOriginal/C102.dicx`) *This doesn't work with REDATAM either*
+- [x] Brazil 2000 (`CP2000BRA/BaseOriginal/CD102_PUBLICO.dicx`)
+- [ ] Brazil 2010 (`CP2010BRA/BaseR/CD2010_Amostra.dicx`) *CD2010_008.ptr is missing, this doesn't work with REDATAM either*
 - [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dicx`)
 - [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dicx`)
 - [x] Ecuador 2010 (`CP2010ECU/Base/cpv2010ecu.dicx`)

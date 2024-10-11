@@ -16,8 +16,71 @@ ByteArrayReader::ByteArrayReader(const string& filePath)
     : m_data(), m_currPos(0), m_endPos(0) {
   string eMsg = "Error: Failed to open file: ";
   std::ifstream fs(filePath, std::ios::binary);
-  ThrowIfBad<std::ios_base::failure>(
-      fs.is_open(), std::ios_base::failure(eMsg.append(filePath)));
+  if (!fs.is_open()) {
+    // Extract the filename part
+#ifdef _WIN32
+    std::string filename = filePath.substr(filePath.find_last_of("\\") + 1);
+    std::string directory = filePath.substr(0, filePath.find_last_of("\\") + 1);
+#else
+    std::string filename = filePath.substr(filePath.find_last_of("/") + 1);
+    std::string directory = filePath.substr(0, filePath.find_last_of("/") + 1);
+#endif
+
+    // Try with lowercase extension, keeping directory intact
+    std::string lowerFilename = filename;
+    auto pos = lowerFilename.find_last_of('.');
+    if (pos != std::string::npos) {
+      std::transform(lowerFilename.begin() + pos, lowerFilename.end(),
+                     lowerFilename.begin() + pos, ::tolower);
+    }
+    fs.open(directory + lowerFilename, std::ios::binary);
+    if (!fs.is_open()) {
+      // Try with uppercase extension
+      std::string upperFilename = filename;
+      if (pos != std::string::npos) {
+        std::transform(upperFilename.begin() + pos, upperFilename.end(),
+                       upperFilename.begin() + pos, ::toupper);
+      }
+      fs.open(directory + upperFilename, std::ios::binary);
+      if (!fs.is_open()) {
+        // Try with uppercase filename and lowercase extension
+        std::string upperFileNameLowerExt = filename;
+        if (pos != std::string::npos) {
+          std::transform(upperFileNameLowerExt.begin(),
+                         upperFileNameLowerExt.begin() + pos,
+                         upperFileNameLowerExt.begin(), ::toupper);
+          std::transform(upperFileNameLowerExt.begin() + pos,
+                         upperFileNameLowerExt.end(),
+                         upperFileNameLowerExt.begin() + pos, ::tolower);
+        }
+        fs.open(directory + upperFileNameLowerExt, std::ios::binary);
+        if (!fs.is_open()) {
+          // Try with uppercase filename and extension
+          std::string upperFileNameUpperExt = filename;
+          std::transform(upperFileNameUpperExt.begin(),
+                         upperFileNameUpperExt.end(),
+                         upperFileNameUpperExt.begin(), ::toupper);
+          fs.open(directory + upperFileNameUpperExt, std::ios::binary);
+          if (!fs.is_open()) {
+            // Try with lowercase filename and uppercase extension
+            std::string lowerFileNameUpperExt = filename;
+            if (pos != std::string::npos) {
+              std::transform(lowerFileNameUpperExt.begin(),
+                             lowerFileNameUpperExt.begin() + pos,
+                             lowerFileNameUpperExt.begin(), ::tolower);
+              std::transform(lowerFileNameUpperExt.begin() + pos,
+                             lowerFileNameUpperExt.end(),
+                             lowerFileNameUpperExt.begin() + pos, ::toupper);
+            }
+            fs.open(directory + lowerFileNameUpperExt, std::ios::binary);
+            if (!fs.is_open()) {
+              throw std::ios_base::failure(eMsg + filePath);
+            }
+          }
+        }
+      }
+    }
+  }
 
   m_data = vector<unsigned char>{std::istreambuf_iterator<char>(fs),
                                  std::istreambuf_iterator<char>()};

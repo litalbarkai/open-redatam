@@ -46,6 +46,7 @@ jobs:
       - name: Install dependencies (Linux and macOS)
         if: runner.os != 'Windows'
         run: |
+          cd pypkg
           source venv/bin/activate
           pip install pandas numpy pybind11
           pip install --use-pep517 .
@@ -53,6 +54,7 @@ jobs:
       - name: Install dependencies (Windows)
         if: runner.os == 'Windows'
         run: |
+          cd pypkg
           venv\Scripts\activate
           pip install pandas numpy pybind11
           pip install --use-pep517 .
@@ -60,12 +62,14 @@ jobs:
       - name: Run tests (Linux and macOS)
         if: runner.os != 'Windows'
         run: |
+          cd pypkg
           source venv/bin/activate
           python pypkg/ghactions.py
 
       - name: Run tests (Windows)
         if: runner.os == 'Windows'
         run: |
+          cd pypkg
           venv\Scripts\activate
           python pypkg/ghactions.py
           

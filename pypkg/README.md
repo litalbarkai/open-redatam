@@ -9,17 +9,23 @@ Open Redatam is a software for extracting raw information from REDATAM databases
 
 For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/open-redatam/) of this repository.
 
-Install the Python package an end user using conda (see step 1 [here](https://github.com/pachadotdev/my-python-journey/) to install miniconda):
+Install the Python package using a virtual environment:
 
-```
+```bash
 git clone https://github.com/pachadotdev/open-redatam.git
 cd open-redatam/pypkg
 
-conda create -n "redatam" python=3.8.0 ipython
-conda activate redatam
-conda install pandas numpy pybind11
-
+python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+pip install pandas numpy pybind11
 pip install --use-pep517 .
+```
+
+As an optional step, you can run the tests:
+
+```bash
+python tests/basic-test.py
 ```
 
 As a developer, be sure to delete the previous build after doing changes and re-installing:

@@ -2,6 +2,7 @@
 
 #include <algorithm>  //  std::replace
 #include <thread>
+#include <cpp11.hpp>  //  cpp11::stop
 
 #include "utils.hpp"  //  GetFileExtension, ThrowIfBad
 

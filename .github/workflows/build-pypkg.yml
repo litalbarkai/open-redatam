@@ -22,27 +22,48 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          auto-update-conda: true
-          activate-environment: redatam
-          environment-file: pypkg/environment.yml
 
-      - name: Create and activate Conda environment
+      - name: Create and activate virtual environment (Linux and macOS)
+        if: runner.os != 'Windows'
         run: |
-          conda create -n redatam python=${{ matrix.python-version }} ipython
-          conda activate redatam
-          conda install pandas numpy pybind11
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
 
-      - name: Install package
+      - name: Create and activate virtual environment (Windows)
+        if: runner.os == 'Windows'
         run: |
-          cd pypkg
+          python -m venv venv
+          venv\Scripts\activate
+          python -m pip install --upgrade pip
+
+      - name: Install dependencies (Linux and macOS)
+        if: runner.os != 'Windows'
+        run: |
+          source venv/bin/activate
+          pip install pandas numpy pybind11
           pip install --use-pep517 .
 
-      - name: Run tests
+      - name: Install dependencies (Windows)
+        if: runner.os == 'Windows'
         run: |
-          cd tests
-          python test_script.py
+          venv\Scripts\activate
+          pip install pandas numpy pybind11
+          pip install --use-pep517 .
+
+      - name: Run tests (Linux and macOS)
+        if: runner.os != 'Windows'
+        run: |
+          source venv/bin/activate
+          python pypkg/ghactions.py
+
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          venv\Scripts\activate
+          python pypkg/ghactions.py
           

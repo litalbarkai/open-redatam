@@ -119,13 +119,11 @@ size_t FuzzyVariableParser::ParseDataSize(VarType type,
   try {
     return std::stoi(str);
   } catch (const std::invalid_argument& e) {
-    std::cerr << "Invalid argument: " << e.what() << " for string: '" << str
-              << "'" << std::endl;
-    throw;
+    cpp11::stop("Invalid argument: " + std::string(e.what()) + " for string: '" +
+                str + "'");
   } catch (const std::out_of_range& e) {
-    std::cerr << "Out of range: " << e.what() << " for string: '" << str << "'"
-              << std::endl;
-    throw;
+    cpp11::stop("Out of range: " + std::string(e.what()) + " for string: '" +
+                str + "'");
   }
 }
 

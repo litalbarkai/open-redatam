@@ -1,6 +1,7 @@
 #include "FuzzyVariableParser.hpp"
 
 #include <algorithm>  //  std::replace
+#include <iostream>   //  std::cerr
 #include <thread>
 
 #include "utils.hpp"  //  GetFileExtension, ThrowIfBad

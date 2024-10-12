@@ -1,0 +1,48 @@
+name: Python package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: read-all
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [3.8]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          auto-update-conda: true
+          activate-environment: redatam
+          environment-file: pypkg/environment.yml
+
+      - name: Create and activate Conda environment
+        run: |
+          conda create -n redatam python=${{ matrix.python-version }} ipython
+          conda activate redatam
+          conda install pandas numpy pybind11
+
+      - name: Install package
+        run: |
+          cd pypkg
+          pip install --use-pep517 .
+
+      - name: Run tests
+        run: |
+          cd tests
+          python test_script.py
+          

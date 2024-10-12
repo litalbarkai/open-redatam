@@ -28,19 +28,6 @@ if [ ! -f downloads/CP2010ARG.zip ]; then
   wget https://redatam.org/cdr/descargas/censos/poblacion/CP2010ARG.zip -O downloads/CP2010ARG.zip
 fi
 
-# Brasil
-if [ ! -f downloads/CP1991BRA.zip ]; then
-  wget https://redatam.org/cdr/descargas/censos/poblacion/Cp1991BRA.zip -O downloads/CP1991BRA.zip
-fi
-
-if [ ! -f downloads/CP2000BRA.zip ]; then
-  wget https://redatam.org/cdr/descargas/censos/poblacion/Cp2000BRA.zip -O downloads/CP2000BRA.zip
-fi
-
-if [ ! -f downloads/CP2010BRA.zip ]; then
-  wget https://redatam.org/cdr/descargas/censos/poblacion/CP2010BRA.zip -O downloads/CP2010BRA.zip
-fi
-
 # Bolivia
 if [ ! -f downloads/CP2001BOL.zip ]; then
   wget https://redatam.org/cdr/descargas/censos/poblacion/Cp2001BOL.zip -O downloads/CP2001BOL.zip

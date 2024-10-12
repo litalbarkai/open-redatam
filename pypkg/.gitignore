@@ -1,6 +1,5 @@
 *.so
 *.o
-tests/uru2011
-tests/chl2017
+tests/galapagos
 build/
 venv/

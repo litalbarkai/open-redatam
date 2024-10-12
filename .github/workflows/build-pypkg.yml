@@ -64,12 +64,12 @@ jobs:
         run: |
           cd pypkg
           source venv/bin/activate
-          python pypkg/ghactions.py
+          python tests/ghactions.py
 
       - name: Run tests (Windows)
         if: runner.os == 'Windows'
         run: |
           cd pypkg
           venv\Scripts\activate
-          python pypkg/ghactions.py
+          python tests/ghactions.py
           

@@ -122,13 +122,16 @@ size_t FuzzyVariableParser::ParseDataSize(VarType type, ByteArrayReader* reader)
     case DBL:
         return 8;
         break;
-    
-    case INT:
-        return 2;
-        break;
 
     case LNG:
         return 4;
+        break;
+
+    case INT:
+    case BIN:
+    case CHR:
+    case PCK:
+        return 2;
         break;
 
     default:
@@ -137,7 +140,23 @@ size_t FuzzyVariableParser::ParseDataSize(VarType type, ByteArrayReader* reader)
 
     reader->MovePos(6);    //  " SIZE "
     size_t len = GetSubstringLength("", reader);
-    return std::stoi(reader->ReadString(len));
+    std::string str = reader->ReadString(len);
+
+    try {
+        return std::stoi(str);
+    }
+    catch (const std::invalid_argument& e) 
+    {
+        std::cerr << "Invalid argument: " << e.what() << " for string: '" << str
+                  << "'" << std::endl;
+        throw;
+    }
+    catch (const std::out_of_range& e) 
+    {
+        std::cerr << "Out of range: " << e.what() << " for string: '" << str
+                  << "'" << std::endl;
+      throw;
+    }
 }
 
 //  static
@@ -230,6 +249,7 @@ size_t FuzzyVariableParser::ParseDecimals(ByteArrayReader* reader)
     reader->MovePos(10);   //  " DECIMALS "
     size_t len = std::min(GetSubstringLength("", reader),
                             GetSubstringLength(" ", reader));
+    std::cout << "BBB" << std::endl;
     return std::stoi(reader->ReadString(len));
 }
 

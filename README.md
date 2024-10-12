@@ -106,7 +106,7 @@ Ticked = Passed; Blank = Failed
 
 ### DIC format
 
-- [ ] Argentina 1991 (`CP1991ARG/datos/Arg91CPV.dic`)
+- [x] Argentina 1991 (`CP1991ARG/datos/Arg91CPV.dic`)
 - [x] Argentina 2001 (`CP2001ARG-DATA/CpvAr01_pub_v12.dic`)
 - [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dic`)
 - [x] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dic`)

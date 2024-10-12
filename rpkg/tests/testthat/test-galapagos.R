@@ -10,36 +10,6 @@
 #    cg150001.ptr)
 
 test_that("reading works", {
-  # dout <- "inst/extdata/galapagos"
-
-  # library(xml2)
-  # library(magrittr)
-
-  # dicx <- list.files(dout,
-  #   pattern = "\\.dicX$", full.names = TRUE,
-  #   recursive = TRUE
-  # )
-
-  # read all the <filename> elements
-  # keep <- xml_find_all(read_xml(dicx), ".//filename") %>%
-  #   xml_text() %>%
-  #   unique() %>%
-  #   gsub("\\.\\\\", "", .) %>%
-  #   gsub("\\\\", "", .)
-
-  # keep <- paste("inst/extdata/galapagos", keep, sep = "/")
-
-  # remove <- list.files(dout, pattern = "rbf|ptr", full.names = TRUE, recursive = TRUE)
-
-  # remove <- setdiff(remove, keep)
-
-  # unlink(remove)
-
-  # files <- list.files(dout, full.names = TRUE, recursive = TRUE)
-
-  # batch rename and change "CG" to "cg"
-  # file.rename(files, gsub("CG", "cg", files))
-
   zip <- system.file("extdata", "galapagos.zip", package = "redatam")
 
   dout <- paste(tempdir(), "galapagos", sep = "/")
@@ -63,7 +33,7 @@ test_that("reading works", {
   # read DIC
 
   res <- read_redatam(dic)
-  
+
   expect_type(res, "list")
   expect_equal(length(res), 7L)
 
@@ -77,7 +47,9 @@ test_that("reading works", {
   expect_true(is.factor(daux$nomcant_description))
   expect_equal(dim(daux), c(1L,2L))
 
-  res2 <- suppressWarnings(read_redatam(dicx))
+  # read DICX
+  
+  res2 <- read_redatam(dicx)
 
   expect_type(res2, "list")
   expect_equal(length(res2), 7L)

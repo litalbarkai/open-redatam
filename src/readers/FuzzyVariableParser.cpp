@@ -262,7 +262,6 @@ size_t FuzzyVariableParser::ParseDecimals(ByteArrayReader* reader)
     reader->MovePos(10);   //  " DECIMALS "
     size_t len = std::min(GetSubstringLength("", reader),
                             GetSubstringLength(" ", reader));
-    std::cout << "BBB" << std::endl;
     return std::stoi(reader->ReadString(len));
 }
 

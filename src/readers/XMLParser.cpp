@@ -8,17 +8,6 @@ namespace RedatamLib
 using std::cerr;
 using std::endl;
 
-// Constructor
-XMLParser::XMLParser() 
-{
-  // No need for initialization, PugiXML handles everything internally
-}
-
-// Destructor
-XMLParser::~XMLParser(){
-  // No need for explicit cleanup, PugiXML handles resource management
-}
-
 vector<Entity> XMLParser::ParseFile(const string& fileName)
 {
     m_rootPath = FindRootPath(fileName);

@@ -9,33 +9,12 @@
 #endif
 
 #include "RedatamDatabase.hpp"
+#include "utils.hpp"
 
 using std::cerr;
 using std::cout;
 using std::endl;
 using std::string;
-
-#ifdef _WIN32
-bool exists(const string& path)
-{
-    DWORD attr = GetFileAttributes(path.c_str());
-    return (attr != INVALID_FILE_ATTRIBUTES);
-}
-
-bool create_directories(const string& path)
-{
-    return CreateDirectory(path.c_str(), NULL) ||
-        GetLastError() == ERROR_ALREADY_EXISTS;
-}
-#else
-bool exists(const string& path) { return access(path.c_str(), F_OK) != -1; }
-
-bool create_directories(const string& path)
-{
-    mode_t mode = 0755;
-    return mkdir(path.c_str(), mode) == 0 || errno == EEXIST;
-}
-#endif
 
 int main(int argc, char* argv[])
 {
@@ -48,16 +27,16 @@ int main(int argc, char* argv[])
     string dicFilePath = argv[1];
     string outputDirPath = argv[2];
 
-    if (!exists(dicFilePath))
+    if (!RedatamLib::Exists(dicFilePath))
     {
-        cerr << "Error: Input dictionary file does not exist." << endl;
-        return 1;
+      cerr << "Error: Input dictionary file does not exist." << endl;
+      return 1;
     }
 
-    if (!create_directories(outputDirPath))
+    if (!RedatamLib::CreateDirectories(outputDirPath))
     {
-        cerr << "Error: Failed to create output directory." << endl;
-        return 1;
+      cerr << "Error: Failed to create output directory." << endl;
+      return 1;
     }
 
     try

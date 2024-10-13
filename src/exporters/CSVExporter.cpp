@@ -21,8 +21,8 @@ CSVExporter::CSVExporter(const string& outputDirectory) : m_path(outputDirectory
     }
 
     std::string labels_path = m_path + "Labels/";
-    if (!exists(labels_path)) {
-      create_directories(labels_path);
+    if (!Exists(labels_path)) {
+      CreateDirectories(labels_path);
     }
 }
 

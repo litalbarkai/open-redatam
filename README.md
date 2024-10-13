@@ -37,8 +37,8 @@ On Ubuntu, run the following commands:
 
 ```bash
 # needs "sudo apt install gdebi-core" if you don't have gdebi
-wget https://github.com/pachadotdev/open-redatam/releases/download/v0.2/redatam_0.2_amd64.deb
-sudo dpkg -i redatam_0.2_amd64.deb
+wget https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open_redatam_0.2_amd64.deb
+sudo dpkg -i open_redatam_0.2_amd64.deb
 ```
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry.
@@ -51,7 +51,7 @@ sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/open-red
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/`.
 
-On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.2/redatam-windows.zip) and extract it. The executables are `redatam` and `redatamgui` directories, and ZIP is self-contained to ensure that the software works without extra software.
+On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-windows.exe) and install it. The installer creates an entry in the Start Menu for Open Redatam.
 
 ### From source
 

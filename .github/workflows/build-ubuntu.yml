@@ -52,9 +52,9 @@ jobs:
           Priority: optional
           Architecture: amd64
           Maintainer: Mauricio Pacha Vargas Sepulveda <m.sepulveda@mail.utoronto.ca>
-          Depends: qtbase5-dev
-          Description: Redatam and Redatam GUI" > package/DEBIAN/control
-          dpkg-deb --build package redatam_0.2_amd64.deb
+          Depends: libqt5widgets5
+          Description: Open Redatam" > package/DEBIAN/control
+          dpkg-deb --build package open_redatam_0.2_amd64.deb
 
       - name: Upload DEB on Ubuntu
         uses: actions/upload-artifact@v4

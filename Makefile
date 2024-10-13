@@ -9,7 +9,7 @@ INCLUDE_DIRS = -I $(INC_DIR) -I $(INC_DIR)/entities -I $(INC_DIR)/readers -I $(I
 
 # Compiler and linker
 CXX = g++
-CXXFLAGS = -std=c++11 -g -O3 -Wall -fPIC $(INCLUDE_DIRS)
+CXXFLAGS = -std=c++11 -O3 -Wall -fPIC $(INCLUDE_DIRS)
 LDFLAGS = -pthread -L$(LIB_DIR)
 
 # Qt flags

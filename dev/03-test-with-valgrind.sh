@@ -1,3 +1,7 @@
 #!/bin/bash
 
-valgrind --leak-check=full --track-origins=yes --log-file=valgrind.txt ./redatam downloads/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicx downloads/CP2011URY/open-redatam-cpp/
+make -f Makefile-debug
+
+valgrind --leak-check=full --track-origins=yes --log-file=test/galapagos/log-dic-to-csv.txt ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+
+valgrind --leak-check=full --track-origins=yes --log-file=test/galapagos/log-dicx-to-csv.txt ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv

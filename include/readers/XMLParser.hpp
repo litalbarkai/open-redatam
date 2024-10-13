@@ -21,8 +21,8 @@ using std::vector;
 class XMLParser
 {
 public:
-    explicit XMLParser();
-    ~XMLParser();
+    XMLParser() = default;
+    ~XMLParser() = default;
 
     XMLParser(const XMLParser&) = delete;
     XMLParser& operator=(const XMLParser&) = delete;

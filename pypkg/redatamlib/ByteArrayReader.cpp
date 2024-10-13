@@ -126,6 +126,9 @@ bool ByteArrayReader::TryReadStr(string* output, bool filterByContent) {
 }
 
 string ByteArrayReader::ReadString(size_t length) {
+  if (m_currPos + length > m_data.size()) {
+    throw std::out_of_range("Attempt to read past the end of the buffer");
+  }
   std::ostringstream oss;
   auto strStart = m_data.begin() + m_currPos;
   std::copy(strStart, strStart + length, std::ostream_iterator<char>(oss));

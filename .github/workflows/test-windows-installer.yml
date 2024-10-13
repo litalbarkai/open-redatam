@@ -1,0 +1,36 @@
+name: Test Windows Installer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-installer:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Windows installer
+        run: |
+          curl -L -o open-redatam-windows.exe https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-windows.exe
+
+      - name: Install Windows package
+        run: |
+          start /wait open-redatam-windows.exe /S /D=C:\Program Files\OpenRedatam
+
+      - name: Verify installation and convert DIC file
+        run: |
+          "C:\Program Files (x86)\Open Redatam\redatam.exe" test\galapagos\cg15.dic test\galapagos\dic-to-csv
+          "C:\Program Files (x86)\Open Redatam\redatam.exe" test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
+
+      - name: Check conversion results
+        run: |
+          dir test\galapagos\dic-to-csv
+          dir test\galapagos\dicx-to-csv
+          

@@ -33,25 +33,13 @@ This software is a full C++ ground-up rewrite of the original [open-redatam](htt
 
 ### From binaries
 
-On Ubuntu, run the following commands:
+On Ubuntu, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open_redatam_0.2_amd64.deb) and install it. This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry. The installer creates an entry in the Applications folder for Open Redatam GUI and you can also use the command line tool from the Terminal by calling `redatam`.
 
-```bash
-# needs "sudo apt install gdebi-core" if you don't have gdebi
-wget https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open_redatam_0.2_amd64.deb
-sudo dpkg -i open_redatam_0.2_amd64.deb
-```
-
-This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry.
-
-On Mac, run the following command:
-
-```bash
-sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/pachadotdev/open-redatam/main/install/mac.sh)"
-```
+On Mac, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-mac.pkg) and install it. This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry. The installer creates an entry in the Applications folder for Open Redatam GUI and you can also use the command line tool from the Terminal by calling `redatam`.
 
 This will install `redatam` and `redatamgui` in `/usr/local/bin/`.
 
-On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-windows.exe) and install it. The installer creates an entry in the Start Menu for Open Redatam.
+On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-windows.exe) and install it. The installer creates an entry in the Start Menu for Open Redatam GUI and you can also use the command line tool from Power Shell by calling `C:\Program Files (x86)\Open Redatam\redatam.exe`.
 
 ### From source
 

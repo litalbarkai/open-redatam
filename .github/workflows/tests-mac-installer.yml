@@ -1,0 +1,36 @@
+name: Test macOS Installer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-installer:
+    runs-on: macos-14
+
+    steps:
+      - name: Download macOS installer
+        run: |
+          curl -L -o open-redatam-mac.pkg https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-mac.pkg
+
+      - name: Install macOS package
+        run: sudo installer -pkg open-redatam-mac.pkg -target /
+
+      - name: Verify installation and convert DIC file
+        run: |
+          /usr/local/bin/redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+          /usr/local/bin/redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
+
+      - name: Check conversion results
+        run: |
+          ls -l test/galapagos/dic-to-csv
+          ls -l test/galapagos/dicx-to-csv
+
+      - name: Check GUI
+        run: |
+          open -a /usr/local/bin/redatamgui
+          

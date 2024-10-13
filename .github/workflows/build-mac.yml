@@ -42,14 +42,26 @@ jobs:
           mkdir -p package-root/usr/local/bin
           cp redatam package-root/usr/local/bin/
           cp redatamgui package-root/usr/local/bin/
-          pkgbuild --root package-root --identifier com.pacha.openredatam --version 0.2 --install-location / package.pkg
+          mkdir -p scripts
+          echo "#!/bin/bash
+          chmod +x /usr/local/bin/redatam
+          chmod +x /usr/local/bin/redatamgui
+          echo \"[Desktop Entry]
+          Version=1.0
+          Name=Redatam GUI
+          Exec=/usr/local/bin/redatamgui
+          Icon=utilities-terminal
+          Type=Application
+          Categories=Utility;\" > /usr/share/applications/redatamgui.desktop" > scripts/postinstall
+          chmod +x scripts/postinstall
+          pkgbuild --root package-root --identifier com.pacha.openredatam --version 0.2 --install-location / --scripts scripts package.pkg
 
       - name: Create product archive
         run: |
-          productbuild --distribution dev/mac-distribution.xml --package-path package.pkg --resources resources --version 0.2 open-redatam-installer.pkg
+          productbuild --distribution dev/mac-distribution.xml --package-path package.pkg --resources resources --version 0.2 open-redatam-mac.pkg
 
       - name: Upload macOS installer
         uses: actions/upload-artifact@v4
         with:
           name: open-redatam-mac
-          path: open-redatam-installer.pkg
+          path: open-redatam-mac.pkg

@@ -54,7 +54,7 @@ jobs:
         run: redatamwindows\Release\redatam.exe test\galapagos\cg15.dicX test\galapagos\dicx-to-csv-windows
 
       - name: Create installer
-        run: makensis installer.nsi
+        run: makensis redatamguiwindows\installer.nsi
 
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4

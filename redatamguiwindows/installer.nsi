@@ -8,7 +8,7 @@
 SetCompressor lzma
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "open-redatam-installer.exe"
+OutFile "open-redatam-windows.exe"
 InstallDir "$PROGRAMFILES\Open Redatam"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 

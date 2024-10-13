@@ -37,11 +37,19 @@ jobs:
       - name: Test redatam with a DICX file on Mac
         run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
 
-      - name: Upload binaries on Mac
+      - name: Create package
+        run: |
+          mkdir -p package-root/usr/local/bin
+          cp redatam package-root/usr/local/bin/
+          cp redatamgui package-root/usr/local/bin/
+          pkgbuild --root package-root --identifier com.pacha.openredatam --version 0.2 --install-location / package.pkg
+
+      - name: Create product archive
+        run: |
+          productbuild --distribution dev/mac-distribution.xml --package-path package.pkg --resources resources --version 0.2 open-redatam-installer.pkg
+
+      - name: Upload macOS installer
         uses: actions/upload-artifact@v4
         with:
-          name: redatam-mac
-          path: |
-            redatam
-            redatamgui
-            
+          name: open-redatam-mac
+          path: open-redatam-installer.pkg

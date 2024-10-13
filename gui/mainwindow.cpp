@@ -3,6 +3,7 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QHBoxLayout>
+#include <QIcon>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
@@ -40,7 +41,23 @@ MainWindow::MainWindow(QWidget *parent)
 
   // Convert button
   QPushButton *convertButton = new QPushButton("Convert", this);
-  vbox->addWidget(convertButton);
+
+  // Donate button
+  QPushButton *buyMeACoffeeButton = new QPushButton("Donate", this);
+  QIcon bmcIcon(":/path/to/bmc_icon.png");  // Update the path to your icon file
+  buyMeACoffeeButton->setIcon(bmcIcon);
+
+  // Create a horizontal layout for the buttons
+  QHBoxLayout *buttonLayout = new QHBoxLayout();
+  buttonLayout->addWidget(convertButton);
+  buttonLayout->addWidget(buyMeACoffeeButton);
+
+  // Set stretch factors to make each button take 50% of the width
+  buttonLayout->setStretch(0, 1);
+  buttonLayout->setStretch(1, 1);
+
+  // Add the button layout to the main vertical layout
+  vbox->addLayout(buttonLayout);
 
   // Output text edit
   outputTextEdit = new QTextEdit(this);
@@ -75,6 +92,8 @@ MainWindow::MainWindow(QWidget *parent)
           &MainWindow::onReadyReadStandardOutput);
   connect(process, &QProcess::readyReadStandardError, this,
           &MainWindow::onReadyReadStandardError);
+  connect(buyMeACoffeeButton, &QPushButton::clicked, this,
+          &MainWindow::onBuyMeACoffee);
 }
 
 MainWindow::~MainWindow() { delete process; }
@@ -152,4 +171,8 @@ void MainWindow::onReadyReadStandardOutput() {
 void MainWindow::onReadyReadStandardError() {
   QString error = process->readAllStandardError();
   outputTextEdit->append(error);
+}
+
+void MainWindow::onBuyMeACoffee() {
+  QDesktopServices::openUrl(QUrl("https://www.buymeacoffee.com/pacha"));
 }

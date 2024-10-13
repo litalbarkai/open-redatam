@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow {
   void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
   void onReadyReadStandardOutput();
   void onReadyReadStandardError();
+  void onBuyMeACoffee();
 
  private:
   QProcess *process;

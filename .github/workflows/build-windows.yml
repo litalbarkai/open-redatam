@@ -28,6 +28,9 @@ jobs:
       - name: Install DirectX
         run: choco install directx -y
 
+      - name: Install NSIS
+        run: choco install nsis -y
+
       - name: Build redatam
         run: |
           cd redatamwindows
@@ -50,9 +53,11 @@ jobs:
       - name: Test redatam with a DICX file on Windows
         run: redatamwindows\Release\redatam.exe test\galapagos\cg15.dicX test\galapagos\dicx-to-csv-windows
 
-      - name: Upload Windows binaries
+      - name: Create installer
+        run: makensis installer.nsi
+
+      - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
-          name: redatam-windows
-          path: |
-            redatamguiwindows\Release\
+          name: open-redatam-installer
+          path: open-redatam-installer.exe

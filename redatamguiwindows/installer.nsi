@@ -17,7 +17,7 @@ Page instfiles
 
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
-  File /r "redatamguiwindows\Release\*.*"
+  File /r "Release\*.*"
   CreateDirectory "$SMPROGRAMS\Open Redatam"
   CreateShortCut "$SMPROGRAMS\Open Redatam\Open Redatam.lnk" "$INSTDIR\redatamgui.exe"
   CreateShortCut "$DESKTOP\Open Redatam.lnk" "$INSTDIR\redatamgui.exe"

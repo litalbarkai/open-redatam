@@ -13,12 +13,18 @@ jobs:
     runs-on: macos-14
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download macOS installer
         run: |
           curl -L -o open-redatam-mac.pkg https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-mac.pkg
 
       - name: Install macOS package
         run: sudo installer -pkg open-redatam-mac.pkg -target /
+
+      - name: List contents of test/galapagos directory
+        run: ls -l test/galapagos
 
       - name: Verify installation and convert DIC file
         run: |

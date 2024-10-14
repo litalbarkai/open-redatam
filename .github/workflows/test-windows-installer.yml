@@ -22,15 +22,14 @@ jobs:
 
       - name: Install Windows package
         run: |
-          start /wait open-redatam-windows.exe /S /D=C:\Program Files\OpenRedatam
+          Start-Process -FilePath open-redatam-windows.exe -ArgumentList '/S', '/D=C:\Program Files\OpenRedatam' -Wait
 
       - name: Verify installation and convert DIC file
         run: |
-          "C:\Program Files (x86)\Open Redatam\redatam.exe" test\galapagos\cg15.dic test\galapagos\dic-to-csv
-          "C:\Program Files (x86)\Open Redatam\redatam.exe" test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
+          "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dic test\galapagos\dic-to-csv
+          "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
 
       - name: Check conversion results
         run: |
           dir test\galapagos\dic-to-csv
           dir test\galapagos\dicx-to-csv
-          

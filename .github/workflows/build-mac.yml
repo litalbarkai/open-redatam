@@ -31,6 +31,30 @@ jobs:
         run: |
           /opt/homebrew/opt/qt@5/bin/macdeployqt redatamgui
 
+      - name: Create .app bundle for redatamgui
+        run: |
+          mkdir -p RedatamGUI.app/Contents/MacOS
+          mkdir -p RedatamGUI.app/Contents/Resources
+          cp redatamgui RedatamGUI.app/Contents/MacOS/
+          echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+          <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+          <plist version=\"1.0\">
+          <dict>
+            <key>CFBundleExecutable</key>
+            <string>redatamgui</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.pacha.openredatam</string>
+            <key>CFBundleName</key>
+            <string>Redatam GUI</string>
+            <key>CFBundleVersion</key>
+            <string>0.2</string>
+            <key>CFBundleIconFile</key>
+            <string>icon.icns</string>
+          </dict>
+          </plist>" > RedatamGUI.app/Contents/Info.plist
+          # Add your icon file to the Resources directory if you have one
+          # cp path/to/icon.icns RedatamGUI.app/Contents/Resources/
+
       - name: Test redatam with a DIC file on Mac
         run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
 
@@ -41,20 +65,12 @@ jobs:
         run: |
           mkdir -p package-root/usr/local/bin
           cp redatam package-root/usr/local/bin/
-          cp redatamgui package-root/usr/local/bin/
+          cp -R RedatamGUI.app package-root/Applications/
           mkdir -p scripts
           echo "#!/bin/bash
           set -x
           echo 'Running post-install script...'
           chmod +x /usr/local/bin/redatam
-          chmod +x /usr/local/bin/redatamgui
-          echo \"[Desktop Entry]
-          Version=1.0
-          Name=Redatam GUI
-          Exec=/usr/local/bin/redatamgui
-          Icon=utilities-terminal
-          Type=Application
-          Categories=Utility;\" > /usr/share/applications/redatamgui.desktop
           echo 'Post-install script completed.'" > scripts/postinstall
           chmod +x scripts/postinstall
           pkgbuild --root package-root --identifier com.pacha.openredatam --version 0.2 --install-location / --scripts scripts package.pkg

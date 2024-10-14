@@ -35,8 +35,3 @@ jobs:
         run: |
           ls -l test/galapagos/dic-to-csv
           ls -l test/galapagos/dicx-to-csv
-
-      - name: Check GUI
-        run: |
-          open -a /usr/local/bin/redatamgui
-          

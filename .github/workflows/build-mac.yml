@@ -44,6 +44,8 @@ jobs:
           cp redatamgui package-root/usr/local/bin/
           mkdir -p scripts
           echo "#!/bin/bash
+          set -x
+          echo 'Running post-install script...'
           chmod +x /usr/local/bin/redatam
           chmod +x /usr/local/bin/redatamgui
           echo \"[Desktop Entry]
@@ -52,7 +54,77 @@ jobs:
           Exec=/usr/local/bin/redatamgui
           Icon=utilities-terminal
           Type=Application
-          Categories=Utility;\" > /usr/share/applications/redatamgui.desktop" > scripts/postinstall
+          Categories=Utility;\" > /usr/share/applications/redatamgui.desktop
+          echo 'Post-install script completed.'" > scripts/postinstall
+          chmod +x scripts/postinstall
+          pkgbuild --root package-root --identifier com.pacha.openredatam --version 0.2 --install-location / --scripts scripts package.pkg
+
+      - name: Create product archive
+        run: |
+          productbuild --distribution dev/mac-distribution.xml --package-path package.pkg --resources resources --version 0.2 open-redatam-mac.pkg
+
+      - name: Upload macOS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-redatam-mac
+          path: open-redatam-mac.pkgname: Build Mac executables
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment on Mac
+        run: |
+          brew install qt@5
+          echo "/opt/homebrew/opt/qt@5/bin" >> $GITHUB_PATH
+          echo "LDFLAGS=-L/opt/homebrew/opt/qt@5/lib" >> $GITHUB_ENV
+          echo "CPPFLAGS=-I/opt/homebrew/opt/qt@5/include" >> $GITHUB_ENV
+          echo "PKG_CONFIG_PATH=/opt/homebrew/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
+
+      - name: Build redatam and redatamgui on Mac
+        run: make all
+
+      - name: Bundle Qt libraries on Mac
+        run: |
+          /opt/homebrew/opt/qt@5/bin/macdeployqt redatamgui
+
+      - name: Test redatam with a DIC file on Mac
+        run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+
+      - name: Test redatam with a DICX file on Mac
+        run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
+
+      - name: Create package
+        run: |
+          mkdir -p package-root/usr/local/bin
+          cp redatam package-root/usr/local/bin/
+          cp redatamgui package-root/usr/local/bin/
+          mkdir -p scripts
+          echo "#!/bin/bash
+          set -x
+          echo 'Running post-install script...'
+          chmod +x /usr/local/bin/redatam
+          chmod +x /usr/local/bin/redatamgui
+          echo \"[Desktop Entry]
+          Version=1.0
+          Name=Redatam GUI
+          Exec=/usr/local/bin/redatamgui
+          Icon=utilities-terminal
+          Type=Application
+          Categories=Utility;\" > /usr/share/applications/redatamgui.desktop
+          echo 'Post-install script completed.'" > scripts/postinstall
           chmod +x scripts/postinstall
           pkgbuild --root package-root --identifier com.pacha.openredatam --version 0.2 --install-location / --scripts scripts package.pkg
 
@@ -65,3 +137,4 @@ jobs:
         with:
           name: open-redatam-mac
           path: open-redatam-mac.pkg
+          

@@ -26,8 +26,8 @@ jobs:
 
       - name: Verify installation and convert DIC file
         run: |
-          "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dic test\galapagos\dic-to-csv
-          "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
+          & "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dic test\galapagos\dic-to-csv
+          & "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
 
       - name: Check conversion results
         run: |

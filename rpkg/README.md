@@ -15,6 +15,10 @@ To install the R package, run the following command:
 remotes::install_github("pachadotdev/open-redatam/rpkg", subdir = "rpkg")
 ```
 
+## Requirements
+
+R 4.0 or higher.
+
 ## Usage
 
 For a given census, such as the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:

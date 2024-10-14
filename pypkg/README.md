@@ -35,6 +35,10 @@ rm -rf build dist redatam.egg-info
 pip install --use-pep517 .
 ```
 
+## Requirements
+
+Python 3.8 or higher.
+
 ## Usage
 
 For a given census, such as the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:

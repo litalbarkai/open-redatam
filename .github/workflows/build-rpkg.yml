@@ -39,6 +39,12 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Restore R package cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/R
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-cache
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: './rpkg'
@@ -50,3 +56,10 @@ jobs:
           working-directory: './rpkg'
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+
+      - name: Save R package cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/R
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-cache
+          

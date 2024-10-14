@@ -19,7 +19,7 @@ using std::pair;
 
 class XMLParser {
  public:
-  explicit XMLParser() = default;
+  XMLParser() = default;
   ~XMLParser() = default;
 
   XMLParser(const XMLParser&) = delete;

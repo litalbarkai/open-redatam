@@ -27,10 +27,6 @@ jobs:
       - name: Build redatam and redatamgui on Mac
         run: make all
 
-      - name: Bundle Qt libraries on Mac
-        run: |
-          /opt/homebrew/opt/qt@5/bin/macdeployqt redatamgui
-
       - name: Create .app bundle for redatamgui
         run: |
           mkdir -p RedatamGUI.app/Contents/MacOS
@@ -54,6 +50,10 @@ jobs:
           </plist>" > RedatamGUI.app/Contents/Info.plist
           # Add your icon file to the Resources directory if you have one
           # cp path/to/icon.icns RedatamGUI.app/Contents/Resources/
+
+      - name: Bundle Qt libraries on Mac
+        run: |
+          /opt/homebrew/opt/qt@5/bin/macdeployqt RedatamGUI.app
 
       - name: Test redatam with a DIC file on Mac
         run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv

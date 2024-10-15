@@ -55,33 +55,16 @@ jobs:
         run: |
           /opt/homebrew/opt/qt@5/bin/macdeployqt RedatamGUI.app
 
-      - name: Test redatam with a DIC file on Mac
-        run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
-
-      - name: Test redatam with a DICX file on Mac
-        run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
-
-      - name: Create package
+      - name: Create DMG
         run: |
-          mkdir -p package-root/usr/local/bin
-          cp redatam package-root/usr/local/bin/
-          cp -R RedatamGUI.app package-root/Applications/
-          mkdir -p scripts
-          echo "#!/bin/bash
-          set -x
-          echo 'Running post-install script...'
-          chmod +x /usr/local/bin/redatam
-          echo 'Post-install script completed.'" > scripts/postinstall
-          chmod +x scripts/postinstall
-          pkgbuild --root package-root --identifier com.pacha.openredatam --version 0.2 --install-location / --scripts scripts package.pkg
+          mkdir -p dmg-root/Applications
+          cp -R RedatamGUI.app dmg-root/Applications/
+          cp redatam dmg-root/Applications/
+          hdiutil create -volname "Redatam" -srcfolder dmg-root -ov -format UDZO redatam.dmg
 
-      - name: Create product archive
-        run: |
-          productbuild --distribution dev/mac-distribution.xml --package-path package.pkg --resources resources --version 0.2 open-redatam-mac.pkg
-
-      - name: Upload macOS installer
+      - name: Upload macOS DMG
         uses: actions/upload-artifact@v4
         with:
-          name: open-redatam-mac
-          path: open-redatam-mac.pkg
+          name: redatam-mac
+          path: redatam.dmg
           

@@ -16,22 +16,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download macOS installer
+      - name: Download macOS DMG
         run: |
-          curl -L -o open-redatam-mac.pkg https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-mac.pkg
+          curl -L -o open-redatam-mac.dmg https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-mac.dmg
 
-      - name: Install macOS package
-        run: sudo installer -pkg open-redatam-mac.pkg -target /
+      - name: Mount DMG
+        run: |
+          hdiutil attach open-redatam-mac.dmg
 
       - name: List contents of test/galapagos directory
         run: ls -l test/galapagos
 
       - name: Verify installation and convert DIC file
         run: |
-          /usr/local/bin/redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
-          /usr/local/bin/redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
+          /Volumes/Redatam/Applications/redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+          /Volumes/Redatam/Applications/redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
 
       - name: Check conversion results
         run: |
           ls -l test/galapagos/dic-to-csv
           ls -l test/galapagos/dicx-to-csv
+
+      - name: Install Xvfb
+        run: brew install Xvfb
+
+      - name: Start Xvfb and run RedatamGUI.app
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x16 &
+          sleep 3
+          open /Volumes/Redatam/Applications/RedatamGUI.app
+          sleep 10 # Wait for the application to start
+          pkill -f Xvfb
+
+      - name: Unmount DMG
+        run: |
+          hdiutil detach /Volumes/Redatam
+          

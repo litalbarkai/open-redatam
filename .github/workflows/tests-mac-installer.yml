@@ -18,7 +18,7 @@ jobs:
 
       - name: Download macOS DMG
         run: |
-          curl -L -o open-redatam-mac.dmg https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-mac.dmg
+          curl -L -o open-redatam-mac.dmg https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam.dmg
 
       - name: Mount DMG
         run: |
@@ -37,17 +37,17 @@ jobs:
           ls -l test/galapagos/dic-to-csv
           ls -l test/galapagos/dicx-to-csv
 
-      - name: Install Xvfb
-        run: brew install Xvfb
+      - name: Install XQuartz
+        run: brew install --cask xquartz
 
-      - name: Start Xvfb and run RedatamGUI.app
+      - name: Start XQuartz and run RedatamGUI.app
         run: |
-          export DISPLAY=:99
-          Xvfb :99 -screen 0 1024x768x16 &
+          open -a XQuartz
+          export DISPLAY=:0
           sleep 3
           open /Volumes/Redatam/Applications/RedatamGUI.app
           sleep 10 # Wait for the application to start
-          pkill -f Xvfb
+          pkill -f XQuartz
 
       - name: Unmount DMG
         run: |

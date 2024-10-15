@@ -60,11 +60,10 @@ jobs:
           mkdir -p dmg-root/Applications
           cp -R RedatamGUI.app dmg-root/Applications/
           cp redatam dmg-root/Applications/
-          hdiutil create -volname "Redatam" -srcfolder dmg-root -ov -format UDZO redatam.dmg
+          hdiutil create -volname "Redatam" -srcfolder dmg-root -ov -format UDZO open-redatam-mac.dmg
 
       - name: Upload macOS DMG
         uses: actions/upload-artifact@v4
         with:
-          name: redatam-mac
-          path: redatam.dmg
-          
+          name: open-redatam-mac
+          path: open-redatam-mac.dmg

@@ -48,7 +48,3 @@ jobs:
           open /Volumes/Redatam/Applications/RedatamGUI.app
           sleep 10 # Wait for the application to start
           pkill -f XQuartz
-
-      - name: Unmount DMG
-        run: |
-          hdiutil detach /Volumes/Redatam

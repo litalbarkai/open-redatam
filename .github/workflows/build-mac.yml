@@ -53,7 +53,7 @@ jobs:
 
       - name: Bundle Qt libraries on Mac
         run: |
-          /opt/homebrew/opt/qt@5/bin/macdeployqt RedatamGUI.app
+          /usr/local/opt/qt@5/bin/macdeployqt RedatamGUI.app
 
       - name: Create DMG
         run: |

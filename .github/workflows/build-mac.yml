@@ -19,10 +19,10 @@ jobs:
       - name: Set up environment on Mac
         run: |
           brew install qt@5
-          echo "/usr/local/opt/qt@5/bin" >> $GITHUB_PATH
-          export LDFLAGS="-L/usr/local/opt/qt@5/lib"
-          export CPPFLAGS="-I/usr/local/opt/qt@5/include"
-          export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
+          echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> $GITHUB_ENV
+          echo 'export LDFLAGS="-L/usr/local/opt/qt@5/lib"' >> $GITHUB_ENV
+          echo 'export CPPFLAGS="-I/usr/local/opt/qt@5/include"' >> $GITHUB_ENV
+          echo 'export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"' >> $GITHUB_ENV
 
       - name: Build redatam and redatamgui on Mac
         run: make all

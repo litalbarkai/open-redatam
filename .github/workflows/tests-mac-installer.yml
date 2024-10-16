@@ -10,7 +10,7 @@ on:
 
 jobs:
   test-installer:
-    runs-on: macos-14
+    runs-on: macos-12
 
     steps:
       - name: Checkout code

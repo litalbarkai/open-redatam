@@ -1,6 +1,7 @@
 # Open Redatam (R Package) <img src="man/figures/logo.svg" align="right" height="139" alt="" />
 
 [![R Package](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-rpkg.yml)
+[![CRAN status](https://www.r-pkg.org/badges/version/redatam)](https://CRAN.R-project.org/package=redatam)
 [![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-white.svg)](https://buymeacoffee.com/pacha)
 
 ## About
@@ -10,6 +11,12 @@ Open Redatam is a software for extracting raw information from REDATAM databases
 For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/open-redatam/) of this repository.
 
 To install the R package, run the following command:
+
+```r
+install.packages("redatam")
+```
+
+Or install the development version from GitHub:
 
 ```r
 remotes::install_github("pachadotdev/open-redatam/rpkg", subdir = "rpkg")

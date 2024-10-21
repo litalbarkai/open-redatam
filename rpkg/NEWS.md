@@ -1,3 +1,7 @@
+# redatam 2.0.0
+
+* First CRAN release.
+
 # redatam 0.2.1
 
 * CRAN requested changes:

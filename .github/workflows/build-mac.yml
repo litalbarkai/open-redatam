@@ -43,7 +43,7 @@ jobs:
             <key>CFBundleName</key>
             <string>Redatam GUI</string>
             <key>CFBundleVersion</key>
-            <string>0.2</string>
+            <string>2.0</string>
             <key>CFBundleIconFile</key>
             <string>icon.icns</string>
           </dict>

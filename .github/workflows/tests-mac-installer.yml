@@ -18,7 +18,7 @@ jobs:
 
       - name: Download macOS DMG
         run: |
-          curl -L -o open-redatam-mac.dmg https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-mac.dmg
+          curl -L -o open-redatam-mac.dmg https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-mac.dmg
 
       - name: Mount DMG
         run: |

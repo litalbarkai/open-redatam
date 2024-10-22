@@ -18,7 +18,7 @@ jobs:
 
       - name: Download Windows installer
         run: |
-          curl -L -o open-redatam-windows.exe https://github.com/pachadotdev/open-redatam/releases/download/v0.2/open-redatam-windows.exe
+          curl -L -o open-redatam-windows.exe https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-windows.exe
 
       - name: Install Windows package
         run: |

@@ -47,18 +47,18 @@ jobs:
           Categories=Utility;" > package/usr/share/applications/redatamgui.desktop
           mkdir -p package/DEBIAN
           echo "Package: redatam
-          Version: 0.2
+          Version: 2.0
           Section: base
           Priority: optional
           Architecture: amd64
           Maintainer: Mauricio Pacha Vargas Sepulveda <m.sepulveda@mail.utoronto.ca>
           Depends: libqt5widgets5
           Description: Open Redatam" > package/DEBIAN/control
-          dpkg-deb --build package open_redatam_0.2_amd64.deb
+          dpkg-deb --build package open-redatam-ubuntu.deb
 
       - name: Upload DEB on Ubuntu
         uses: actions/upload-artifact@v4
         with:
           name: open-redatam-ubuntu
           path: |
-            open_redatam_0.2_amd64.deb
+            open-redatam-ubuntu.deb

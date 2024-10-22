@@ -1,3 +1,11 @@
+# Open Redatam 2.0
+
+CRAN-compliant version of the C++ code.
+
+# Open Redatam 1.0
+
+Mostly changes requested by CRAN about how to handle the data and the dictionaries.
+
 # Open Redatam 0.2
 
 * Refactored to use C++11 and pugixml instead of C++17 and Apache Xerces. This simplifies the build process.

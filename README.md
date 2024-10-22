@@ -36,7 +36,11 @@ This software is a full C++ ground-up rewrite of the original [Redatam Converter
 
 On Ubuntu, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-ubuntu.deb) and install it. This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry. The installer creates an entry in the Applications folder for Open Redatam GUI and you can also use the command line tool from the Terminal by calling `redatam`.
 
-On Mac, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-mac.dmg). The image contains `redatam` and `redatamgui`, which you can copy to "Applications".
+On Mac, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-mac.dmg). The image contains `redatam` and `redatamgui`, which you can copy to "Applications". The app is not verified because it does not make sense for us to pay 200 USD/year just to sign one image. You can install it anyways this by going to the System Settings in the Apple menu and then:
+
+1. Select Privacy & Security.
+2. Scroll down to the Security section.
+3. Click "Open Anyway" beneath the message "RedatamGUI was blocked for use because it is not from an identified developer."
 
 On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-windows.exe) and install it. The installer creates an entry in the Start Menu for Open Redatam GUI and you can also use the command line tool from Power Shell by calling `C:\Program Files (x86)\Open Redatam\redatam.exe`.
 

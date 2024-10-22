@@ -1,3 +1,18 @@
+# redatam 2.0.1
+
+* Fixes memory leaks warned by CRAN on clang-ASAN and gcc-UBSAN.
+
+# redatam 2.0.0
+
+* First CRAN release.
+
+# redatam 0.2.1
+
+* CRAN requested changes:
+  * Added Arseny Kapoulkine to 'ctb'
+  * Added the Republic of Ecuador  to 'dtc'
+  * Removed \dontrun{} from examples in the main function
+
 # redatam 0.2
 
 * Refactored to use C++11 instead of C++17.

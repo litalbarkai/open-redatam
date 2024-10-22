@@ -1,13 +1,22 @@
 #include <string>
-#include <iostream>     //  std::cerr, std::cout, std::endl
-#include <filesystem>   //  exists, create_directories
+#include <iostream>    // std::cerr, std::cout, std::endl
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <sys/stat.h>  // mkdir
+#include <unistd.h>    // access
+#endif
 
 #include "RedatamDatabase.hpp"
+#include "utils.hpp"
 
-using std::string, std::cerr, std::cout, std::endl;
-namespace fs = std::filesystem;
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::string;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     if (argc != 3)
     {
@@ -18,10 +27,16 @@ int main(int argc, char *argv[])
     string dicFilePath = argv[1];
     string outputDirPath = argv[2];
 
-    if (!fs::exists(dicFilePath))
+    if (!RedatamLib::Exists(dicFilePath))
     {
-        cerr << "Error: Input dictionary file does not exist." << endl;
-        return 1;
+      cerr << "Error: Input dictionary file does not exist." << endl;
+      return 1;
+    }
+
+    if (!RedatamLib::CreateDirectories(outputDirPath))
+    {
+      cerr << "Error: Failed to create output directory." << endl;
+      return 1;
     }
 
     try

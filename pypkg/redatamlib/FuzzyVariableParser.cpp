@@ -1,6 +1,8 @@
 #include "FuzzyVariableParser.hpp"
 
 #include <algorithm>  //  std::replace
+#include <iostream>   //  std::cerr
+#include <regex>      //  std::regex, std::smatch, std::regex_search
 #include <thread>
 
 #include "utils.hpp"  //  GetFileExtension, ThrowIfBad
@@ -92,26 +94,57 @@ string FuzzyVariableParser::ParseIdxFileName(const string& rootPath,
 //  static
 size_t FuzzyVariableParser::ParseDataSize(VarType type,
                                           ByteArrayReader* reader) {
+  size_t len = 0;
+  std::string str;
+  std::regex re("\\d+");
+  std::smatch match;
+
   switch (type) {
     case DBL:
       return 8;
-      break;
-
-    case INT:
-      return 2;
       break;
 
     case LNG:
       return 4;
       break;
 
+    case INT:
+      return 2;
+      break;
+
+    case BIN:
+    case CHR:
+    case PCK:
+      reader->MovePos(6);  //  " SIZE "
+      len = GetSubstringLength("", reader);
+      str = reader->ReadString(len);
+
+      // Extract the numeric part from the string
+      if (std::regex_search(str, match, re)) {
+        try {
+          return std::stoi(match.str());
+        } catch (const std::invalid_argument& e) {
+          std::cerr << "Invalid argument: " << e.what() << " for string: '"
+                    << str << "'" << std::endl;
+          throw;
+        } catch (const std::out_of_range& e) {
+          std::cerr << "Out of range: " << e.what() << " for string: '" << str
+                    << "'" << std::endl;
+          throw;
+        }
+      } else {
+        std::cerr << "No numeric part found in string: '" << str << "'"
+                  << std::endl;
+        throw std::invalid_argument("No numeric part found in string");
+      }
+      break;
+
+    case NA:
     default:
       break;
   }
 
-  reader->MovePos(6);  //  " SIZE "
-  size_t len = GetSubstringLength("", reader);
-  return std::stoi(reader->ReadString(len));
+  return 0;  // Default return value if no case matches
 }
 
 //  static

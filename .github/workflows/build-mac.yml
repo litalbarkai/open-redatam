@@ -1,0 +1,69 @@
+name: Build Mac executables
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment on Mac
+        run: |
+          brew install qt@5
+          echo "/usr/local/opt/qt@5/bin" >> $GITHUB_PATH
+          echo "LDFLAGS=-L/usr/local/opt/qt@5/lib" >> $GITHUB_ENV
+          echo "CPPFLAGS=-I/usr/local/opt/qt@5/include" >> $GITHUB_ENV
+          echo "PKG_CONFIG_PATH=/usr/local/opt/qt@5/lib/pkgconfig" >> $GITHUB_ENV
+
+      - name: Build redatam and redatamgui on Mac
+        run: make all
+
+      - name: Create .app bundle for redatamgui
+        run: |
+          mkdir -p RedatamGUI.app/Contents/MacOS
+          mkdir -p RedatamGUI.app/Contents/Resources
+          cp redatamgui RedatamGUI.app/Contents/MacOS/
+          echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+          <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+          <plist version=\"1.0\">
+          <dict>
+            <key>CFBundleExecutable</key>
+            <string>redatamgui</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.pacha.openredatam</string>
+            <key>CFBundleName</key>
+            <string>Redatam GUI</string>
+            <key>CFBundleVersion</key>
+            <string>2.0</string>
+            <key>CFBundleIconFile</key>
+            <string>icon.icns</string>
+          </dict>
+          </plist>" > RedatamGUI.app/Contents/Info.plist
+          # Add your icon file to the Resources directory if you have one
+          # cp path/to/icon.icns RedatamGUI.app/Contents/Resources/
+
+      - name: Bundle Qt libraries on Mac
+        run: |
+          /usr/local/opt/qt@5/bin/macdeployqt RedatamGUI.app
+
+      - name: Create DMG
+        run: |
+          mkdir -p dmg-root/Applications
+          cp -R RedatamGUI.app dmg-root/Applications/
+          cp redatam dmg-root/Applications/
+          hdiutil create -volname "Redatam" -srcfolder dmg-root -ov -format UDZO open-redatam-mac.dmg
+
+      - name: Upload macOS DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-redatam-mac
+          path: open-redatam-mac.dmg

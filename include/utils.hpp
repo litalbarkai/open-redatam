@@ -10,7 +10,9 @@
 
 namespace RedatamLib
 {
-using std::string, std::cerr, std::endl;
+using std::string;
+using std::cerr;
+using std::endl;
 
 string FindRootPath(const string& fileName);
 string ReplaceRootPath(const string& rootPath, const string& fileName);
@@ -19,6 +21,8 @@ string ReplaceRootPath(const string& rootPath, const string& fileName);
 string GetFileExtension(const string& fileName);
 
 bool TryGetFileExtension(const string& fileName, string* output);
+bool Exists(const std::string& path);
+bool CreateDirectories(const std::string& path);
 
 template <typename E>
 void ThrowIfBad(bool is_good_, std::error_code err_, const string& e_msg_)

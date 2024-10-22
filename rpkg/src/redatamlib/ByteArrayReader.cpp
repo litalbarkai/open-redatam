@@ -167,6 +167,9 @@ bool ByteArrayReader::IsValidStr(const string& str) {
 }
 
 unsigned char ByteArrayReader::ReadByte() {
+  if (m_currPos >= m_data.size()) {
+    throw std::out_of_range("Attempt to read past the end of the buffer");
+  }
   unsigned char ret = m_data[m_currPos];
   MovePos(1);
 

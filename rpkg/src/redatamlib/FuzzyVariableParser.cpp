@@ -16,6 +16,10 @@ FuzzyVariableParser::FuzzyVariableParser(ByteArrayReader reader,
     : m_reader(reader), m_rootPath(rootPath) {}
 
 void FuzzyVariableParser::ParseAllVariables(vector<Entity>& entities) {
+  if (entities.empty()) {
+    return;
+  }
+
   vector<pair<size_t, size_t>> searchBounds = GetSearchBounds(entities);
 
   size_t numThreads = std::thread::hardware_concurrency();
@@ -41,6 +45,10 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity>& entities) {
 vector<pair<size_t, size_t>> FuzzyVariableParser::GetSearchBounds(
     vector<Entity> entities) {
   vector<pair<size_t, size_t>> ret;
+
+  if (entities.empty()) {
+    return ret;
+  }
 
   for (size_t i = 0; i < entities.size() - 1; ++i) {
     ret.push_back(

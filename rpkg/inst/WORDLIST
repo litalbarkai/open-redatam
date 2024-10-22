@@ -1,3 +1,4 @@
+ASAN
 BuyMeACoffee
 DICX
 De
@@ -5,10 +6,12 @@ Desarrollo
 ECLAC
 Familia
 Grande
+gcc
 Ministerio
 ORCID
 Pacha
 Sepulveda
+UBSAN
 de
 dontrun
 libarchive

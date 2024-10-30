@@ -3,5 +3,9 @@ dev
 inst/extdata/galapagos
 src/*.o
 src/*.so
-src/*/*.o
-src/*/*.so
+src/redatamlib/*.o
+src/redatamlib/*.so
+src/redatamlib/*/*.o
+src/redatamlib/*/*.so
+src/vendor/*.o
+src/vendor/*.so

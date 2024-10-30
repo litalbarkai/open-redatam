@@ -14,3 +14,4 @@
 ^\.covrignore$
 ^cran-comments\.md$
 ^inst/extdata/galapagos$
+^_pkgdown\.yml$

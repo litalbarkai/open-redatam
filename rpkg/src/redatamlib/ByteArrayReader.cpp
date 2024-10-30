@@ -92,9 +92,9 @@ size_t ByteArrayReader::GetPos() const { return m_currPos; }
 size_t ByteArrayReader::GetEndPos() const { return m_endPos; }
 
 void ByteArrayReader::SetPos(int newPos) {
-  ThrowIfBad<out_of_range>(
-      0 <= newPos && size_t(newPos) <= m_endPos,
-      out_of_range("Error: New position exceeds array bounds."));
+  if (!(0 <= newPos && size_t(newPos) <= m_endPos)) {
+    throw std::out_of_range("Error: New position exceeds array bounds.");
+  }
   m_currPos = newPos;
 }
 
@@ -110,13 +110,13 @@ bool ByteArrayReader::TryReadStr(string* output, bool filterByContent) {
 
   try {
     uint16_t len = ReadInt16LE();
-    ThrowIfBad<length_error>(
-        0 < len && 128 > len && m_currPos + len <= m_endPos,
-        length_error("Error: Invalid string length."));
+    if (!(0 < len && 128 > len && m_currPos + len <= m_endPos)) {
+      throw std::length_error("Error: Invalid string length.");
+    }
 
     *output = ReadString(len);
-  } catch (const std::bad_alloc& e) {
-    ThrowIfBad<std::bad_alloc>(false, e);
+  } catch (const std::bad_alloc&) {
+    throw;  // Directly re-throw bad_alloc without additional wrapping
   } catch (const std::exception&) {
     SetPos(ogPos);
     return false;

@@ -3,7 +3,7 @@
 #include <algorithm>  //  std::replace
 
 #include "FuzzyVariableParser.hpp"
-#include "utils.hpp"  //  GetFileExtension, ThrowIfBad
+#include "utils.hpp"  //  GetFileExtension
 
 namespace RedatamLib {
 FuzzyEntityParser::FuzzyEntityParser(const string& filePath)

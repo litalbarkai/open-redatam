@@ -89,9 +89,9 @@ bool TryGetFileExtension(const string& fileName, string* output) {
 
 string GetFileExtension(const string& fileName) {
   auto extPos = fileName.find_last_of('.');
-  ThrowIfBad<invalid_argument>(
-      extPos != string::npos,
-      invalid_argument("Error: No file extension found."));
+  if (extPos == string::npos) {
+    throw std::invalid_argument("Error: No file extension found.");
+  }
 
   string ext = fileName.substr(extPos);
   std::transform(ext.begin(), ext.end(), ext.begin(),

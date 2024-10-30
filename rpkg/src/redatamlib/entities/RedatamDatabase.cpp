@@ -28,15 +28,15 @@ cpp11::list RedatamDatabase::ExportRLists() const {
 void RedatamDatabase::OpenDictionary(const string& fileName) {
   string ext = GetFileExtension(fileName);
 
-  if (".dic" == ext) {
+  if (ext == ".dic") {
     FuzzyEntityParser parser(fileName);
     m_entities = parser.ParseEntities();
-  } else if (".dicx" == ext) {
+  } else if (ext == ".dicx") {
     XMLParser parser;
     m_entities = parser.ParseFile(fileName);
   } else {
     throw invalid_argument(
-        "Error: Dictionary file's extension must be .dic or .dicx.");
+      "Error: Dictionary file's extension must be .dic or .dicx.");
   }
 }
 }  // namespace RedatamLib

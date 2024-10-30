@@ -57,6 +57,7 @@ std::pair<bool, Entity> FuzzyEntityParser::TryGetEntity() {
 
   string parentEntityName("");
   if (!entityNameRepeated.empty() && !m_reader.TryReadStr(&parentEntityName)) {
+    throw std::out_of_range("Error: Parent entity name not found.");
   }
 
   string description("");
@@ -75,8 +76,9 @@ std::pair<bool, Entity> FuzzyEntityParser::TryGetEntity() {
 
   std::pair<size_t, size_t> bounds(ogPos, m_reader.GetPos());
 
-  return std::pair<bool, Entity>(true, Entity(entityName, parentEntityName, description,
-                           idxFileName, bounds));
+  return std::pair<bool, Entity>(
+      true,
+      Entity(entityName, parentEntityName, description, idxFileName, bounds));
 }
 
 //  static

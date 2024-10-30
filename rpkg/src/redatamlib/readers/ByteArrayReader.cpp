@@ -116,7 +116,7 @@ bool ByteArrayReader::TryReadStr(string* output, bool filterByContent) {
 
     *output = ReadString(len);
   } catch (const std::bad_alloc& e) {
-    throw e;
+    throw std::bad_alloc(e.what());
   } catch (const std::exception&) {
     SetPos(ogPos);
     return false;

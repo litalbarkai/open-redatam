@@ -1,5 +1,5 @@
-#include <cpp11.hpp> //  R interface
 #include <string>
+#include <cpp11.hpp>
 
 #include "redatamlib/entities/RedatamDatabase.hpp"
 

@@ -1,7 +1,7 @@
-#include "BitArrayReader.hpp"
-
 #include <bitset>
 #include <vector>
+
+#include "BitArrayReader.hpp"
 
 namespace RedatamLib {
 BitArrayReader::BitArrayReader(size_t dataSize)

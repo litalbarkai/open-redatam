@@ -1,4 +1,5 @@
 #include <algorithm> //  std::replace
+#include <iostream>  //  std::cerr, std::endl
 #include <regex>     //  std::regex, std::smatch, std::regex_search
 #include <thread>
 

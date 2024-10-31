@@ -12,6 +12,11 @@ CXX = g++
 CXXFLAGS = -std=c++11 -O3 -Wall -fPIC $(INCLUDE_DIRS)
 LDFLAGS = -pthread -L$(LIB_DIR)
 
+# Debug
+# CXX = clang++
+# CXXFLAGS = -std=c++11 -O3 -Wall -fPIC $(INCLUDE_DIRS) -fsanitize=address -g
+# LDFLAGS = -pthread -L$(LIB_DIR) -fsanitize=address
+
 # Qt flags
 QT_CXXFLAGS = $(shell pkg-config --cflags Qt5Widgets)
 QT_LDFLAGS = $(shell pkg-config --libs Qt5Widgets)

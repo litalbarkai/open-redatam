@@ -8,7 +8,7 @@
 #include "FuzzyEntityParser.hpp"
 #include "RListExporter.hpp"
 #include "XMLParser.hpp"
-#include "utils.hpp"  //  GetFileExtension
+#include "utils.hpp"  //  ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {
 using std::string;
@@ -28,15 +28,17 @@ cpp11::list RedatamDatabase::ExportRLists() const {
 void RedatamDatabase::OpenDictionary(const string& fileName) {
   string ext = GetFileExtension(fileName);
 
-  if (ext == ".dic") {
+  if (".dic" == ext) {
     FuzzyEntityParser parser(fileName);
     m_entities = parser.ParseEntities();
-  } else if (ext == ".dicx") {
+  } else if (".dicx" == ext) {
     XMLParser parser;
     m_entities = parser.ParseFile(fileName);
   } else {
-    throw invalid_argument(
-      "Error: Dictionary file's extension must be .dic or .dicx.");
+    ThrowIfBad<invalid_argument>(
+        false,
+        invalid_argument(
+            "Error: Dictionary file's extension must be .dic or .dicx ."));
   }
 }
 }  // namespace RedatamLib

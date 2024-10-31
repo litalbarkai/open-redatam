@@ -5,7 +5,7 @@
 #include <regex>      //  std::regex, std::smatch, std::regex_search
 #include <cpp11.hpp>  //  cpp11::stop
 
-#include "utils.hpp"  //  GetFileExtension
+#include "utils.hpp"  //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
 FuzzyVariableParser::FuzzyVariableParser(const string& filePath)
@@ -202,9 +202,9 @@ void FuzzyVariableParser::ParseMissingAndNA(vector<Tag>* tags,
 
     try {
       reader->MovePosTo(missing);
-      if (maxPos <= reader->GetPos()) {
-        throw std::out_of_range("Label doesn't belong to current variable.");
-      }
+      ThrowIfBad(
+          maxPos > reader->GetPos(),
+          std::out_of_range("Label doesn't belong to current variable."));
 
       reader->MovePos(missing.size() + 1);  //  missing + " "
       size_t keyLen1 = GetSubstringLength(" ", reader);
@@ -216,9 +216,9 @@ void FuzzyVariableParser::ParseMissingAndNA(vector<Tag>* tags,
 
     try {
       reader->MovePosTo(na);
-      if (maxPos <= reader->GetPos()) {
-        throw std::out_of_range("Label doesn't belong to current variable.");
-      }
+      ThrowIfBad(
+          maxPos > reader->GetPos(),
+          std::out_of_range("Label doesn't belong to current variable."));
 
       reader->MovePos(na.size() + 1);  //  na + " "
       size_t keyLen2 = std::min(GetSubstringLength("", reader),
@@ -264,10 +264,9 @@ void FuzzyVariableParser::ParseVariables(shared_ptr<vector<Variable>> output,
 
     while (true) {
       reader.MovePosTo("DATASET");
-      if (reader.GetPos() >= bounds.second) {
-        throw std::out_of_range(
-          "Error: DATASET doesn't belong to current entity.");
-      }
+      ThrowIfBad(reader.GetPos() < bounds.second,
+                 std::out_of_range(
+                     "Error: DATASET doesn't belong to current entity."));
 
       reader.MovePos(-2);  //  "DATASET" length indicator
       string varName = reader.GetFormerString();
@@ -299,7 +298,6 @@ void FuzzyVariableParser::ParseVariables(shared_ptr<vector<Variable>> output,
                                  range, tags, description, decimals));
     }
   } catch (const std::out_of_range&) {
-    throw std::out_of_range("Error: Variable parsing went out of bounds.");
   }
 }
 

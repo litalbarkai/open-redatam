@@ -3,23 +3,23 @@
 
 #include <memory>
 #include <string>
-#include <utility>  //  std::pair
+#include <utility> //  std::pair
 #include <vector>
 
 #include "ByteArrayReader.hpp"
 #include "Variable.hpp"
 
 namespace RedatamLib {
+using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::shared_ptr;
-using std::pair;
 
 class Entity {
- public:
+public:
   explicit Entity();
-  explicit Entity(const string& name, const string& parentName,
-                  const string& description, const string& idxFileName,
+  explicit Entity(const string &name, const string &parentName,
+                  const string &description, const string &idxFileName,
                   pair<size_t, size_t> bounds);
   ~Entity() = default;
 
@@ -34,22 +34,22 @@ class Entity {
 
   size_t GetPTRData();
 
-  Entity* GetChild() const;
+  Entity *GetChild() const;
 
-  void AttachChild(Entity* child);
+  void AttachChild(Entity *child);
   void AttachVariables(shared_ptr<vector<Variable>> variables);
 
- private:
+private:
   string m_name;
   string m_parentName;
   string m_description;
   string m_indexFilename;
-  Entity* m_child;
+  Entity *m_child;
   shared_ptr<vector<Variable>> m_variables;
   pair<size_t, size_t> m_bounds;
   ByteArrayReader m_reader;
   size_t m_rowsCount;
 };
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  // REDATAMLIB_ENTITY_HPP
+#endif // REDATAMLIB_ENTITY_HPP

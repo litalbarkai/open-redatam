@@ -1,21 +1,20 @@
-#include "RedatamDatabase.hpp"
-
-#include <cctype>  //  std::tolower
+#include <cctype>    //  std::tolower
+#include <stdexcept> //  std::invalid_argument
+#include <string>    //  find_last_of, substr, npos
 #include <cpp11.hpp>
-#include <stdexcept>  //  std::invalid_argument
-#include <string>     //  find_last_of, substr, npos
 
 #include "FuzzyEntityParser.hpp"
-#include "RListExporter.hpp"
+#include "RedatamDatabase.hpp"
 #include "XMLParser.hpp"
-#include "utils.hpp"  //  ThrowIfBad, GetFileExtension
+#include "utils.hpp" //  ThrowIfBad, GetFileExtension
+#include "RListExporter.hpp"
 
 namespace RedatamLib {
+using std::invalid_argument;
 using std::string;
 using std::vector;
-using std::invalid_argument;
 
-RedatamDatabase::RedatamDatabase(const string& fileName) {
+RedatamDatabase::RedatamDatabase(const string &fileName) {
   cpp11::message("Opening dictionary file...");
   OpenDictionary(fileName);
 }
@@ -25,7 +24,7 @@ cpp11::list RedatamDatabase::ExportRLists() const {
   return exporter.ExportAllR(m_entities);
 }
 
-void RedatamDatabase::OpenDictionary(const string& fileName) {
+void RedatamDatabase::OpenDictionary(const string &fileName) {
   string ext = GetFileExtension(fileName);
 
   if (".dic" == ext) {
@@ -41,4 +40,4 @@ void RedatamDatabase::OpenDictionary(const string& fileName) {
             "Error: Dictionary file's extension must be .dic or .dicx ."));
   }
 }
-}  // namespace RedatamLib
+} // namespace RedatamLib

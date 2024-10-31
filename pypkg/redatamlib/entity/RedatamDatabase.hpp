@@ -1,10 +1,9 @@
 #ifndef REDATAMLIB_REDATAMDATABASE_HPP
 #define REDATAMLIB_REDATAMDATABASE_HPP
 
-#include <pybind11/pybind11.h>  // Replace cpp11 with pybind11
-
 #include <string>
 #include <vector>
+#include <pybind11/pybind11.h>
 
 #include "Entity.hpp"
 
@@ -13,22 +12,22 @@ using std::string;
 using std::vector;
 
 class RedatamDatabase {
- public:
+public:
   // Throws invalid_argument
-  explicit RedatamDatabase(const string& fileName);
+  explicit RedatamDatabase(const string &fileName);
   ~RedatamDatabase() = default;
 
-  RedatamDatabase(const RedatamDatabase&) = delete;
-  RedatamDatabase& operator=(const RedatamDatabase&) = delete;
+  RedatamDatabase(const RedatamDatabase &) = delete;
+  RedatamDatabase &operator=(const RedatamDatabase &) = delete;
 
   pybind11::dict ExportPyLists() const;
 
- private:
+private:
   vector<Entity> m_entities;
 
-  void OpenDictionary(const string& fileName);
+  void OpenDictionary(const string &fileName);
 };
 
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  // REDATAMLIB_REDATAMDATABASE_HPP
+#endif // REDATAMLIB_REDATAMDATABASE_HPP

@@ -1,18 +1,17 @@
+#include <algorithm> //  std::replace
+
 #include "FuzzyEntityParser.hpp"
-
-#include <algorithm>  //  std::replace
-
 #include "FuzzyVariableParser.hpp"
-#include "utils.hpp"  //  GetFileExtension, ThrowIfBad
+#include "utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
-FuzzyEntityParser::FuzzyEntityParser(const string& filePath)
+FuzzyEntityParser::FuzzyEntityParser(const string &filePath)
     : m_reader(filePath), m_rootPath(FindRootPath(filePath)) {}
 
 vector<Entity> FuzzyEntityParser::ParseEntities() {
   std::pair<bool, Entity> curr;
   vector<Entity> ret;
-  unordered_map<string, Entity*> entities;
+  unordered_map<string, Entity *> entities;
 
   try {
     while (true) {
@@ -23,10 +22,10 @@ vector<Entity> FuzzyEntityParser::ParseEntities() {
         m_reader.MovePos(1);
       }
     }
-  } catch (const std::out_of_range&) {
+  } catch (const std::out_of_range &) {
   }
 
-  for (Entity& e : ret) {
+  for (Entity &e : ret) {
     entities[e.GetName()] = &e;
   }
 
@@ -75,14 +74,15 @@ std::pair<bool, Entity> FuzzyEntityParser::TryGetEntity() {
 
   std::pair<size_t, size_t> bounds(ogPos, m_reader.GetPos());
 
-  return std::pair<bool, Entity>(true, Entity(entityName, parentEntityName, description,
-                           idxFileName, bounds));
+  return std::pair<bool, Entity>(
+      true,
+      Entity(entityName, parentEntityName, description, idxFileName, bounds));
 }
 
 //  static
-void FuzzyEntityParser::AssignChildren(vector<Entity>& entitites,
-                                       unordered_map<string, Entity*> mapping) {
-  for (Entity& e : entitites) {
+void FuzzyEntityParser::AssignChildren(
+    vector<Entity> &entitites, unordered_map<string, Entity *> mapping) {
+  for (Entity &e : entitites) {
     string parent = e.GetParentName();
     if ("" != parent) {
       mapping[parent]->AttachChild(&e);
@@ -90,5 +90,4 @@ void FuzzyEntityParser::AssignChildren(vector<Entity>& entitites,
   }
 }
 
-}  // namespace RedatamLib
-
+} // namespace RedatamLib

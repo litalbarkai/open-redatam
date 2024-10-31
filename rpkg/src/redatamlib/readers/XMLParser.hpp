@@ -2,9 +2,9 @@
 #define REDATAMLIB_XMLPARSER_HPP
 
 #include <iostream>
-#include <memory>  //  std::shared_ptr
+#include <memory> //  std::shared_ptr
 #include <string>
-#include <utility>  //  std::pair
+#include <utility> //  std::pair
 #include <vector>
 
 #include "Entity.hpp"
@@ -12,33 +12,31 @@
 #include "pugixml.hpp"
 
 namespace RedatamLib {
+using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::shared_ptr;
-using std::pair;
 
 class XMLParser {
- public:
+public:
   XMLParser() = default;
   ~XMLParser() = default;
 
-  XMLParser(const XMLParser&) = delete;
-  XMLParser& operator=(const XMLParser&) = delete;
+  XMLParser(const XMLParser &) = delete;
+  XMLParser &operator=(const XMLParser &) = delete;
 
-  vector<Entity> ParseFile(const string& fileName);
+  vector<Entity> ParseFile(const string &fileName);
 
- private:
+private:
   string m_rootPath;
-
-  string GetTagValue(pugi::xml_node node, const string& tag, size_t idx = 0);
-  //  returns the next <entity>
-  pugi::xml_node ParseEntity(vector<Entity>* results, pugi::xml_node node,
-                             const string& parentName = "");
+  string GetTagValue(pugi::xml_node node, const string &tag, size_t idx = 0);
+  pugi::xml_node ParseEntity(vector<Entity> *results, pugi::xml_node node,
+                             const string &parentName = "");
   shared_ptr<vector<Variable>> ParseVariables(pugi::xml_node node);
   pair<VarType, size_t> ParseVarTypeAndSize(pugi::xml_node var);
   string ParseVarRange(pugi::xml_node var);
   vector<Tag> ParseVarTags(pugi::xml_node var);
 };
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  //  REDATAMLIB_XMLPARSER_HPP
+#endif //  REDATAMLIB_XMLPARSER_HPP

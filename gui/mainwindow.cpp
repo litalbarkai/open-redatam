@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
   // Donate button
   QPushButton *buyMeACoffeeButton = new QPushButton("Donate", this);
-  QIcon bmcIcon(":/path/to/bmc_icon.png");  // Update the path to your icon file
+  QIcon bmcIcon(":/path/to/bmc_icon.png"); // Update the path to your icon file
   buyMeACoffeeButton->setIcon(bmcIcon);
 
   // Create a horizontal layout for the buttons

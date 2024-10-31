@@ -1,9 +1,9 @@
 #ifndef REDATAMLIB_VARIABLE_HPP
 #define REDATAMLIB_VARIABLE_HPP
 
-#include <memory>  //  std::shared_ptr
+#include <memory> //  std::shared_ptr
 #include <string>
-#include <utility>  //  std::pair
+#include <utility> //  std::pair
 #include <vector>
 
 #include "ByteArrayReader.hpp"
@@ -15,14 +15,14 @@ using std::string;
 using std::vector;
 
 enum VarType { BIN, CHR, DBL, INT, LNG, PCK, NA };
-using Tag = pair<string, string>;  //  Tag = <Key, Value>
+using Tag = pair<string, string>; //  Tag = <Key, Value>
 
 class Variable {
- public:
+public:
   explicit Variable();
-  explicit Variable(const string& name, VarType type, const string& idxFileName,
-                    size_t dataSize, const string& filter, const string& range,
-                    vector<Tag> tags, const string& description,
+  explicit Variable(const string &name, VarType type, const string &idxFileName,
+                    size_t dataSize, const string &filter, const string &range,
+                    vector<Tag> tags, const string &description,
                     size_t decimals = 0);
   ~Variable() = default;
 
@@ -37,7 +37,7 @@ class Variable {
   size_t GetDecimals() const;
   std::shared_ptr<void> GetValues() const;
 
- private:
+private:
   string m_name;
   VarType m_type;
   string m_idxFileName;
@@ -58,6 +58,6 @@ class Variable {
   void ParseFloats(ByteArrayReader reader);
 };
 
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  // REDATAMLIB_VARIABLE_HPP
+#endif // REDATAMLIB_VARIABLE_HPP

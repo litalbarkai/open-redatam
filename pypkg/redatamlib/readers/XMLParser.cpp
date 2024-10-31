@@ -1,15 +1,13 @@
+#include <algorithm> // std::replace
+#include <fstream>   // std::ifstream
+#include <pybind11/pybind11.h> // replace cpp11::message
+
 #include "XMLParser.hpp"
-
-#include <pybind11/pybind11.h>  // replace cpp11::message
-
-#include <algorithm>  // std::replace
-#include <fstream>    // std::ifstream
-
 #include "utils.hpp"
 
 namespace RedatamLib {
 
-vector<Entity> XMLParser::ParseFile(const string& fileName) {
+vector<Entity> XMLParser::ParseFile(const string &fileName) {
   m_rootPath = FindRootPath(fileName);
 
   vector<Entity> ret;
@@ -42,7 +40,7 @@ vector<Entity> XMLParser::ParseFile(const string& fileName) {
     for (size_t idx = 0; idx < ret.size() - 1; ++idx) {
       ret[idx].AttachChild(&ret[idx + 1]);
     }
-  } catch (const std::exception& e) {
+  } catch (const std::exception &e) {
     std::string errorMsg = "Error: " + std::string(e.what());
     pybind11::print(errorMsg);
     throw;
@@ -51,15 +49,15 @@ vector<Entity> XMLParser::ParseFile(const string& fileName) {
   return ret;
 }
 
-string XMLParser::GetTagValue(pugi::xml_node node, const string& tag,
+string XMLParser::GetTagValue(pugi::xml_node node, const string &tag,
                               size_t idx) {
   pugi::xml_node child = node.child(tag.c_str());
   return child ? child.child_value() : "";
 }
 
-pugi::xml_node XMLParser::ParseEntity(vector<Entity>* results,
+pugi::xml_node XMLParser::ParseEntity(vector<Entity> *results,
                                       pugi::xml_node node,
-                                      const string& parentName) {
+                                      const string &parentName) {
   string name = GetTagValue(node, "name");
 
   string description = GetTagValue(node, "label");
@@ -169,4 +167,4 @@ vector<Tag> XMLParser::ParseVarTags(pugi::xml_node var) {
 
   return ret;
 }
-}  // namespace RedatamLib
+} // namespace RedatamLib

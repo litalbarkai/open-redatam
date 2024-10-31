@@ -1,18 +1,17 @@
+#include <algorithm> //  std::transform, std::all_of, std::search
+#include <cctype>    //  std::isalnum
+#include <fstream>   //  std::ifstream, std::ios::binary
+#include <ios>       //  std::ios_base::failure
+#include <iterator>  //  std::ostream_iterator, std::istreambuf_iterator
+#include <sstream>   //  std::ostringstream
+
 #include "ByteArrayReader.hpp"
-
-#include <algorithm>  //  std::transform, std::all_of, std::search
-#include <cctype>     //  std::isalnum
-#include <fstream>    //  std::ifstream, std::ios::binary
-#include <ios>        //  std::ios_base::failure
-#include <iterator>   //  std::ostream_iterator, std::istreambuf_iterator
-#include <sstream>    //  std::ostringstream
-
 #include "utils.hpp"
 
 namespace RedatamLib {
 ByteArrayReader::ByteArrayReader() : m_data(), m_currPos(0), m_endPos(0) {}
 
-ByteArrayReader::ByteArrayReader(const string& filePath)
+ByteArrayReader::ByteArrayReader(const string &filePath)
     : m_data(), m_currPos(0), m_endPos(0) {
   string eMsg = "Error: Failed to open file: ";
   std::ifstream fs(filePath, std::ios::binary);
@@ -100,24 +99,24 @@ void ByteArrayReader::SetPos(int newPos) {
 
 void ByteArrayReader::MovePos(int bytes) { SetPos(m_currPos + bytes); }
 
-void ByteArrayReader::MovePosTo(const string& subArr) {
-  const vector<unsigned char> arr{subArr.begin(), subArr.end()};
+void ByteArrayReader::MovePosTo(const string &subArr) {
+  const vector<unsigned char> &arr{subArr.begin(), subArr.end()};
   SetPos(FindNextMatch(arr, arr.size(), GetPos()));
 }
 
-bool ByteArrayReader::TryReadStr(string* output, bool filterByContent) {
+bool ByteArrayReader::TryReadStr(string *output, bool filterByContent) {
   size_t ogPos = m_currPos;
 
   try {
     uint16_t len = ReadInt16LE();
-    ThrowIfBad<length_error>(
-        0 < len && 128 > len && m_currPos + len <= m_endPos,
-        length_error("Error: Invalid string length."));
+    ThrowIfBad<length_error>(0 < len && 128 > len &&
+                                 m_currPos + len <= m_endPos,
+                             length_error("Error: Invalid string length."));
 
     *output = ReadString(len);
-  } catch (const std::bad_alloc& e) {
+  } catch (const std::bad_alloc &e) {
     ThrowIfBad<std::bad_alloc>(false, e);
-  } catch (const std::exception&) {
+  } catch (const std::exception &) {
     SetPos(ogPos);
     return false;
   }
@@ -138,20 +137,20 @@ string ByteArrayReader::ReadString(size_t length) {
 }
 
 string ByteArrayReader::GetFormerString() {
-  size_t offset = 2;  //  string length is indicated by 2 bytes
+  size_t offset = 2; //  string length is indicated by 2 bytes
   MovePos(-offset);
 
   uint16_t len = ReadInt16LE();
   while (len != offset - 2) {
     ++offset;
-    MovePos(-3);  //  string length + 1 to move backwards
+    MovePos(-3); //  string length + 1 to move backwards
     len = ReadInt16LE();
   }
 
   return ReadString(len);
 }
 
-size_t ByteArrayReader::FindNextMatch(const vector<unsigned char>& subArr,
+size_t ByteArrayReader::FindNextMatch(const vector<unsigned char> &subArr,
                                       size_t len, size_t startPos) {
   auto nextPosIt =
       std::search(m_data.begin() + startPos, m_data.end() - len + 1,
@@ -160,7 +159,7 @@ size_t ByteArrayReader::FindNextMatch(const vector<unsigned char>& subArr,
   return nextPosIt - m_data.begin();
 }
 
-bool ByteArrayReader::IsValidStr(const string& str) {
+bool ByteArrayReader::IsValidStr(const string &str) {
   return std::all_of(str.begin(), str.end() - 1, [](char c) {
     return (std::isalnum(c) || ' ' == c || '-' == c || '_' == c);
   });
@@ -193,4 +192,4 @@ uint32_t ByteArrayReader::ReadInt32BE() {
          static_cast<uint32_t>(ReadInt16BE());
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

@@ -5,11 +5,8 @@
 
 namespace RedatamLib {
 BitArrayReader::BitArrayReader(size_t dataSize)
-    : m_varSize(dataSize),
-      m_remainderSize(0),
-      m_mask(CreateMask(dataSize)),
-      m_data(0),
-      m_remainder(0) {}
+    : m_varSize(dataSize), m_remainderSize(0), m_mask(CreateMask(dataSize)),
+      m_data(0), m_remainder(0) {}
 
 std::bitset<32> BitArrayReader::CreateMask(size_t size) {
   std::bitset<32> mask = 0;
@@ -21,7 +18,7 @@ std::bitset<32> BitArrayReader::CreateMask(size_t size) {
   return mask;
 }
 
-void BitArrayReader::ParseBits(std::vector<uint32_t>* results, uint32_t data) {
+void BitArrayReader::ParseBits(std::vector<uint32_t> *results, uint32_t data) {
   std::bitset<32> remainderMask = CreateMask(m_remainderSize);
   std::bitset<32> bits = data;
   m_data = m_remainder |
@@ -47,4 +44,4 @@ void BitArrayReader::ParseBits(std::vector<uint32_t>* results, uint32_t data) {
     m_remainderSize -= m_varSize;
   }
 }
-}  // namespace RedatamLib
+} // namespace RedatamLib

@@ -1,12 +1,10 @@
-#include "PyDictExporter.hpp"
-
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-
-#include <algorithm>  // For std::replace
+#include <algorithm> // For std::replace
 #include <sstream>
 #include <string>
 #include <vector>
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include "PyDictExporter.hpp"
 
 #include "Entity.hpp"
 #include "ParentIDCalculator.hpp"
@@ -16,10 +14,10 @@ using std::endl;
 using std::ostringstream;
 
 // Function to clean non-UTF-8 characters from a string
-std::string ListExporter::clean_string(const std::string& input) {
+std::string ListExporter::clean_string(const std::string &input) {
   std::string output;
   for (char c : input) {
-    if ((c & 0x80) == 0) {  // ASCII character
+    if ((c & 0x80) == 0) { // ASCII character
       output += c;
     } else {
       // Replace non-UTF-8 character with a placeholder (e.g., '?')
@@ -30,18 +28,18 @@ std::string ListExporter::clean_string(const std::string& input) {
 }
 
 // just to mimic the original CSVExporter
-ListExporter::ListExporter(const std::string& outputDirectory)
+ListExporter::ListExporter(const std::string &outputDirectory)
     : m_path(outputDirectory) {
   if ('/' != m_path.back()) {
     m_path.append("/");
   }
 }
 
-pybind11::dict ListExporter::ExportAllPy(
-    const std::vector<Entity>& entities) const {
+pybind11::dict
+ListExporter::ExportAllPy(const std::vector<Entity> &entities) const {
   pybind11::dict result;
 
-  for (const Entity& entity : entities) {
+  for (const Entity &entity : entities) {
     std::string entityName = entity.GetName();
     std::transform(entityName.begin(), entityName.end(), entityName.begin(),
                    ::tolower);
@@ -56,7 +54,7 @@ pybind11::dict ListExporter::ExportAllPy(
     size_t numRows = entity.GetRowsCount();
     pybind11::list ref_id_list;
     pybind11::list parent_ref_id_list;
-    ParentIDCalculator pIDCalc(const_cast<Entity*>(&entity));
+    ParentIDCalculator pIDCalc(const_cast<Entity *>(&entity));
 
     pybind11::str ref_id_name = entity.GetName() + "_REF_ID";
     pybind11::str parent_ref_id_name = entity.GetParentName() + "_REF_ID";
@@ -77,51 +75,49 @@ pybind11::dict ListExporter::ExportAllPy(
     }
 
     // Add vectors for each variable
-    for (const Variable& v : *(entity.GetVariables().get())) {
+    for (const Variable &v : *(entity.GetVariables().get())) {
       try {
         pybind11::list rvalues;
         switch (v.GetType()) {
-          case BIN:
-          case PCK:
-          case INT:
-          case LNG: {
-            auto values =
-                static_cast<std::vector<uint32_t>*>(v.GetValues().get());
-            for (size_t i = 0; i < numRows; i++) {
-              rvalues.append(values->at(i));
-            }
-            entityDict[pybind11::str(v.GetName())] = rvalues;
-            break;
+        case BIN:
+        case PCK:
+        case INT:
+        case LNG: {
+          auto values =
+              static_cast<std::vector<uint32_t> *>(v.GetValues().get());
+          for (size_t i = 0; i < numRows; i++) {
+            rvalues.append(values->at(i));
           }
-          case CHR: {
-            auto values =
-                static_cast<std::vector<std::string>*>(v.GetValues().get());
-            for (size_t i = 0; i < numRows; i++) {
-              // Clean the string to remove non-UTF-8 characters
-              std::string clean_str = clean_string(values->at(i));
-              // Replace '\0' with ' '
-              std::replace(clean_str.begin(), clean_str.end(), '\0', ' ');
-              rvalues.append(clean_str);
-            }
-            entityDict[pybind11::str(v.GetName())] = rvalues;
-            break;
-          }
-          case DBL: {
-            auto values =
-                static_cast<std::vector<double>*>(v.GetValues().get());
-            for (size_t i = 0; i < numRows; i++) {
-              rvalues.append(values->at(i));
-            }
-            entityDict[pybind11::str(v.GetName())] = rvalues;
-            break;
-          }
-          default:
-            std::string unknownTypeMsg =
-                "Unknown variable type: " + v.GetName();
-            pybind11::print(unknownTypeMsg);
-            break;
+          entityDict[pybind11::str(v.GetName())] = rvalues;
+          break;
         }
-      } catch (const std::exception& e) {
+        case CHR: {
+          auto values =
+              static_cast<std::vector<std::string> *>(v.GetValues().get());
+          for (size_t i = 0; i < numRows; i++) {
+            // Clean the string to remove non-UTF-8 characters
+            std::string clean_str = clean_string(values->at(i));
+            // Replace '\0' with ' '
+            std::replace(clean_str.begin(), clean_str.end(), '\0', ' ');
+            rvalues.append(clean_str);
+          }
+          entityDict[pybind11::str(v.GetName())] = rvalues;
+          break;
+        }
+        case DBL: {
+          auto values = static_cast<std::vector<double> *>(v.GetValues().get());
+          for (size_t i = 0; i < numRows; i++) {
+            rvalues.append(values->at(i));
+          }
+          entityDict[pybind11::str(v.GetName())] = rvalues;
+          break;
+        }
+        default:
+          std::string unknownTypeMsg = "Unknown variable type: " + v.GetName();
+          pybind11::print(unknownTypeMsg);
+          break;
+        }
+      } catch (const std::exception &e) {
         std::string errorExportingVariableMsg =
             "Error exporting variable: " + v.GetName() + " - " + e.what();
         pybind11::print(errorExportingVariableMsg);
@@ -138,15 +134,15 @@ pybind11::dict ListExporter::ExportAllPy(
   return result;
 }
 
-void ListExporter::AddVariableLabels(const Variable& v, pybind11::dict& result,
-                                     pybind11::dict& resultNames,
-                                     const std::string& entityName) {
+void ListExporter::AddVariableLabels(const Variable &v, pybind11::dict &result,
+                                     pybind11::dict &resultNames,
+                                     const std::string &entityName) {
   if (!v.GetTags().empty()) {
     pybind11::dict labelTable;
     pybind11::list variableColumn;
     pybind11::list meaningColumn;
 
-    for (const Tag& t : v.GetTags()) {
+    for (const Tag &t : v.GetTags()) {
       std::string clean_key = clean_string(t.first);
       std::string clean_value = clean_string(t.second);
       std::replace(clean_key.begin(), clean_key.end(), '\0', ' ');
@@ -165,4 +161,4 @@ void ListExporter::AddVariableLabels(const Variable& v, pybind11::dict& result,
     result[pybind11::str(tableName)] = labelTable;
   }
 }
-}  // namespace RedatamLib
+} // namespace RedatamLib

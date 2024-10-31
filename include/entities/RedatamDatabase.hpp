@@ -6,28 +6,26 @@
 
 #include "Entity.hpp"
 
-namespace RedatamLib
-{
+namespace RedatamLib {
 using std::string;
 using std::vector;
 
-class RedatamDatabase
-{
+class RedatamDatabase {
 public:
-    // Throws invalid_argument
-    explicit RedatamDatabase(const string& fileName);
-    ~RedatamDatabase() = default;
+  // Throws invalid_argument
+  explicit RedatamDatabase(const string &fileName);
+  ~RedatamDatabase() = default;
 
-    RedatamDatabase(const RedatamDatabase&) = delete;
-    RedatamDatabase& operator=(const RedatamDatabase&) = delete;
+  RedatamDatabase(const RedatamDatabase &) = delete;
+  RedatamDatabase &operator=(const RedatamDatabase &) = delete;
 
-    void ExportCSVFiles(const string& outputDir);
-    void ExportSummary(const string& outputDir);
+  void ExportCSVFiles(const string &outputDir);
+  void ExportSummary(const string &outputDir);
 
 private:
-    vector<Entity> m_entities;
+  vector<Entity> m_entities;
 
-    void OpenDictionary(const string& fileName);
+  void OpenDictionary(const string &fileName);
 };
 
 } // namespace RedatamLib

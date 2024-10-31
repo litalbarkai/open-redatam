@@ -1,18 +1,14 @@
+#include <algorithm> //  std::replace
+#include <fstream>   //  std::ifstream
+#include <cpp11.hpp> //  replace std::cerr
+
 #include "XMLParser.hpp"
-
-#include <algorithm>  //  std::replace
-#include <cpp11.hpp>  //  replace std::cerr
-#include <fstream>    //  std::ifstream
-
 #include "utils.hpp"
 
 namespace RedatamLib {
 
-vector<Entity> XMLParser::ParseFile(const string& fileName) {
+vector<Entity> XMLParser::ParseFile(const string &fileName) {
   m_rootPath = FindRootPath(fileName);
-
-  // cpp11::message("THE ROOT PATH IS");
-  // cpp11::message(m_rootPath.c_str());
 
   vector<Entity> ret;
 
@@ -44,7 +40,7 @@ vector<Entity> XMLParser::ParseFile(const string& fileName) {
     for (size_t idx = 0; idx < ret.size() - 1; ++idx) {
       ret[idx].AttachChild(&ret[idx + 1]);
     }
-  } catch (const std::exception& e) {
+  } catch (const std::exception &e) {
     std::string errorMsg = "Error: " + std::string(e.what());
     cpp11::message(errorMsg.c_str());
     throw;
@@ -53,24 +49,21 @@ vector<Entity> XMLParser::ParseFile(const string& fileName) {
   return ret;
 }
 
-string XMLParser::GetTagValue(pugi::xml_node node, const string& tag,
+string XMLParser::GetTagValue(pugi::xml_node node, const string &tag,
                               size_t idx) {
   pugi::xml_node child = node.child(tag.c_str());
   return child ? child.child_value() : "";
 }
 
-pugi::xml_node XMLParser::ParseEntity(vector<Entity>* results,
+pugi::xml_node XMLParser::ParseEntity(vector<Entity> *results,
                                       pugi::xml_node node,
-                                      const string& parentName) {
+                                      const string &parentName) {
   string name = GetTagValue(node, "name");
 
   string description = GetTagValue(node, "label");
 
   string idxFileName = GetTagValue(node, "filename");
   idxFileName = ReplaceRootPath(m_rootPath, idxFileName);
-
-  // cpp11::message("THE FILE IS:");
-  // cpp11::message(idxFileName.c_str());
 
   Entity curr(name, parentName, description, idxFileName,
               pair<size_t, size_t>(0, 0));
@@ -174,4 +167,4 @@ vector<Tag> XMLParser::ParseVarTags(pugi::xml_node var) {
 
   return ret;
 }
-}  // namespace RedatamLib
+} // namespace RedatamLib

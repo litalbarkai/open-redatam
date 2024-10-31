@@ -84,32 +84,18 @@ void Variable::ParseValues() {
 }
 
 void Variable::ParseStrings(size_t length, ByteArrayReader reader) {
-<<<<<<< HEAD
-  auto vals = std::make_shared<vector<string>>();
-=======
   vector<string>* vals = new vector<string>();
   struct Deleter {
     void operator()(void* ptr) const {
       delete static_cast<vector<string>*>(ptr);
     }
   };
->>>>>>> c6711e2 (reorganize r pkg in subdirs)
 
   try {
     while (true) {
       vals->push_back(reader.ReadString(length));
     }
   } catch (const std::out_of_range&) {
-<<<<<<< HEAD
-    // std::cerr << "End of data reached in ParseStrings." << std::endl;
-  }
-
-  m_values = vals;
-}
-
-void Variable::ParseIntegers(size_t size, ByteArrayReader reader) {
-  auto vals = std::make_shared<vector<uint32_t>>();
-=======
   }
 
   m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
@@ -122,7 +108,6 @@ void Variable::ParseIntegers(size_t size, ByteArrayReader reader) {
       delete static_cast<vector<uint32_t>*>(ptr);
     }
   };
->>>>>>> c6711e2 (reorganize r pkg in subdirs)
 
   try {
     switch (size) {
@@ -139,16 +124,9 @@ void Variable::ParseIntegers(size_t size, ByteArrayReader reader) {
         break;
     }
   } catch (const std::out_of_range&) {
-<<<<<<< HEAD
-    // std::cerr << "End of data reached in ParseStrings." << std::endl;
-  }
-
-  m_values = vals;
-=======
   }
 
   m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
->>>>>>> c6711e2 (reorganize r pkg in subdirs)
 }
 
 void Variable::ParseFloats(ByteArrayReader reader) {

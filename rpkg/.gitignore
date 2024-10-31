@@ -5,7 +5,11 @@ src/*.o
 src/*.so
 src/redatamlib/*.o
 src/redatamlib/*.so
-src/redatamlib/*/*.o
-src/redatamlib/*/*.so
+src/redatamlib/entities/*.o
+src/redatamlib/entities/*.so
+src/redatamlib/exporters/*.o
+src/redatamlib/exporters/*.so
+src/redatamlib/readers/*.o
+src/redatamlib/readers/*.so
 src/vendor/*.o
 src/vendor/*.so

@@ -1,7 +1,7 @@
 #include <cpp11.hpp>   //  R interface
 #include <string>
 
-#include "redatamlib/RedatamDatabase.hpp"
+#include "redatamlib/entities/RedatamDatabase.hpp"
 
 using namespace cpp11;
 using std::string;

@@ -1,4 +1,4 @@
-PKG_CPPFLAGS = -Ivendor -Iredatamlib
+PKG_CPPFLAGS = -Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers
 PKG_LIBS = -Lvendor -Lredatamlib
 
 # Debug with clang
@@ -9,16 +9,16 @@ CXXFLAGS = -O0 -g
 
 # Explicitly list all source files
 SOURCES = vendor/pugixml.cpp \
-          redatamlib/BitArrayReader.cpp \
-          redatamlib/ByteArrayReader.cpp \
-          redatamlib/Entity.cpp \
-          redatamlib/FuzzyEntityParser.cpp \
-          redatamlib/FuzzyVariableParser.cpp \
-          redatamlib/ParentIDCalculator.cpp \
-          redatamlib/RListExporter.cpp \
-          redatamlib/RedatamDatabase.cpp \
-          redatamlib/Variable.cpp \
-          redatamlib/XMLParser.cpp \
+          redatamlib/readers/BitArrayReader.cpp \
+          redatamlib/readers/ByteArrayReader.cpp \
+          redatamlib/entities/Entity.cpp \
+          redatamlib/readers/FuzzyEntityParser.cpp \
+          redatamlib/readers/FuzzyVariableParser.cpp \
+          redatamlib/exporters/ParentIDCalculator.cpp \
+          redatamlib/exporters/RListExporter.cpp \
+          redatamlib/entities/RedatamDatabase.cpp \
+          redatamlib/entities/Variable.cpp \
+          redatamlib/readers/XMLParser.cpp \
           redatamlib/utils.cpp \
           main.cpp \
           cpp11.cpp

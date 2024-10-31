@@ -84,30 +84,21 @@ void Variable::ParseValues() {
 }
 
 void Variable::ParseStrings(size_t length, ByteArrayReader reader) {
-  vector<string>* vals = new vector<string>();
-  struct Deleter {
-    void operator()(void* ptr) const {
-      delete static_cast<vector<string>*>(ptr);
-    }
-  };
+  auto vals = std::make_shared<vector<string>>();
 
   try {
     while (true) {
       vals->push_back(reader.ReadString(length));
     }
   } catch (const std::out_of_range&) {
+    // std::cerr << "End of data reached in ParseStrings." << std::endl;
   }
 
-  m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
+  m_values = vals;
 }
 
 void Variable::ParseIntegers(size_t size, ByteArrayReader reader) {
-  vector<uint32_t>* vals = new vector<uint32_t>();
-  struct Deleter {
-    void operator()(void* ptr) const {
-      delete static_cast<vector<uint32_t>*>(ptr);
-    }
-  };
+  auto vals = std::make_shared<vector<uint32_t>>();
 
   try {
     switch (size) {
@@ -124,9 +115,10 @@ void Variable::ParseIntegers(size_t size, ByteArrayReader reader) {
         break;
     }
   } catch (const std::out_of_range&) {
+    // std::cerr << "End of data reached in ParseStrings." << std::endl;
   }
 
-  m_values = shared_ptr<void>(static_cast<void*>(vals), Deleter());
+  m_values = vals;
 }
 
 void Variable::ParseFloats(ByteArrayReader reader) {

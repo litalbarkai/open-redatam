@@ -1,6 +1,12 @@
 PKG_CPPFLAGS = -Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers
 PKG_LIBS = -Lvendor -Lredatamlib
 
+# Debug with clang
+PKG_CFLAGS = -g -O0 -fsanitize=address,undefined
+PKG_CXXFLAGS = -g -O0 -fsanitize=address,undefined
+PKG_LDFLAGS = -fsanitize=address,undefined
+CXXFLAGS = -O0 -g
+
 # Explicitly list all source files
 SOURCES = vendor/pugixml.cpp \
           redatamlib/readers/BitArrayReader.cpp \

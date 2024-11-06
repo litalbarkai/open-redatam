@@ -16,4 +16,4 @@ delete_old_workflow_runs <- function(owner, repo, keep = 1) {
 }
 
 # Call the function to delete old workflow runs, keeping only the latest 1 run
-delete_old_workflow_runs("pachadotdev", "open-redatam", keep = 1)
+delete_old_workflow_runs("pachadotdev", "open-redatam", keep = 5)

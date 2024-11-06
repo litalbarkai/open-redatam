@@ -35,6 +35,20 @@ rm -rf build dist redatam.egg-info
 pip install --use-pep517 .
 ```
 
+## Processed data
+
+If you only need the processed data, you can download the [microdata repository](https://github.com/pachadotdev/redatam-microdata/releases). It is available in RDS format for easy loading into R.
+
+Available datasets:
+
+- **Argentina**: 1991, 2001, 2010  
+- **Bolivia**: 2001, 2012  
+- **Chile**: 2017  
+- **Ecuador**: 2010  
+- **El Salvador**: 2007  
+- **Guatemala**: 2018  
+- **Mexico**: 2000  
+
 ## Requirements
 
 Python 3.8 or higher.

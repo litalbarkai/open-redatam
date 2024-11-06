@@ -1,5 +1,5 @@
-PKG_CPPFLAGS = -Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers
-PKG_LIBS = -Lvendor -Lredatamlib
+PKG_CPPFLAGS=-Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers
+PKG_LIBS=-Lvendor -Lredatamlib
 
 # Explicitly list all source files
 SOURCES = vendor/pugixml.cpp \
@@ -24,5 +24,4 @@ all: $(SHLIB)
 
 $(SHLIB): $(OBJECTS)
 
-clean:
-	rm -f $(OBJECTS) $(SHLIB)
+clean: rm -f $(OBJECTS) $(SHLIB)

@@ -30,6 +30,18 @@ This software is a full C++ ground-up rewrite of the original [Redatam Converter
 
 **For the Python package that allows to directly read REDATAM databases in Python, see the [pypkg](pypkg) directory.**
 
+**If you only need the processed data, you can download the [microdata repository](https://github.com/pachadotdev/redatam-microdata/releases). It is available in RDS format for easy loading into R.**
+
+**Available datasets:**
+
+- **Argentina: 1991, 2001, 2010**
+- **Bolivia: 2001, 2012**
+- **Chile: 2017**
+- **Ecuador: 2010**
+- **El Salvador: 2007**
+- **Guatemala: 2018**
+- **Mexico: 2000**
+
 ## Installation
 
 ### From binaries

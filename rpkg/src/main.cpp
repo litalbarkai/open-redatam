@@ -1,5 +1,6 @@
 #include <string>
-#include <cpp11.hpp>
+
+#include <cpp11/function.hpp> // cpp11::stop
 
 #include "redatamlib/entities/RedatamDatabase.hpp"
 

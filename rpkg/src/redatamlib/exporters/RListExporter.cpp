@@ -1,10 +1,9 @@
-#include <algorithm> // For std::replace
+#include <algorithm>  // For std::replace
 #include <sstream>
-#include <cpp11.hpp>
-#include "RListExporter.hpp"
 
 #include "Entity.hpp"
 #include "ParentIDCalculator.hpp"
+#include "RListExporter.hpp"
 
 namespace RedatamLib {
 using std::endl;
@@ -18,8 +17,8 @@ ListExporter::ListExporter(const std::string &outputDirectory)
   }
 }
 
-cpp11::list
-ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
+cpp11::list ListExporter::ExportAllR(
+    const std::vector<Entity> &entities) const {
   cpp11::writable::list result;
   cpp11::writable::strings resultNames;
 
@@ -62,45 +61,47 @@ ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
     for (const Variable &v : *(entity.GetVariables().get())) {
       try {
         switch (v.GetType()) {
-        case BIN:
-        case PCK:
-        case INT:
-        case LNG: {
-          auto values =
-              static_cast<std::vector<uint32_t> *>(v.GetValues().get());
-          cpp11::writable::integers rvalues(numRows);
-          for (size_t i = 0; i < numRows; i++) {
-            rvalues[i] = values->at(i);
+          case BIN:
+          case PCK:
+          case INT:
+          case LNG: {
+            auto values =
+                static_cast<std::vector<uint32_t> *>(v.GetValues().get());
+            cpp11::writable::integers rvalues(numRows);
+            for (size_t i = 0; i < numRows; i++) {
+              rvalues[i] = values->at(i);
+            }
+            entityList.push_back(rvalues);
+            break;
           }
-          entityList.push_back(rvalues);
-          break;
-        }
-        case CHR: {
-          auto values =
-              static_cast<std::vector<std::string> *>(v.GetValues().get());
-          cpp11::writable::strings rvalues(numRows);
-          for (size_t i = 0; i < numRows; i++) {
-            // replace '\0' with ' '
-            std::string clean_string = values->at(i);
-            std::replace(clean_string.begin(), clean_string.end(), '\0', ' ');
-            rvalues[i] = clean_string;
+          case CHR: {
+            auto values =
+                static_cast<std::vector<std::string> *>(v.GetValues().get());
+            cpp11::writable::strings rvalues(numRows);
+            for (size_t i = 0; i < numRows; i++) {
+              // replace '\0' with ' '
+              std::string clean_string = values->at(i);
+              std::replace(clean_string.begin(), clean_string.end(), '\0', ' ');
+              rvalues[i] = clean_string;
+            }
+            entityList.push_back(rvalues);
+            break;
           }
-          entityList.push_back(rvalues);
-          break;
-        }
-        case DBL: {
-          auto values = static_cast<std::vector<double> *>(v.GetValues().get());
-          cpp11::writable::doubles rvalues(numRows);
-          for (size_t i = 0; i < numRows; i++) {
-            rvalues[i] = values->at(i);
+          case DBL: {
+            auto values =
+                static_cast<std::vector<double> *>(v.GetValues().get());
+            cpp11::writable::doubles rvalues(numRows);
+            for (size_t i = 0; i < numRows; i++) {
+              rvalues[i] = values->at(i);
+            }
+            entityList.push_back(rvalues);
+            break;
           }
-          entityList.push_back(rvalues);
-          break;
-        }
-        default:
-          std::string unknownTypeMsg = "Unknown variable type: " + v.GetName();
-          cpp11::message(unknownTypeMsg.c_str());
-          break;
+          default:
+            std::string unknownTypeMsg =
+                "Unknown variable type: " + v.GetName();
+            cpp11::message(unknownTypeMsg.c_str());
+            break;
         }
       } catch (const std::exception &e) {
         std::string errorExportingVariableMsg =
@@ -161,4 +162,4 @@ void ListExporter::AddVariableLabels(const Variable &v,
     resultNames.push_back(tableName);
   }
 }
-} // namespace RedatamLib
+}  // namespace RedatamLib

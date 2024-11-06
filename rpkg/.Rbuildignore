@@ -15,3 +15,11 @@
 ^cran-comments\.md$
 ^inst/extdata/galapagos$
 ^_pkgdown\.yml$
+^microdata$
+^redatam$
+^src/Makevars$
+^src/.*\.o$
+^src/.*\.so$
+^src/.*\.dll$
+^src/.*\.dylib$
+^libs$

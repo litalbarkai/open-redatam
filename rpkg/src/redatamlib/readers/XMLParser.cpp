@@ -1,6 +1,7 @@
 #include <algorithm> //  std::replace
 #include <fstream>   //  std::ifstream
-#include <cpp11.hpp> //  replace std::cerr
+
+#include <cpp11/function.hpp> // cpp11::message
 
 #include "XMLParser.hpp"
 #include "utils.hpp"

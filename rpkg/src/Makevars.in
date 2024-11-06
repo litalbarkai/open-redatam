@@ -1,7 +1,7 @@
-PKG_CPPFLAGS=-Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers
-PKG_LIBS=-Lvendor -Lredatamlib
-# CXXFLAGS=-g -O2 -ffile-prefix-map=/build/r-base-2y82rL/r-base-4.4.1=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -UNDEBUG -Wall -pedantic -g -O0 -fdiagnostics-color=always
-LDFLAGS=-stdlib=libc++
+PKG_CPPFLAGS=@cflags@
+PKG_LIBS=@libs@
+# CXXFLAGS=@cxxflags@
+LDFLAGS=@ldflags@
 
 # Explicitly list all source files
 SOURCES = vendor/pugixml.cpp \

@@ -90,12 +90,11 @@ bool TryGetFileExtension(const string &fileName, string *output) {
 string GetFileExtension(const string &fileName) {
   size_t extPos = fileName.find_last_of('.');
   ThrowIfBad<invalid_argument>(
-      extPos != string::npos,
-      invalid_argument("Error: No file extension found."));
+    extPos != string::npos,
+    "Error: No file extension found.");
 
   string ext = fileName.substr(extPos);
-  std::transform(ext.begin(), ext.end(), ext.begin(),
-                 [](unsigned char c) { return std::tolower(c); });
+  transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
   return ext;
 }

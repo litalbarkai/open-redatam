@@ -6,7 +6,7 @@
 \alias{redatam-package}
 \title{redatam: Import 'REDATAM' Files}
 \description{
-Import 'REDATAM' files into R. 'REDATAM' is a software for the manipulation of microdata from censuses and surveys. This package provides functions to import 'REDATAM' files into R. It is based on De Grande (2016) \url{https://www.jstor.org/stable/24890658}.
+Import 'REDATAM' formats into R via the 'Open REDATAM' C++ library \url{https://github.com/litalbarkai/open-redatam} based on De Grande (2016) \url{https://www.jstor.org/stable/24890658}.
 }
 \seealso{
 Useful links:

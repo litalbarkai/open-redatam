@@ -1,7 +1,8 @@
 #include <algorithm> //  std::replace
 #include <regex>     //  std::regex, std::smatch, std::regex_search
 #include <thread>
-#include <cpp11.hpp> //  cpp11::stop
+
+#include <cpp11/function.hpp> //  cpp11::stop
 
 #include "FuzzyVariableParser.hpp"
 #include "utils.hpp" //  GetFileExtension, ThrowIfBad

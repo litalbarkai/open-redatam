@@ -13,14 +13,22 @@ For the standalone C++ command line application and desktop app, see the [main d
 To install the R package, run the following command:
 
 ```r
-install.packages("redatam")
+remotes::install_github("pachadotdev/open-redatam", subdir = "rpkg")
 ```
 
-Or install the development version from GitHub:
+## Processed data
 
-```r
-remotes::install_github("pachadotdev/open-redatam/rpkg", subdir = "rpkg")
-```
+If you only need the processed data, you can download the [microdata repository](https://github.com/pachadotdev/redatam-microdata/releases). It is available in RDS format for easy loading into R.
+
+Available datasets:
+
+- **Argentina**: 1991, 2001, 2010  
+- **Bolivia**: 2001, 2012  
+- **Chile**: 2017  
+- **Ecuador**: 2010  
+- **El Salvador**: 2007  
+- **Guatemala**: 2018  
+- **Mexico**: 2000  
 
 ## Requirements
 

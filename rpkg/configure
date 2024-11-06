@@ -1,0 +1,35 @@
+#!/bin/sh
+
+PKG_CONFIG_NAME="redatam"
+
+# Check for pkg-config
+pkg-config --version >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+  PKGCONFIG_CFLAGS=`pkg-config --cflags --silence-errors`
+  PKGCONFIG_LIBS=`pkg-config --libs`
+fi
+
+# Set default flags
+PKG_CFLAGS="-Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers"
+PKG_LIBS="-Lvendor -Lredatamlib"
+
+# Use pkg-config if available
+if [ "$PKGCONFIG_CFLAGS" ] || [ "$PKGCONFIG_LIBS" ]; then
+  echo "Found pkg-config cflags and libs!"
+  PKG_CFLAGS=${PKGCONFIG_CFLAGS}
+  PKG_LIBS=${PKGCONFIG_LIBS}
+fi
+
+# Uncomment CXXFLAGS in Makevars.in to debug
+# CXXFLAGS="-O0 -g -stdlib=libc++"
+LDFLAGS="-stdlib=libc++"
+
+# Write to Makevars using sed to replace placeholders
+sed -e "s|@cflags@|$PKG_CFLAGS|" \
+    -e "s|@libs@|$PKG_LIBS|" \
+    -e "s|@cxxflags@|$CXXFLAGS|" \
+    -e "s|@ldflags@|$LDFLAGS|" \
+    src/Makevars.in > src/Makevars
+
+# Success
+exit 0

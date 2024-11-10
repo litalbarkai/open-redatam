@@ -20,9 +20,14 @@ if [ "$PKGCONFIG_CFLAGS" ] || [ "$PKGCONFIG_LIBS" ]; then
   PKG_LIBS=${PKGCONFIG_LIBS}
 fi
 
-# Uncomment CXXFLAGS in Makevars.in to debug
+CXXFLAGS="-stdlib=libc++"
 # CXXFLAGS="-O0 -g -stdlib=libc++"
+
 LDFLAGS="-stdlib=libc++"
+
+# False positive error in ASAN
+# see https://github.com/microsoft/DirectXShaderCompiler/issues/created_by/5971)
+export ASAN_OPTIONS=detect_container_overflow=0
 
 # Write to Makevars using sed to replace placeholders
 sed -e "s|@cflags@|$PKG_CFLAGS|" \

@@ -1,9 +1,10 @@
+#include "RListExporter.hpp"
+
 #include <algorithm>  // For std::replace
 #include <sstream>
 
 #include "Entity.hpp"
 #include "ParentIDCalculator.hpp"
-#include "RListExporter.hpp"
 
 namespace RedatamLib {
 using std::endl;
@@ -12,7 +13,7 @@ using std::ostringstream;
 // just to mimic the original CSVExporter
 ListExporter::ListExporter(const std::string &outputDirectory)
     : m_path(outputDirectory) {
-  if ('/' != m_path.back()) {
+  if (!m_path.empty() && '/' != m_path.back()) {
     m_path.append("/");
   }
 }

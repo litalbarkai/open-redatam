@@ -29,6 +29,10 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
   }
 
   size_t numThreads = std::min(entities.size(), maxThreads);
+  
+  if (numThreads == 0) {
+    numThreads = 1;
+  }
 
   size_t chunkSize = entities.size() / numThreads;
 

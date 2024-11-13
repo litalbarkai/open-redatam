@@ -17,8 +17,14 @@ FuzzyVariableParser::FuzzyVariableParser(ByteArrayReader reader,
 void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
   vector<pair<size_t, size_t>> searchBounds = GetSearchBounds(entities);
 
-  size_t numThreads = std::thread::hardware_concurrency();
-  numThreads = std::min(entities.size(), numThreads);
+  // R-devel suggestion: Default to using all available hardware concurrency
+  size_t maxThreads = std::thread::hardware_concurrency();
+
+  size_t numThreads = std::min(entities.size(), maxThreads);
+
+  if (numThreads == 0) {
+    numThreads = 1;
+  }
 
   size_t chunkSize = entities.size() / numThreads;
 
@@ -40,6 +46,10 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
 vector<pair<size_t, size_t>>
 FuzzyVariableParser::GetSearchBounds(vector<Entity> entities) {
   vector<pair<size_t, size_t>> ret;
+
+  if (entities.empty()) {
+    return ret;
+  }
 
   for (size_t i = 0; i < entities.size() - 1; ++i) {
     ret.push_back(

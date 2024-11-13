@@ -20,10 +20,12 @@ ListExporter::ListExporter(const std::string &outputDirectory)
 
 cpp11::list ListExporter::ExportAllR(
     const std::vector<Entity> &entities) const {
-  cpp11::writable::list result;
-  cpp11::writable::strings resultNames;
+  size_t numEntities = entities.size();
+  cpp11::writable::list result(numEntities);
+  cpp11::writable::strings resultNames(numEntities);
 
-  for (const Entity &entity : entities) {
+  for (size_t entityIndex = 0; entityIndex < numEntities; ++entityIndex) {
+    const Entity &entity = entities[entityIndex];
     std::string entityName = entity.GetName();
     std::transform(entityName.begin(), entityName.end(), entityName.begin(),
                    ::tolower);
@@ -31,8 +33,9 @@ cpp11::list ListExporter::ExportAllR(
     std::string exportingEntityMsg = "Exporting " + entityName + "...";
     cpp11::message(exportingEntityMsg.c_str());
 
-    cpp11::writable::list entityList;
-    cpp11::writable::strings variableNames;
+    size_t numVariables = entity.GetVariables()->size();
+    cpp11::writable::list entityList(numVariables + 2);  // +2 for REF_ID and PARENT_REF_ID
+    cpp11::writable::strings variableNames(numVariables + 2);
 
     // Add REF_ID and PARENT_REF_ID columns
     size_t numRows = entity.GetRowsCount();
@@ -50,16 +53,17 @@ cpp11::list ListExporter::ExportAllR(
       }
     }
 
-    entityList.push_back(ref_id_vec);
-    variableNames.push_back(ref_id_name);
+    entityList[0] = ref_id_vec;
+    variableNames[0] = ref_id_name;
 
     if (!entity.GetParentName().empty()) {
-      entityList.push_back(parent_ref_id_vec);
-      variableNames.push_back(parent_ref_id_name);
+      entityList[1] = parent_ref_id_vec;
+      variableNames[1] = parent_ref_id_name;
     }
 
     // Add vectors for each variable
-    for (const Variable &v : *(entity.GetVariables().get())) {
+    for (size_t varIndex = 0; varIndex < numVariables; ++varIndex) {
+      const Variable &v = entity.GetVariables()->at(varIndex);
       try {
         switch (v.GetType()) {
           case BIN:
@@ -72,7 +76,7 @@ cpp11::list ListExporter::ExportAllR(
             for (size_t i = 0; i < numRows; i++) {
               rvalues[i] = values->at(i);
             }
-            entityList.push_back(rvalues);
+            entityList[varIndex + 2] = rvalues;
             break;
           }
           case CHR: {
@@ -85,7 +89,7 @@ cpp11::list ListExporter::ExportAllR(
               std::replace(clean_string.begin(), clean_string.end(), '\0', ' ');
               rvalues[i] = clean_string;
             }
-            entityList.push_back(rvalues);
+            entityList[varIndex + 2] = rvalues;
             break;
           }
           case DBL: {
@@ -95,7 +99,7 @@ cpp11::list ListExporter::ExportAllR(
             for (size_t i = 0; i < numRows; i++) {
               rvalues[i] = values->at(i);
             }
-            entityList.push_back(rvalues);
+            entityList[varIndex + 2] = rvalues;
             break;
           }
           default:
@@ -110,7 +114,7 @@ cpp11::list ListExporter::ExportAllR(
         cpp11::message(errorExportingVariableMsg.c_str());
       }
 
-      variableNames.push_back(v.GetName());
+      variableNames[varIndex + 2] = v.GetName();
 
       // Add variable labels to the main list
       AddVariableLabels(v, result, resultNames, entity.GetName());
@@ -119,8 +123,8 @@ cpp11::list ListExporter::ExportAllR(
     if (variableNames.size() > 0) {
       entityList.names() = variableNames;
     }
-    result.push_back(entityList);
-    resultNames.push_back(entity.GetName());
+    result[entityIndex] = entityList;
+    resultNames[entityIndex] = entity.GetName();
   }
   result.names() = resultNames;
   return result;

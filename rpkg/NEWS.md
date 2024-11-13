@@ -1,3 +1,10 @@
+# redatam 2.0.4
+
+* Refactored C++ to R list casting to avoid growing a list in a loop. It now
+  creates a list with a lenght equal to the number of entities and variables
+  with descriptions and then fills it with the data. This is 3 to 5 times
+  faster.
+
 # redatam 2.0.3
 
 * Fixes memory management issues suggested by Ivan Krylov regarding the C++ to R

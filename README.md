@@ -10,37 +10,33 @@
 
 ## About
 
-Open Redatam is an open source software for extracting raw information from REDATAM databases.
+Open Redatam is an open source software for extracting raw information from REDATAM databases. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
 
-For a given census, such as the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), run the following command:
+This software is a full C++ ground-up rewrite of the original [Redatam Converter](https://github.com/discontinuos/open-redatam/blob/master/README-EN.md) created by Pablo de Grande and written in C#. Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
+
+## For R and Python users (otherwise skip this section)
+
+**If you use R**: We have an R [package](rpkg) 📦 that allows to directly read REDATAM databases in R.
+
+**If you use Python**: We have a Python [package](pypkg) 📦 that allows to directly read REDATAM databases in Python.
+
+**If you only need the processed data**: We provide tidied [microdata](https://github.com/pachadotdev/redatam-microdata/releases) 📊 for R in RDS format.
+
+## Usage
+
+For a given census, such as the [Chilean Census 2017](https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip), the following options are equivalent.
+
+### Desktop app
+
+![Open Redatam GUI](gui-demo.png)
+
+### Command line
 
 ```bash
 redatam input-dir/dictionary.dicx output-dir
 ```
 
-Or use the desktop app:
-
-![Open Redatam GUI](gui-demo.png)
-
-The REDATAM database will be exported to CSV files and an XML summary of the tables and variables. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
-
-This software is a full C++ ground-up rewrite of the original [Redatam Converter](https://github.com/discontinuos/open-redatam/blob/master/README-EN.md) created by Pablo de Grande and written in C#. Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
-
-**For the R package that allows to directly read REDATAM databases in R, see the [rpkg](rpkg) directory.**
-
-**For the Python package that allows to directly read REDATAM databases in Python, see the [pypkg](pypkg) directory.**
-
-**If you only need the processed data, you can download the [microdata repository](https://github.com/pachadotdev/redatam-microdata/releases). It is available in RDS format for easy loading into R.**
-
-**Available datasets:**
-
-- **Argentina: 1991, 2001, 2010**
-- **Bolivia: 2001, 2012**
-- **Chile: 2017**
-- **Ecuador: 2010**
-- **El Salvador: 2007**
-- **Guatemala: 2018**
-- **Mexico: 2000**
+The REDATAM database will be exported to CSV files and an XML summary of the tables and variables.
 
 ## Installation
 

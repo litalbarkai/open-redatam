@@ -1,5 +1,7 @@
 #include <algorithm> //  std::replace
 
+#include <cpp11/function.hpp> //  cpp11::stop
+
 #include "FuzzyEntityParser.hpp"
 #include "FuzzyVariableParser.hpp"
 #include "utils.hpp" //  GetFileExtension, ThrowIfBad
@@ -23,6 +25,10 @@ vector<Entity> FuzzyEntityParser::ParseEntities() {
       }
     }
   } catch (const std::out_of_range &) {
+  }
+
+  if (ret.empty()) {
+    cpp11::stop("Error: No entities found.");
   }
 
   for (Entity &e : ret) {

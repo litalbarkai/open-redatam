@@ -1,75 +1,57 @@
-detect_encoding_ <- function(strings) {
-  valid_strings <- paste(strings[!is.na(strings) & strings != ""],
-    collapse = " ")
-  if (length(valid_strings) > 0) {
-    detected_encoding <- stri_enc_detect(valid_strings)
-    if (length(detected_encoding) > 0) {
-      return(detected_encoding[[1]]$Encoding[1])
-    }
-  }
-  return("UTF-8")
-}
-
 list_to_datatable_ <- function(x) {
-  for (y in names(x)) {
-    if (is.list(x[[y]])) {
-      x[[y]] <- as.data.table(x[[y]])
-    }
-  }
-  return(x)
+  lapply(x, function(y) {
+    if (is.list(y)) as.data.table(y) else y
+  })
 }
 
-fix_encoding_recursive_ <- function(x, encoding) {
+# Encoding fix ----
+
+fix_encoding_recursive_ <- function(x) {
   if (is.list(x)) {
-    return(lapply(x, fix_encoding_recursive_, encoding))
+    return(lapply(x, fix_encoding_recursive_))
   } else if (is.character(x)) {
-    y <- iconv(x, from = encoding, to = "UTF-8", sub = "")
-    y <- gsub("\u00c3\u00a1", "\u00e1", y) # a with acute accent
-    y <- gsub("\u00c3\u00a9", "\u00e9", y) # e with acute accent
-    y <- gsub("\u00c3\u00b3", "\u00f3", y) # o with acute accent
-    y <- gsub("\u00c3\u00ba", "\u00fa", y) # u with acute accent
-    y <- gsub("\u00c3\u00b1", "\u00f1", y) # n with tilde
-    y <- gsub("\u00b1", "\u00f1", y) # n with tilde
-    y <- gsub("\u00c3", "\u00ed", y) # i with acute accent
-    return(y)
+    replacements <- c(
+      "\u00c3\u00a1" = "\u00e1", # a with acute accent
+      "\u00c3\u00a9" = "\u00e9", # e with acute accent
+      "\u00c3\u00b3" = "\u00f3", # o with acute accent
+      "\u00c3\u00ba" = "\u00fa", # u with acute accent
+      "\u00c3\u00b1" = "\u00f1", # n with tilde
+      "\u00b1" = "\u00f1", # n with tilde
+      "\u00c3" = "\u00ed" # i with acute accent
+    )
+    return(str_replace_all(stri_enc_toutf8(x), replacements))
+  }
+  x
+}
+
+fix_encoding_in_data_table <- function(y) {
+  char_cols <- names(y)[vapply(y, is.character, logical(1))]
+  y[, (char_cols) := lapply(.SD, fix_encoding_recursive_), .SDcols = char_cols]
+  y
+}
+
+# Extract the unique values of the "chr" vectors in the lists
+extract_strings <- function(y) {
+  if (is.data.table(y)) {
+    return(unlist(y[, lapply(.SD, function(col) if (is.character(col)) col else NULL)]))
   } else {
-    return(x)
+    return(unlist(y[vapply(y, is.character, logical(1))]))
   }
 }
 
 fix_encoding_ <- function(x) {
-  # Extract the unique values of the "chr" vectors in the lists
-  strings <- unique(unlist(lapply(x, function(y) {
-    if (is.data.table(y)) {
-      return(unlist(y[, lapply(
-        .SD,
-        function(col) {
-          if (is.character(col)) col else NULL
-        }
-      )]))
-    } else {
-      return(y[vapply(y, is.character, logical(1))])
-    }
-  })))
+  strings <- unique(unlist(lapply(x, extract_strings)))
 
-  # Detect the encoding of the strings
-  encoding <- detect_encoding_(strings)
-
-  # Apply the encoding fix recursively
-  return(lapply(x, function(y) {
+  lapply(x, function(y) {
     if (is.data.table(y)) {
-      char_cols <- names(y)[vapply(y, is.character, logical(1))]
-      y[, (char_cols) := lapply(.SD,
-        function(col) {
-          fix_encoding_recursive_(col, encoding)
-        }),
-        .SDcols = char_cols]
-      return(y)
+      return(fix_encoding_in_data_table(y))
     } else {
-      return(fix_encoding_recursive_(y, encoding))
+      return(fix_encoding_recursive_(y))
     }
-  }))
+  })
 }
+
+# Tidy names ----
 
 tidy_names_ <- function(x) {
   if (is.list(x)) {
@@ -81,32 +63,34 @@ tidy_names_ <- function(x) {
     }
 
     # apply janitor to the non-empty names
-    cleaned_names <- ifelse(element_names == "", element_names,
-      make_clean_names(element_names))
-
+    cleaned_names <- ifelse(element_names == "", element_names, make_clean_names(element_names))
     names(x) <- cleaned_names
 
     # apply tidy_names_ recursively
-    return(lapply(x, function(y) {
-      if (is.data.table(y)) {
-        setnames(y, make_clean_names(names(y)))
-        return(y)
-      } else {
-        return(tidy_names_(y))
-      }
-    }))
+    return(
+      lapply(x, function(y) {
+        if (is.data.table(y)) {
+          setnames(y, make_clean_names(names(y)))
+          return(y)
+        } else if (is.list(y)) {
+          return(tidy_names_(y))
+        } else {
+          return(y)
+        }
+      })
+    )
   } else {
     return(x)
   }
 }
 
+# Fix multiple spaces ----
+
 # trim leading/trailing spaces and replace multiple spaces with a single space
 # +
 # convert empty strings to NA
 trim_and_clean_internal_ <- function(x) {
-  x <- trimws(gsub("^\\s+|\\s+$", "", gsub("\\s+", " ", x)))
-  x[x == ""] <- NA
-  return(x)
+  str_replace_all(str_trim(str_replace_all(x, "\\s+", " ")), "^$", NA_character_)
 }
 
 trim_and_clean_ <- function(x) {
@@ -128,9 +112,11 @@ harmonize_types_ <- function(x) {
     # if the data type of the column in the entity is different from the
     # description, convert it in the description
     for (col in common_col) {
-      target_class <- class(x[[entity]][[col]])
-      if (target_class != class(x[[element]][[col]])) {
-        x[[element]][, (col) := switch(target_class,
+      entity_col_class <- class(x[[entity]][[col]])
+      element_col_class <- class(x[[element]][[col]])
+
+      if (entity_col_class != element_col_class) {
+        x[[element]][, (col) := switch(entity_col_class,
           character = as.character(.SD[[col]]),
           factor = as.factor(.SD[[col]]),
           numeric = as.numeric(.SD[[col]]),
@@ -140,7 +126,7 @@ harmonize_types_ <- function(x) {
     }
   }
 
-  return(x)
+  x
 }
 
 merge_descriptions_ <- function(x) {
@@ -166,13 +152,9 @@ merge_descriptions_ <- function(x) {
     x[[entity]][, (char_cols) := lapply(.SD, as.factor), .SDcols = char_cols]
   }
 
-  return(x)
+  x
 }
 
 datatable_to_tibble_ <- function(x) {
-  for (y in names(x)) {
-    x[[y]] <- as.data.frame(x[[y]])
-    class(x[[y]]) <- c("tbl_df", "tbl", "data.frame")
-  }
-  return(x)
+  lapply(x, as_tibble)
 }

@@ -48,7 +48,8 @@ generate_tables <- function(d_control, file_name, country_code, census_year, var
     ungroup() %>%
     mutate(pct_rdtm = n_rdtm / sum(n_rdtm) * 100)
 
-  if (file_name == "downloads/redatam/CP2012BOL/open-redatam-dicx-to-csv/PERSONA.csv.gz") {
+  if (file_name == "downloads/redatam/CP2012BOL/open-redatam-dic-to-csv/PERSONA.csv.gz" |
+      file_name == "downloads/redatam/CP2012BOL/open-redatam-dicx-to-csv/PERSONA.csv.gz") {
     d_sex$sex <- c(2L,1L)
   }
 
@@ -100,9 +101,7 @@ generate_tables <- function(d_control, file_name, country_code, census_year, var
   return(list(d_control_sex = d_control_sex, d_control_age = d_control_age))
 }
 
-generate_tables_r <- function(d_control, country_code, census_year, var_sex, var_age) {
-  # just Chile, it is identical to the other validation function
-  file_name <- "downloads/CP2017CHL/BaseOrg16/CPV2017-16.dic"
+generate_tables_r <- function(d_control, file_name, country_code, census_year, var_sex, var_age) {
   # Process d_control for sex
   d_control_sex <- d_control %>%
     filter(country == country_code, year == census_year) %>%
@@ -124,11 +123,22 @@ generate_tables_r <- function(d_control, country_code, census_year, var_sex, var
 
   names(d_external)
 
+  if (any(file_name %in% c("downloads/redatam/CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dic",
+                           "downloads/redatam/CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dicx"))) {
+    # rename d_external$poblacio as d_external$persona
+    names(d_external)[which(names(d_external) == "poblacio")] <- "persona"
+  }
+  
   d_sex <- d_external$persona %>%
     group_by(sex = !!sym(var_sex)) %>%
     count(name = "n_rdtm") %>%
     ungroup() %>%
     mutate(pct_rdtm = n_rdtm / sum(n_rdtm) * 100)
+
+  if (file_name == "downloads/redatam/CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic" |
+      file_name == "downloads/redatam/CP2012BOL/BaseMunicipio_V3/CPV2012Comunidad.dicx") {
+    d_sex$sex <- c(2L, 1L)
+  }
 
   # Bind columns and calculate differences for sex
   d_control_sex <- d_control_sex %>%
@@ -184,8 +194,28 @@ generate_tables_r <- function(d_control, country_code, census_year, var_sex, var
 # p08 = sex
 # p09 = age
 
+result <- generate_tables(
+  d_control,
+  "downloads/redatam/CP2017CHL/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  152L,
+  2017L,
+  "p08",
+  "p09"
+)
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2017CHL/BaseOrg16/CPV2017-16.dic",
+  152L,
+  2017L,
+  "p08",
+  "p09"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
 result <- generate_tables(d_control,
-  # "downloads/redatam/CP2017CHL/open-redatam-dic-to-csv/PERSONA.csv.gz",
   "downloads/redatam/CP2017CHL/open-redatam-dicx-to-csv/PERSONA.csv.gz",
   152L,
   2017L,
@@ -193,19 +223,43 @@ result <- generate_tables(d_control,
   "p09"
 )
 
-result <- generate_tables_r(
+result2 <- generate_tables_r(
   d_control,
+  "downloads/redatam/CP2017CHL/BaseOrg16/CPV2017-16.dicx",
   152L,
   2017L,
   "p08",
   "p09"
 )
 
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
 # Bolivia 2001 ----
 
 result <- generate_tables(
   d_control,
-  # "downloads/redatam/CP2001BOL/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  "downloads/redatam/CP2001BOL/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  68L,
+  2001L,
+  "sexo",
+  "edad"
+)
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dic",
+  68L,
+  2001L,
+  "sexo",
+  "edad"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
+result <- generate_tables(
+  d_control,
   "downloads/redatam/CP2001BOL/open-redatam-dicx-to-csv/PERSONA.csv.gz",
   68L,
   2001L,
@@ -213,11 +267,43 @@ result <- generate_tables(
   "edad"
 )
 
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dicx",
+  68L,
+  2001L,
+  "sexo",
+  "edad"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
 # Bolivia 2012 ----
 
 result <- generate_tables(
   d_control,
-  # "downloads/redatam/CP2012BOL/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  "downloads/redatam/CP2012BOL/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  68L,
+  2012L,
+  "p24",
+  "p25"
+)
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic",
+  68L,
+  2012L,
+  "p24",
+  "p25"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
+result <- generate_tables(
+  d_control,
   "downloads/redatam/CP2012BOL/open-redatam-dicx-to-csv/PERSONA.csv.gz",
   68L,
   2012L,
@@ -225,11 +311,43 @@ result <- generate_tables(
   "p25"
 )
 
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2012BOL/BaseMunicipio_V3/CPV2012Comunidad.dicx",
+  68L,
+  2012L,
+  "p24",
+  "p25"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
 # Dominican Republic 2002 ----
 
 result <- generate_tables(
   d_control,
-  # "downloads/redatam/CP2002DOM/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  "downloads/redatam/CP2002DOM/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  214L,
+  2002L,
+  "p28",
+  "p29d"
+)
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dic",
+  214L,
+  2002L,
+  "p28",
+  "p29d"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
+result <- generate_tables(
+  d_control,
   "downloads/redatam/CP2002DOM/open-redatam-dicx-to-csv/PERSONA.csv.gz",
   214L,
   2002L,
@@ -237,11 +355,43 @@ result <- generate_tables(
   "p29d"
 )
 
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dicx",
+  214L,
+  2002L,
+  "p28",
+  "p29d"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
 # Ecuador 2010 DIC ----
 
 result <- generate_tables(
   d_control,
-  # "downloads/redatam/CP2010ECU/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  "downloads/redatam/CP2010ECU/open-redatam-dic-to-csv/PERSONA.csv.gz",
+  218L,
+  2010L,
+  "p01",
+  "p03"
+)
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2010ECU/Base/CE11.dic",
+  218L,
+  2010L,
+  "p01",
+  "p03"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
+result <- generate_tables(
+  d_control,
   "downloads/redatam/CP2010ECU/open-redatam-dicx-to-csv/PERSONA.csv.gz",
   218L,
   2010L,
@@ -249,23 +399,87 @@ result <- generate_tables(
   "p03"
 )
 
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2010ECU/Base/CE11.dicX",
+  218L,
+  2010L,
+  "p01",
+  "p03"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
 # El Salvador 2007 ----
 
 result <- generate_tables(
   d_control,
   "downloads/redatam/CP2007SLV/open-redatam-dic-to-csv/PERSONA.csv.gz",
-  # "downloads/redatam/CP2007SLV/open-redatam-dicx-to-csv/PERSONA.csv.gz",
   222L,
   2007L,
   "p02",
   "p03a"
 )
 
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dic",
+  222L,
+  2007L,
+  "p02",
+  "p03a"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
+result <- generate_tables(
+  d_control,
+  "downloads/redatam/CP2007SLV/open-redatam-dicx-to-csv/PERSONA.csv.gz",
+  222L,
+  2007L,
+  "p02",
+  "p03a"
+)
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dicx",
+  222L,
+  2007L,
+  "p02",
+  "p03a"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
 # Peru 2007 ----
 
 result <- generate_tables(
   d_control,
-  # "downloads/redatam/CP2007PER/open-redatam-dic-to-csv/Poblacio.csv.gz",
+  "downloads/redatam/CP2007PER/open-redatam-dic-to-csv/Poblacio.csv.gz",
+  604L,
+  2007L,
+  "p02sexo",
+  "p03aanio"
+)
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dic",
+  604L,
+  2007L,
+  "p02sexo",
+  "p03aanio"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
+result <- generate_tables(
+  d_control,
   "downloads/redatam/CP2007PER/open-redatam-dicx-to-csv/Poblacio.csv.gz",
   604L,
   2007L,
@@ -273,14 +487,37 @@ result <- generate_tables(
   "p03aanio"
 )
 
-# Uruguay 2011 DIC ----
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dicx",
+  604L,
+  2007L,
+  "p02sexo",
+  "p03aanio"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)
+
+# Uruguay 2011 ----
 
 result <- generate_tables(
   d_control,
-  # "downloads/redatam/CP2011URY/open-redatam-dic-to-csv/PERSONA.csv.gz",
-  "downloads/redatam/CP2011URY/open-redatam-dicx-to-csv/PERSONA.csv.gz",
+  "downloads/redatam/CP2011URY/open-redatam-dic-to-csv/PERSONA.csv.gz",
   858L,
   2011L,
   "ph02",
   "na01"
 )
+
+result2 <- generate_tables_r(
+  d_control,
+  "downloads/redatam/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dic",
+  858L,
+  2011L,
+  "ph02",
+  "na01"
+)
+
+all.equal(result$d_control_sex, result2$d_control_sex)
+all.equal(result$d_control_age, result2$d_control_age)

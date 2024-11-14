@@ -33,7 +33,7 @@ private:
   string m_rootPath;
   std::mutex m_mtx;
 
-  vector<pair<size_t, size_t>> GetSearchBounds(vector<Entity> entities);
+  vector<pair<size_t, size_t>> GetSearchBounds(vector<Entity> &entities);
 
   static VarType ParseType(ByteArrayReader *reader);
   static string ParseIdxFileName(const string &rootPath,

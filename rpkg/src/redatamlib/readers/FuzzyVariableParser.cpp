@@ -16,6 +16,10 @@ FuzzyVariableParser::FuzzyVariableParser(ByteArrayReader reader,
     : m_reader(reader), m_rootPath(rootPath) {}
 
 void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
+  if (entities.empty()) {
+    cpp11::stop("Error: The entities vector is empty.");
+  }
+
   vector<pair<size_t, size_t>> searchBounds = GetSearchBounds(entities);
 
   // R-devel suggestion: Default to using all available hardware concurrency
@@ -29,7 +33,7 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
   }
 
   size_t numThreads = std::min(entities.size(), maxThreads);
-  
+
   if (numThreads == 0) {
     numThreads = 1;
   }
@@ -51,12 +55,12 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
   }
 }
 
-vector<pair<size_t, size_t>>
-FuzzyVariableParser::GetSearchBounds(vector<Entity> entities) {
+vector<pair<size_t, size_t>> FuzzyVariableParser::GetSearchBounds(
+    vector<Entity> &entities) {
   vector<pair<size_t, size_t>> ret;
 
   if (entities.empty()) {
-    return ret;
+    cpp11::stop("Error: The entities vector is empty.");
   }
 
   for (size_t i = 0; i < entities.size() - 1; ++i) {

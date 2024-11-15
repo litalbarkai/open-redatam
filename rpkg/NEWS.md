@@ -1,19 +1,10 @@
-# redatam 2.0.4
+# redatam 2.0.1
 
 * Refactored C++ to R list casting to avoid growing a list in a loop. It now
   creates a list with a lenght equal to the number of entities and variables
   with descriptions and then fills it with the data. This is 3 to 5 times
   faster.
-
-# redatam 2.0.3
-
-* Fixes memory management issues suggested by Ivan Krylov regarding the C++ to R
-  list casting.
-* Uses 2 threads during R CMD check
-
-# redatam 2.0.1
-
-* Fixes memory leaks warned by CRAN on clang-ASAN and gcc-UBSAN.
+* Fixes GCC-SAN errors with a fix proposed by Ivan Krylov. Thanks!
 
 # redatam 2.0.0
 

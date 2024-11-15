@@ -1,6 +1,5 @@
 .vscode
 dev
-inst/extdata/galapagos
 src/*.o
 src/*.so
 src/redatamlib/*.o

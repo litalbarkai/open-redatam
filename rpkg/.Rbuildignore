@@ -13,7 +13,6 @@
 ^vignettes/CP2017CHL$
 ^\.covrignore$
 ^cran-comments\.md$
-^inst/extdata/galapagos$
 ^_pkgdown\.yml$
 ^microdata$
 ^redatam$

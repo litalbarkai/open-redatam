@@ -26,8 +26,9 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Ivan Krylov [contributor]
   \item Arseny Kapoulkine ('pugixml' C++ library) [contributor]
-  \item  Republic of Ecuador (Galapagos census data) [data contributor]
+  \item  Oriental Republic of Uruguay (Aggregated census data from 2011) [data contributor]
 }
 
 }

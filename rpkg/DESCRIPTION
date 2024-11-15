@@ -14,14 +14,18 @@ Authors@R: c(
         family = "Barkai",
         role = "aut"),
     person(
+        given = "Ivan",
+        family = "Krylov",
+        role = "ctb"),
+    person(
         given = "Arseny",
         family = "Kapoulkine",
         role = "ctb",
         comment = "'pugixml' C++ library"),
     person(
-        family = "Republic of Ecuador",
+        family = "Oriental Republic of Uruguay",
         role = "dtc",
-        comment = "Galapagos census data")
+        comment = "Aggregated census data from 2011")
     )
 Imports:
     data.table,

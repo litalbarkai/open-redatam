@@ -5,11 +5,13 @@
 #' @return A list of tibbles, each one representing a table with the census
 #'  entities (or levels) and their attributes (or variables).
 #' @examples
-#' # Read a dictionary file (Galapagos 2015)
-#' zip <- system.file("extdata", "galapagos.zip", package = "redatam")
-#' dout <- paste(tempdir(), "galapagos", sep = "/")
+#' # Read a dictionary file (Uruguay 2011, aggregated)
+#' zip <- system.file("extdata", "uru2011mini.zip", package = "redatam")
+#' dout <- paste(tempdir(), "uru2011mini", sep = "/")
 #' unzip(zip, exdir = dout)
-#' read_redatam(paste(dout, "cg15.dic", sep = "/"))
+#' read_redatam(paste(dout, "uru2011mini.dic", sep = "/"))
+#' # or equivalently
+#' read_redatam(paste(dout, "uru2011mini.dicx", sep = "/"))
 #' @export
 read_redatam <- function(dictionary) {
   dictionary <- normalizePath(dictionary)

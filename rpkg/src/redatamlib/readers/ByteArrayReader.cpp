@@ -1,6 +1,6 @@
 #include <algorithm>  // std::search
 #include <fstream>    // std::ifstream
-#include <iterator>  //  std::ostream_iterator, std::istreambuf_iterator
+#include <iterator>   // std::ostream_iterator, std::istreambuf_iterator
 #include <sstream>    // std::ostringstream
 
 #include "ByteArrayReader.hpp"
@@ -175,23 +175,27 @@ unsigned char ByteArrayReader::ReadByte() {
 }
 
 uint16_t ByteArrayReader::ReadInt16LE() {
-  return static_cast<uint16_t>(ReadByte()) |
-         (static_cast<uint16_t>(ReadByte()) << 8);
+  uint16_t a = static_cast<uint16_t>(ReadByte());
+  uint16_t b = static_cast<uint16_t>(ReadByte()) << 8;
+  return a | b;
 }
 
 uint32_t ByteArrayReader::ReadInt32LE() {
-  return static_cast<uint32_t>(ReadInt16LE()) |
-         static_cast<uint32_t>(ReadInt16LE()) << 16;
+  uint32_t a = static_cast<uint32_t>(ReadInt16LE());
+  uint32_t b = static_cast<uint32_t>(ReadInt16LE()) << 16;
+  return a | b;
 }
 
 uint16_t ByteArrayReader::ReadInt16BE() {
-  return (static_cast<uint16_t>(ReadByte()) << 8) |
-         static_cast<uint16_t>(ReadByte());
+  uint16_t a = static_cast<uint16_t>(ReadByte()) << 8;
+  uint16_t b = static_cast<uint16_t>(ReadByte());
+  return a | b;
 }
 
 uint32_t ByteArrayReader::ReadInt32BE() {
-  return (static_cast<uint32_t>(ReadInt16BE()) << 16) |
-         static_cast<uint32_t>(ReadInt16BE());
+  uint32_t a = static_cast<uint32_t>(ReadInt16BE()) << 16;
+  uint32_t b = static_cast<uint32_t>(ReadInt16BE());
+  return a | b;
 }
 
 }  // namespace RedatamLib

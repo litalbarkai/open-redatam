@@ -25,10 +25,10 @@ jobs:
         run: make all
 
       - name: Test redatam with a DIC file on Ubuntu
-        run: ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+        run: ./redatam test/uru2011mini/uru2011mini.dic test/uru2011mini/dic-to-csv
 
       - name: Test redatam with a DICX file on Ubuntu
-        run: ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
+        run: ./redatam test/uru2011mini/uru2011mini.dicx test/uru2011mini/dicx-to-csv
 
       - name: Create DEB package on Ubuntu
         run: |

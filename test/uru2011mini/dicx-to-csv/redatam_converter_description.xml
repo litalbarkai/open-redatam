@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+  <entity name="URU2011" pointer="rpkg/dev/uru2011mini/uru2011mini0000.ptr">
+    <entity name="DEPTO" pointer="rpkg/dev/uru2011mini/uru2011mini0001.ptr">
+      <variable name="NDEPTO" label="DEPTO" type="STRING" size="14" decimals="0" range="" filter="" data="rpkg/dev/uru2011mini/uru2011mini0001.rbf" />
+      <entity name="SEXO" pointer="rpkg/dev/uru2011mini/uru2011mini0002.ptr">
+        <variable name="SEXO" label="SEXO" type="STRING" size="6" decimals="0" range="" filter="" data="rpkg/dev/uru2011mini/uru2011mini0002.rbf" />
+        <variable name="CUENTA" label="CUENTA" type="INTEGER" size="27" decimals="0" range="0 TO 99999999" filter="" data="rpkg/dev/uru2011mini/uru2011mini0003.rbf" />
+      </entity>
+    </entity>
+  </entity>
+</database>

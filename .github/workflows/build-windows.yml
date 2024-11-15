@@ -48,10 +48,10 @@ jobs:
           cp ..\redatamwindows\Release\redatam.exe Release\redatam.exe
 
       - name: Test redatam with a DIC file on Windows
-        run: redatamwindows\Release\redatam.exe test\galapagos\cg15.dic test\galapagos\dic-to-csv-windows
+        run: redatamwindows\Release\redatam.exe test\uru2011mini\uru2011mini.dic test\uru2011mini\dic-to-csv
 
       - name: Test redatam with a DICX file on Windows
-        run: redatamwindows\Release\redatam.exe test\galapagos\cg15.dicX test\galapagos\dicx-to-csv-windows
+        run: redatamwindows\Release\redatam.exe test\uru2011mini\uru2011mini.dicx test\uru2011mini\dicx-to-csv
 
       - name: Create installer
         run: |

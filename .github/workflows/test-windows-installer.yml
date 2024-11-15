@@ -26,10 +26,10 @@ jobs:
 
       - name: Verify installation and convert DIC file
         run: |
-          & "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dic test\galapagos\dic-to-csv
-          & "C:\Program Files\OpenRedatam\redatam.exe" test\galapagos\cg15.dicX test\galapagos\dicx-to-csv
+          & "C:\Program Files\OpenRedatam\redatam.exe" test\uru2011mini\uru2011mini.dic test\uru2011mini\dic-to-csv
+          & "C:\Program Files\OpenRedatam\redatam.exe" test\uru2011mini\uru2011mini.dicx test\uru2011mini\dicx-to-csv
 
       - name: Check conversion results
         run: |
-          dir test\galapagos\dic-to-csv
-          dir test\galapagos\dicx-to-csv
+          dir test\uru2011mini\dic-to-csv
+          dir test\uru2011mini\dicx-to-csv

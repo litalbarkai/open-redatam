@@ -1,0 +1,4 @@
+variable;label
+DEPTO_REF_ID;Identifier for DEPTO
+URU2011_REF_ID;Parent entity Id
+NDEPTO;DEPTO

@@ -9,7 +9,7 @@
 #include "utils.hpp"
 
 namespace RedatamLib {
-ByteArrayReader::ByteArrayReader() : m_data(), m_currPos(0), m_endPos(0) {}
+ByteArrayReader::ByteArrayReader() : m_currPos(0), m_endPos(0) {}
 
 ByteArrayReader::ByteArrayReader(const string &filePath)
     : m_data(), m_currPos(0), m_endPos(0) {
@@ -81,8 +81,8 @@ ByteArrayReader::ByteArrayReader(const string &filePath)
     }
   }
 
-  m_data = vector<unsigned char>{std::istreambuf_iterator<char>(fs),
-                                 std::istreambuf_iterator<char>()};
+  m_data = vector<unsigned char>((std::istreambuf_iterator<char>(fs)),
+                                 std::istreambuf_iterator<char>());
   m_endPos = fs.tellg();
 }
 
@@ -109,9 +109,9 @@ bool ByteArrayReader::TryReadStr(string *output, bool filterByContent) {
 
   try {
     uint16_t len = ReadInt16LE();
-    ThrowIfBad<length_error>(0 < len && 128 > len &&
-                                 m_currPos + len <= m_endPos,
-                             length_error("Error: Invalid string length."));
+    ThrowIfBad<length_error>(
+        0 < len && 128 > len && m_currPos + len <= m_endPos,
+        length_error("Error: Invalid string length."));
 
     *output = ReadString(len);
   } catch (const std::bad_alloc &e) {

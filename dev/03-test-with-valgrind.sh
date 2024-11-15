@@ -1,7 +1,11 @@
 #!/bin/bash
 
+make clean
+
 make -f Makefile-debug
 
-valgrind --leak-check=full --track-origins=yes --log-file=test/galapagos/log-dic-to-csv.txt ./redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
+mkdir -p test/uru2011mini
 
-valgrind --leak-check=full --track-origins=yes --log-file=test/galapagos/log-dicx-to-csv.txt ./redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
+valgrind --leak-check=full --track-origins=yes --log-file=test/uru2011mini/log-dic-to-csv.txt ./redatam rpkg/dev/uru2011mini/uru2011mini.dic test/uru2011mini/dic-to-csv
+
+valgrind --leak-check=full --track-origins=yes --log-file=test/uru2011mini/log-dicx-to-csv.txt ./redatam rpkg/dev/uru2011mini/uru2011mini.dicx test/uru2011mini/dicx-to-csv

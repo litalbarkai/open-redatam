@@ -27,10 +27,10 @@ jobs:
 
       - name: Verify installation and convert DIC file
         run: |
-          /usr/local/bin/redatam test/galapagos/cg15.dic test/galapagos/dic-to-csv
-          /usr/local/bin/redatam test/galapagos/cg15.dicX test/galapagos/dicx-to-csv
+          /usr/local/bin/redatam test/uru2011mini/uru2011mini.dic test/uru2011mini/dic-to-csv
+          /usr/local/bin/redatam test/uru2011mini/uru2011mini.dicx test/uru2011mini/dicx-to-csv
 
       - name: Check conversion results
         run: |
-          ls -l test/galapagos/dic-to-csv
-          ls -l test/galapagos/dicx-to-csv
+          ls -l test/uru2011mini/dic-to-csv
+          ls -l test/uru2011mini/dicx-to-csv

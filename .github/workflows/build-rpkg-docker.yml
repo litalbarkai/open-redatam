@@ -56,5 +56,7 @@ jobs:
 
       - name: Run R CMD check
         uses: r-lib/actions/check-r-package@v2
+        with:
+          args: "--no-manual --as-cran"
         working-directory: ./rpkg
     

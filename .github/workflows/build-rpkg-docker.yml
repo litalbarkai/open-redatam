@@ -49,14 +49,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Check package
         run: |
+          cd ./rpkg
           R -q -e 'pak::pkg_install(c("deps::.", "any::rcmdcheck"), dependencies = TRUE)'
-        working-directory: ./rpkg
-
-      - name: Run R CMD check
-        uses: r-lib/actions/check-r-package@v2
-        with:
-          args: "--no-manual --as-cran"
-        working-directory: ./rpkg
-    
+          R -q -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), build_args = "--no-manual", error_on = "error")'

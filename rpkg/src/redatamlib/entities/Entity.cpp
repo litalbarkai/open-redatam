@@ -2,13 +2,16 @@
 
 namespace RedatamLib {
 
+using std::move;
+using std::make_shared;
+
 Entity::Entity()
     : m_name(""),
       m_parentName(""),
       m_description(""),
       m_indexFilename(""),
       m_child(nullptr),
-      m_variables(),
+      m_variables(make_shared<vector<Variable>>()),
       m_bounds({0, 0}),
       m_reader(),
       m_rowsCount(0) {}
@@ -21,7 +24,7 @@ Entity::Entity(const string &name, const string &parentName,
       m_description(description),
       m_indexFilename(idxFileName),
       m_child(nullptr),
-      m_variables(),
+      m_variables(make_shared<vector<Variable>>()),
       m_bounds(bounds),
       m_reader(idxFileName),
       m_rowsCount(0) {
@@ -58,7 +61,7 @@ Entity *Entity::GetChild() const { return m_child; }
 void Entity::AttachChild(Entity *child) { m_child = child; }
 
 void Entity::AttachVariables(shared_ptr<vector<Variable>> variables) {
-  m_variables = variables;
+  m_variables = move(variables);
 }
 
 }  // namespace RedatamLib

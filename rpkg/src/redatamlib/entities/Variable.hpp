@@ -19,11 +19,10 @@ class ByteArrayReader;  // Forward declaration
 
 class Variable {
  public:
-  explicit Variable();
-  explicit Variable(const string &name, VarType type, const string &idxFileName,
-                    size_t dataSize, const string &filter, const string &range,
-                    vector<Tag> tags, const string &description,
-                    size_t decimals = 0);
+  Variable();
+  Variable(const string &name, VarType type, const string &idxFileName,
+           size_t dataSize, const string &filter, const string &range,
+           vector<Tag> tags, const string &description, size_t decimals = 0);
   ~Variable() = default;
 
   string GetName() const;
@@ -35,7 +34,7 @@ class Variable {
   vector<Tag> GetTags() const;
   string GetDescription() const;
   size_t GetDecimals() const;
-  std::shared_ptr<void> GetValues() const;
+  shared_ptr<void> GetValues() const;
 
  private:
   string m_name;
@@ -47,15 +46,15 @@ class Variable {
   vector<Tag> m_tags;
   string m_description;
   size_t m_decimals;
-  std::shared_ptr<void> m_values;
+  shared_ptr<void> m_values;
 
   void ParseValues();
 
-  void ParseStrings(size_t length, ByteArrayReader reader);
-  void ParseIntegers(size_t size, ByteArrayReader reader);
-  void ParsePCK(size_t size, ByteArrayReader reader);
-  void ParseBIN(size_t size, ByteArrayReader reader);
-  void ParseFloats(ByteArrayReader reader);
+  void ParseStrings(size_t length, ByteArrayReader &reader);
+  void ParseIntegers(size_t size, ByteArrayReader &reader);
+  void ParsePCK(size_t size, ByteArrayReader &reader);
+  void ParseBIN(size_t size, ByteArrayReader &reader);
+  void ParseFloats(ByteArrayReader &reader);
 };
 
 }  // namespace RedatamLib

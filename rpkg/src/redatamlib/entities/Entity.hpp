@@ -17,10 +17,10 @@ using std::vector;
 
 class Entity {
  public:
-  explicit Entity();
-  explicit Entity(const string &name, const string &parentName,
-                  const string &description, const string &idxFileName,
-                  pair<size_t, size_t> bounds);
+  Entity();
+  Entity(const string &name, const string &parentName,
+         const string &description, const string &idxFileName,
+         pair<size_t, size_t> bounds);
   ~Entity() = default;
 
   string GetName() const;

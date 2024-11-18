@@ -58,7 +58,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run R CMD check
-        uses: r-hub/actions/run-check@v2
+        uses: r-hub/actions/run-check@v1
         with:
           working-directory: ./rpkg
-          

@@ -46,11 +46,15 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        R -q -e 'pak::pkg_install(c("deps::.", "any::rcmdcheck"), dependencies = TRUE)'
+      - name: Install dependencies
+        run: |
+          R -q -e 'pak::pkg_install(c("deps::.", "any::rcmdcheck"), dependencies = TRUE)'
+        working-directory: ./rpkg
 
-    - uses: r-lib/actions/check-r-package@v2
+      - name: Run R CMD check
+        uses: r-lib/actions/check-r-package@v2
+        working-directory: ./rpkg
     

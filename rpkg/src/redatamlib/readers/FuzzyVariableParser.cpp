@@ -1,13 +1,17 @@
-#include <algorithm> //  std::replace
-#include <regex>     //  std::regex, std::smatch, std::regex_search
+#include <regex>     // regex, regex_search, smatch
 #include <thread>
 
-#include <cpp11/function.hpp> //  cpp11::stop
+#include <cpp11/function.hpp> // stop
 
 #include "FuzzyVariableParser.hpp"
-#include "utils.hpp" //  GetFileExtension, ThrowIfBad
+#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
+  using std::regex;
+  using std::regex_search;
+  using std::smatch;
+  using cpp11::stop;
+
 FuzzyVariableParser::FuzzyVariableParser(const string &filePath)
     : m_reader(filePath), m_rootPath(FindRootPath(filePath)) {}
 
@@ -17,7 +21,7 @@ FuzzyVariableParser::FuzzyVariableParser(ByteArrayReader reader,
 
 void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
   if (entities.empty()) {
-    cpp11::stop("Error: The entities vector is empty.");
+    stop("Error: The entities vector is empty.");
   }
 
   vector<pair<size_t, size_t>> searchBounds = GetSearchBounds(entities);
@@ -60,7 +64,7 @@ vector<pair<size_t, size_t>> FuzzyVariableParser::GetSearchBounds(
   vector<pair<size_t, size_t>> ret;
 
   if (entities.empty()) {
-    cpp11::stop("Error: The entities vector is empty.");
+    stop("Error: The entities vector is empty.");
   }
 
   for (size_t i = 0; i < entities.size() - 1; ++i) {
@@ -117,7 +121,7 @@ size_t FuzzyVariableParser::ParseDataSize(VarType type,
                                           ByteArrayReader *reader) {
   size_t len = 0;
   std::string str;
-  std::regex re("\\d+");
+  regex re("\\d+");
   std::smatch match;
 
   switch (type) {
@@ -141,20 +145,18 @@ size_t FuzzyVariableParser::ParseDataSize(VarType type,
     str = reader->ReadString(len);
 
     // Extract the numeric part from the string
-    if (std::regex_search(str, match, re)) {
+    if (regex_search(str, match, re)) {
       try {
         return std::stoi(match.str());
       } catch (const std::invalid_argument &e) {
-        cpp11::stop("Invalid argument: " + std::string(e.what()) +
-                    " for string: '" + str + "'");
+        stop("Invalid argument: " + std::string(e.what()) + " for string: '" + str + "'");
         throw;
       } catch (const std::out_of_range &e) {
-        cpp11::stop("Out of range: " + std::string(e.what()) +
-                    " for string: '" + str + "'");
+        stop("Out of range: " + std::string(e.what()) + " for string: '" + str + "'");
         throw;
       }
     } else {
-      cpp11::stop("No numeric part found in string: '" + str + "'");
+      stop("No numeric part found in string: '" + str + "'");
     }
     break;
 
@@ -327,4 +329,5 @@ void FuzzyVariableParser::ThreadParseVars(
     entities[i].AttachVariables(vars);
   }
 }
+
 } // namespace RedatamLib

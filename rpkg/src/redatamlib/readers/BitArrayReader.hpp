@@ -11,7 +11,7 @@ using std::vector;
 
 class BitArrayReader {
  public:
-  BitArrayReader(size_t dataSize);
+  explicit BitArrayReader(size_t dataSize);
   ~BitArrayReader() = default;
 
   BitArrayReader(const BitArrayReader &) = delete;

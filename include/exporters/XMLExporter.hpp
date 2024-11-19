@@ -8,7 +8,6 @@
 #include "pugixml.hpp"
 
 namespace RedatamLib {
-
 using std::string;
 using std::vector;
 
@@ -29,7 +28,6 @@ private:
 
   static string GetVarType(VarType type);
 };
-
 } // namespace RedatamLib
 
 #endif // REDATAMLIB_XMLEXPORTER_HPP

@@ -1,14 +1,13 @@
 #ifndef REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 #define REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 
+#include "ByteArrayReader.hpp"
+#include "Entity.hpp"
+
 #include <mutex>
 #include <string>
 #include <utility> //  std::pair
 #include <vector>
-
-#include "ByteArrayReader.hpp"
-#include "Entity.hpp"
-#include "Variable.hpp"
 
 namespace RedatamLib {
 using std::pair;

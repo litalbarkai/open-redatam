@@ -1,12 +1,10 @@
 #ifndef REDATAMLIB_VARIABLE_HPP
 #define REDATAMLIB_VARIABLE_HPP
 
-#include <memory> //  std::shared_ptr
+#include <memory>  // shared_ptr
 #include <string>
-#include <utility> //  std::pair
+#include <utility>  // pair
 #include <vector>
-
-#include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
 using std::pair;
@@ -15,15 +13,16 @@ using std::string;
 using std::vector;
 
 enum VarType { BIN, CHR, DBL, INT, LNG, PCK, NA };
-using Tag = pair<string, string>; //  Tag = <Key, Value>
+using Tag = pair<string, string>;  // Tag = <Key, Value>
+
+class ByteArrayReader;  // Forward declaration
 
 class Variable {
-public:
-  explicit Variable();
-  explicit Variable(const string &name, VarType type, const string &idxFileName,
-                    size_t dataSize, const string &filter, const string &range,
-                    vector<Tag> tags, const string &description,
-                    size_t decimals = 0);
+ public:
+  Variable();
+  Variable(const string &name, VarType type, const string &idxFileName,
+           size_t dataSize, const string &filter, const string &range,
+           vector<Tag> tags, const string &description, size_t decimals = 0);
   ~Variable() = default;
 
   string GetName() const;
@@ -35,9 +34,9 @@ public:
   vector<Tag> GetTags() const;
   string GetDescription() const;
   size_t GetDecimals() const;
-  std::shared_ptr<void> GetValues() const;
+  shared_ptr<void> GetValues() const;
 
-private:
+ private:
   string m_name;
   VarType m_type;
   string m_idxFileName;
@@ -47,17 +46,17 @@ private:
   vector<Tag> m_tags;
   string m_description;
   size_t m_decimals;
-  std::shared_ptr<void> m_values;
+  shared_ptr<void> m_values;
 
   void ParseValues();
 
-  void ParseStrings(size_t length, ByteArrayReader reader);
-  void ParseIntegers(size_t size, ByteArrayReader reader);
-  void ParsePCK(size_t size, ByteArrayReader reader);
-  void ParseBIN(size_t size, ByteArrayReader reader);
-  void ParseFloats(ByteArrayReader reader);
+  void ParseStrings(size_t length, ByteArrayReader &reader);
+  void ParseIntegers(size_t size, ByteArrayReader &reader);
+  void ParsePCK(size_t size, ByteArrayReader &reader);
+  void ParseBIN(size_t size, ByteArrayReader &reader);
+  void ParseFloats(ByteArrayReader &reader);
 };
 
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif // REDATAMLIB_VARIABLE_HPP
+#endif  // REDATAMLIB_VARIABLE_HPP

@@ -1,12 +1,10 @@
 #include "FuzzyVariableParser.hpp"
+#include "utils.hpp" //  GetFileExtension, ThrowIfBad
 
 #include <regex> // regex, regex_search, smatch
 #include <thread>
 
-#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
-
 namespace RedatamLib {
-
 using std::exception;
 using std::invalid_argument;
 using std::lock_guard;
@@ -328,5 +326,4 @@ void FuzzyVariableParser::ThreadParseVars(
     entities[i].AttachVariables(vars);
   }
 }
-
 } // namespace RedatamLib

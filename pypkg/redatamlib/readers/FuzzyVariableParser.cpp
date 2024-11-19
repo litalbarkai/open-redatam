@@ -1,12 +1,27 @@
-#include <algorithm> //  std::replace
-#include <iostream>  //  std::cerr
-#include <regex>     //  std::regex, std::smatch, std::regex_search
+#include "FuzzyVariableParser.hpp"
+
+#include <regex> // regex, regex_search, smatch
 #include <thread>
 
-#include "FuzzyVariableParser.hpp"
-#include "utils.hpp" //  GetFileExtension, ThrowIfBad
+#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
+using std::exception;
+using std::getenv;
+using std::invalid_argument;
+using std::lock_guard;
+using std::mutex;
+using std::out_of_range;
+using std::ref;
+using std::regex;
+using std::regex_search;
+using std::runtime_error;
+using std::smatch;
+using std::stoi;
+using std::string;
+using std::thread;
+using std::vector;
+
 FuzzyVariableParser::FuzzyVariableParser(const string &filePath)
     : m_reader(filePath), m_rootPath(FindRootPath(filePath)) {}
 
@@ -15,10 +30,20 @@ FuzzyVariableParser::FuzzyVariableParser(ByteArrayReader reader,
     : m_reader(reader), m_rootPath(rootPath) {}
 
 void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
+  if (entities.empty()) {
+    throw runtime_error("Error: The entities vector is empty.");
+  }
+
   vector<pair<size_t, size_t>> searchBounds = GetSearchBounds(entities);
 
   // R-devel suggestion: Default to using all available hardware concurrency
-  size_t maxThreads = std::thread::hardware_concurrency();
+  size_t maxThreads = thread::hardware_concurrency();
+
+  // Then check for _R_CHECK_LIMIT_CORES_ environment variable
+  const char *checkLimitCoresEnv = getenv("_R_CHECK_LIMIT_CORES_");
+  if (checkLimitCoresEnv != nullptr && string(checkLimitCoresEnv) == "TRUE") {
+    maxThreads = 2;
+  }
 
   size_t numThreads = std::min(entities.size(), maxThreads);
 
@@ -28,14 +53,14 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
 
   size_t chunkSize = entities.size() / numThreads;
 
-  std::vector<std::thread> threads;
+  vector<thread> threads;
   for (size_t i = 0; i < numThreads; ++i) {
     size_t start = i * chunkSize;
     size_t end = (i == numThreads - 1) ? entities.size() : start + chunkSize;
 
-    threads.push_back(std::thread(ThreadParseVars, std::ref(m_mtx), start, end,
-                                  std::ref(entities), searchBounds, m_rootPath,
-                                  m_reader));
+    threads.push_back(thread(ThreadParseVars, ref(m_mtx), start, end,
+                             ref(entities), searchBounds, m_rootPath,
+                             m_reader));
   }
 
   for (auto &t : threads) {
@@ -44,11 +69,11 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
 }
 
 vector<pair<size_t, size_t>>
-FuzzyVariableParser::GetSearchBounds(vector<Entity> entities) {
+FuzzyVariableParser::GetSearchBounds(vector<Entity> &entities) {
   vector<pair<size_t, size_t>> ret;
 
   if (entities.empty()) {
-    return ret;
+    throw runtime_error("Error: The entities vector is empty.");
   }
 
   for (size_t i = 0; i < entities.size() - 1; ++i) {
@@ -104,9 +129,9 @@ string FuzzyVariableParser::ParseIdxFileName(const string &rootPath,
 size_t FuzzyVariableParser::ParseDataSize(VarType type,
                                           ByteArrayReader *reader) {
   size_t len = 0;
-  std::string str;
-  std::regex re("\\d+");
-  std::smatch match;
+  string str;
+  regex re("\\d+");
+  smatch match;
 
   switch (type) {
   case DBL:
@@ -129,22 +154,20 @@ size_t FuzzyVariableParser::ParseDataSize(VarType type,
     str = reader->ReadString(len);
 
     // Extract the numeric part from the string
-    if (std::regex_search(str, match, re)) {
+    if (regex_search(str, match, re)) {
       try {
-        return std::stoi(match.str());
-      } catch (const std::invalid_argument &e) {
-        std::cerr << "Invalid argument: " << e.what() << " for string: '" << str
-                  << "'" << std::endl;
+        return stoi(match.str());
+      } catch (const invalid_argument &e) {
+        throw runtime_error("Invalid argument: " + string(e.what()) +
+                            " for string: '" + str + "'");
         throw;
-      } catch (const std::out_of_range &e) {
-        std::cerr << "Out of range: " << e.what() << " for string: '" << str
-                  << "'" << std::endl;
+      } catch (const out_of_range &e) {
+        throw runtime_error("Out of range: " + string(e.what()) +
+                            " for string: '" + str + "'");
         throw;
       }
     } else {
-      std::cerr << "No numeric part found in string: '" << str << "'"
-                << std::endl;
-      throw std::invalid_argument("No numeric part found in string");
+      throw runtime_error("No numeric part found in string: '" + str + "'");
     }
     break;
 
@@ -199,36 +222,34 @@ void FuzzyVariableParser::ParseMissingAndNA(vector<Tag> *tags,
       reader->MovePosTo("DATASET");
       maxPos = reader->GetPos();
       reader->SetPos(ogPos);
-    } catch (const std::exception &) {
+    } catch (const exception &) {
       reader->SetPos(ogPos);
     }
 
     try {
       reader->MovePosTo(missing);
-      ThrowIfBad(
-          maxPos > reader->GetPos(),
-          std::out_of_range("Label doesn't belong to current variable."));
+      ThrowIfBad(maxPos > reader->GetPos(),
+                 out_of_range("Label doesn't belong to current variable."));
 
       reader->MovePos(missing.size() + 1); //  missing + " "
       size_t keyLen1 = GetSubstringLength(" ", reader);
       string key1 = reader->ReadString(keyLen1);
       tags->push_back(Tag(key1, missing));
-    } catch (const std::exception &) {
+    } catch (const exception &) {
       reader->SetPos(ogPos);
     }
 
     try {
       reader->MovePosTo(na);
-      ThrowIfBad(
-          maxPos > reader->GetPos(),
-          std::out_of_range("Label doesn't belong to current variable."));
+      ThrowIfBad(maxPos > reader->GetPos(),
+                 out_of_range("Label doesn't belong to current variable."));
 
       reader->MovePos(na.size() + 1); //  na + " "
       size_t keyLen2 = std::min(GetSubstringLength("", reader),
                                 GetSubstringLength(" ", reader));
       string key2 = reader->ReadString(keyLen2);
       tags->push_back(Tag(key2, na));
-    } catch (const std::exception &) {
+    } catch (const exception &) {
       reader->SetPos(ogPos);
     }
   }
@@ -239,7 +260,7 @@ size_t FuzzyVariableParser::ParseDecimals(ByteArrayReader *reader) {
   reader->MovePos(10); //  " DECIMALS "
   size_t len =
       std::min(GetSubstringLength("", reader), GetSubstringLength(" ", reader));
-  return std::stoi(reader->ReadString(len));
+  return stoi(reader->ReadString(len));
 }
 
 //  static
@@ -267,9 +288,9 @@ void FuzzyVariableParser::ParseVariables(shared_ptr<vector<Variable>> output,
 
     while (true) {
       reader.MovePosTo("DATASET");
-      ThrowIfBad(reader.GetPos() < bounds.second,
-                 std::out_of_range(
-                     "Error: DATASET doesn't belong to current entity."));
+      ThrowIfBad(
+          reader.GetPos() < bounds.second,
+          out_of_range("Error: DATASET doesn't belong to current entity."));
 
       reader.MovePos(-2); //  "DATASET" length indicator
       string varName = reader.GetFormerString();
@@ -300,21 +321,22 @@ void FuzzyVariableParser::ParseVariables(shared_ptr<vector<Variable>> output,
       output->push_back(Variable(varName, type, idxFileName, dataSize, filter,
                                  range, tags, description, decimals));
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 }
 
 //  static
 void FuzzyVariableParser::ThreadParseVars(
-    std::mutex &mutex, size_t start, size_t end, vector<Entity> &entities,
+    mutex &mtx, size_t start, size_t end, vector<Entity> &entities,
     vector<pair<size_t, size_t>> searchBounds, const string &rootPath,
     ByteArrayReader reader) {
   for (size_t i = start; i < end; ++i) {
     shared_ptr<vector<Variable>> vars(new vector<Variable>);
     ParseVariables(vars, searchBounds[i], rootPath, reader);
 
-    std::lock_guard<std::mutex> lock(mutex);
+    lock_guard<mutex> lock(mtx);
     entities[i].AttachVariables(vars);
   }
 }
+
 } // namespace RedatamLib

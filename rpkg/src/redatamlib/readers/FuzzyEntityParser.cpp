@@ -1,8 +1,7 @@
-#include <cpp11/function.hpp> // stop
-
 #include "FuzzyEntityParser.hpp"
 #include "FuzzyVariableParser.hpp"
-#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
+#include "utils.hpp"          //  GetFileExtension, ThrowIfBad
+#include <cpp11/function.hpp> // stop
 
 namespace RedatamLib {
 

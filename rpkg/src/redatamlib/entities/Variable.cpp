@@ -1,5 +1,4 @@
 #include "Variable.hpp"
-
 #include "BitArrayReader.hpp"
 #include "ByteArrayReader.hpp"
 

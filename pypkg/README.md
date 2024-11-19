@@ -22,17 +22,17 @@ pip install pandas numpy pybind11
 pip install --use-pep517 .
 ```
 
-As an optional step, you can run the tests:
-
-```bash
-python tests/basic-test.py
-```
-
 As a developer, be sure to delete the previous build after doing changes and re-installing:
 
 ```bash
 rm -rf build dist redatam.egg-info
 pip install --use-pep517 .
+```
+
+As an optional step, you can run the tests:
+
+```bash
+python tests/basic-test.py
 ```
 
 ## Processed data

@@ -5,7 +5,7 @@
 
 namespace RedatamLib {
 class ParentIDCalculator {
-public:
+ public:
   explicit ParentIDCalculator(Entity *child);
   ~ParentIDCalculator() = default;
 
@@ -14,11 +14,11 @@ public:
 
   size_t GetParentID(size_t currRow);
 
-private:
+ private:
   Entity *m_child;
   size_t m_currID;
   size_t m_currLimit;
 };
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif // REDATAMLIB_PARENTIDCALCULATOR_HPP
+#endif  // REDATAMLIB_PARENTIDCALCULATOR_HPP

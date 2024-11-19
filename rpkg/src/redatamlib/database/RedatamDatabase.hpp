@@ -1,13 +1,8 @@
 #ifndef REDATAMLIB_REDATAMDATABASE_HPP
 #define REDATAMLIB_REDATAMDATABASE_HPP
 
-#include <stdexcept> // std::invalid_argument
-#include <string>
-#include <vector>
-
-#include <cpp11/list.hpp>
-
 #include "Entity.hpp"
+#include <cpp11/list.hpp>
 
 namespace RedatamLib {
 using std::string;

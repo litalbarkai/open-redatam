@@ -1,9 +1,8 @@
-#include <algorithm> // replace
-
-#include <cpp11/function.hpp> // message
-
 #include "XMLParser.hpp"
-#include "utils/utils.hpp"
+#include "utils.hpp"
+
+#include <algorithm>          // replace
+#include <cpp11/function.hpp> // message
 
 namespace RedatamLib {
 

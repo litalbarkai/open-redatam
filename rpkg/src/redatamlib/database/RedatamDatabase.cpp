@@ -1,10 +1,8 @@
-#include <string> // find_last_of, substr, npos
-
+#include "RedatamDatabase.hpp"
 #include "FuzzyEntityParser.hpp"
 #include "RListExporter.hpp"
-#include "RedatamDatabase.hpp"
 #include "XMLParser.hpp"
-#include "utils/utils.hpp" // ThrowIfBad, GetFileExtension
+#include "utils.hpp" // ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {
 

@@ -1,43 +1,43 @@
-#include <cctype> // std::tolower
-#include <pybind11/pybind11.h>
-#include <stdexcept> // std::invalid_argument
-#include <string>    // find_last_of, substr, npos
+#include "RedatamDatabase.hpp"
+
+#include <string> // find_last_of, substr, npos
 
 #include "FuzzyEntityParser.hpp"
 #include "PyDictExporter.hpp"
-#include "RedatamDatabase.hpp"
 #include "XMLParser.hpp"
-#include "utils.hpp" // ThrowIfBad, GetFileExtension
+#include "utils/utils.hpp" // ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {
+
+using pybind11::dict;
+using pybind11::print;
 using std::invalid_argument;
 using std::string;
 using std::vector;
 
 RedatamDatabase::RedatamDatabase(const string &fileName) {
-  pybind11::print("Opening dictionary file...");
+  print("Opening dictionary file...");
   OpenDictionary(fileName);
 }
 
-pybind11::dict RedatamDatabase::ExportPyLists() const {
-  ListExporter exporter("");
+dict RedatamDatabase::ExportPyLists() const {
+  PyDictExporter exporter("");
   return exporter.ExportAllPy(m_entities);
 }
 
 void RedatamDatabase::OpenDictionary(const string &fileName) {
   string ext = GetFileExtension(fileName);
 
-  if (".dic" == ext) {
+  if (ext == ".dic") {
     FuzzyEntityParser parser(fileName);
     m_entities = parser.ParseEntities();
-  } else if (".dicx" == ext) {
+  } else if (ext == ".dicx") {
     XMLParser parser;
     m_entities = parser.ParseFile(fileName);
   } else {
     ThrowIfBad<invalid_argument>(
-        false,
-        invalid_argument(
-            "Error: Dictionary file's extension must be .dic or .dicx ."));
+        false, "Error: Dictionary file's extension must be .dic or .dicx.");
   }
 }
+
 } // namespace RedatamLib

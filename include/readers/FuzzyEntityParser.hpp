@@ -1,16 +1,15 @@
 #ifndef REDATAMLIB_FUZZYENTITYPARSER_HPP
 #define REDATAMLIB_FUZZYENTITYPARSER_HPP
 
+#include "ByteArrayReader.hpp"
+#include "Entity.hpp"
+
 #include <string>
 #include <unordered_map>
 #include <utility> // pair
 #include <vector>
 
-#include "ByteArrayReader.hpp"
-#include "Entity.hpp"
-
 namespace RedatamLib {
-
 using std::pair;
 using std::string;
 using std::unordered_map;
@@ -38,7 +37,6 @@ private:
   static void AssignChildren(vector<Entity> &entitites,
                              unordered_map<string, Entity *> mapping);
 };
-
 } // namespace RedatamLib
 
 #endif //  REDATAMLIB_FUZZYENTITYPARSER_HPP

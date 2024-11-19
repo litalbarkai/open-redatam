@@ -13,12 +13,10 @@ redatam.egg-info/dependency_links.txt
 redatam.egg-info/not-zip-safe
 redatam.egg-info/requires.txt
 redatam.egg-info/top_level.txt
-redatamlib/utils.cpp
-redatamlib/utils.hpp
+redatamlib/database/RedatamDatabase.cpp
+redatamlib/database/RedatamDatabase.hpp
 redatamlib/entity/Entity.cpp
 redatamlib/entity/Entity.hpp
-redatamlib/entity/RedatamDatabase.cpp
-redatamlib/entity/RedatamDatabase.hpp
 redatamlib/entity/Variable.cpp
 redatamlib/entity/Variable.hpp
 redatamlib/exporters/ParentIDCalculator.cpp
@@ -35,6 +33,8 @@ redatamlib/readers/FuzzyVariableParser.cpp
 redatamlib/readers/FuzzyVariableParser.hpp
 redatamlib/readers/XMLParser.cpp
 redatamlib/readers/XMLParser.hpp
+redatamlib/utils/utils.cpp
+redatamlib/utils/utils.hpp
 vendor/pugiconfig.hpp
 vendor/pugixml.cpp
 vendor/pugixml.hpp

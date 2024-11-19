@@ -1,5 +1,7 @@
+#include "RedatamDatabase.hpp"
+#include "utils.hpp"
+
 #include <iostream> // cerr, cout, endl
-#include <string>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -7,9 +9,6 @@
 #include <sys/stat.h> // mkdir
 #include <unistd.h>   // access
 #endif
-
-#include "RedatamDatabase.hpp"
-#include "utils.hpp"
 
 using std::cerr;
 using std::cout;

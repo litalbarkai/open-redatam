@@ -1,11 +1,6 @@
 #ifndef REDATAMLIB_ENTITY_HPP
 #define REDATAMLIB_ENTITY_HPP
 
-#include <memory>
-#include <string>
-#include <utility> //  std::pair
-#include <vector>
-
 #include "ByteArrayReader.hpp"
 #include "Variable.hpp"
 
@@ -16,11 +11,11 @@ using std::string;
 using std::vector;
 
 class Entity {
-public:
-  explicit Entity();
-  explicit Entity(const string &name, const string &parentName,
-                  const string &description, const string &idxFileName,
-                  pair<size_t, size_t> bounds);
+ public:
+  Entity();
+  Entity(const string &name, const string &parentName,
+         const string &description, const string &idxFileName,
+         pair<size_t, size_t> bounds);
   ~Entity() = default;
 
   string GetName() const;
@@ -39,7 +34,7 @@ public:
   void AttachChild(Entity *child);
   void AttachVariables(shared_ptr<vector<Variable>> variables);
 
-private:
+ private:
   string m_name;
   string m_parentName;
   string m_description;
@@ -50,6 +45,6 @@ private:
   ByteArrayReader m_reader;
   size_t m_rowsCount;
 };
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif // REDATAMLIB_ENTITY_HPP
+#endif  // REDATAMLIB_ENTITY_HPP

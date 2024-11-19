@@ -6,7 +6,6 @@
 #include <system_error> // error_code, generic_category
 
 namespace RedatamLib {
-
 using std::error_code;
 using std::generic_category;
 using std::strerror;
@@ -45,7 +44,6 @@ template <typename E> void ThrowIfBad(bool is_good_, const string &e_msg_) {
     throw E(e_msg_);
   }
 }
-
 } // namespace RedatamLib
 
 #endif // REDATAMLIB_UTILS_HPP

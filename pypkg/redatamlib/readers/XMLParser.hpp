@@ -1,14 +1,7 @@
 #ifndef REDATAMLIB_XMLPARSER_HPP
 #define REDATAMLIB_XMLPARSER_HPP
 
-#include <iostream>
-#include <memory> //  std::shared_ptr
-#include <string>
-#include <utility> //  std::pair
-#include <vector>
-
 #include "Entity.hpp"
-#include "Variable.hpp"
 #include "pugixml.hpp"
 
 namespace RedatamLib {
@@ -18,7 +11,7 @@ using std::string;
 using std::vector;
 
 class XMLParser {
-public:
+ public:
   XMLParser() = default;
   ~XMLParser() = default;
 
@@ -27,7 +20,7 @@ public:
 
   vector<Entity> ParseFile(const string &fileName);
 
-private:
+ private:
   string m_rootPath;
   string GetTagValue(pugi::xml_node node, const string &tag, size_t idx = 0);
   pugi::xml_node ParseEntity(vector<Entity> *results, pugi::xml_node node,
@@ -37,6 +30,6 @@ private:
   string ParseVarRange(pugi::xml_node var);
   vector<Tag> ParseVarTags(pugi::xml_node var);
 };
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif //  REDATAMLIB_XMLPARSER_HPP
+#endif  //  REDATAMLIB_XMLPARSER_HPP

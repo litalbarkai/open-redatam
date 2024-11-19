@@ -1,16 +1,11 @@
 #include "RedatamDatabase.hpp"
-
-#include <string> // find_last_of, substr, npos
-
 #include "CSVExporter.hpp"
 #include "FuzzyEntityParser.hpp"
-#include "RedatamDatabase.hpp"
 #include "XMLExporter.hpp"
 #include "XMLParser.hpp"
-#include "utils/utils.hpp" // ThrowIfBad, GetFileExtension
+#include "utils.hpp" // ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {
-
 using std::invalid_argument;
 using std::string;
 using std::vector;
@@ -44,5 +39,4 @@ void RedatamDatabase::OpenDictionary(const string &fileName) {
         false, "Error: Dictionary file's extension must be .dic or .dicx.");
   }
 }
-
 } // namespace RedatamLib

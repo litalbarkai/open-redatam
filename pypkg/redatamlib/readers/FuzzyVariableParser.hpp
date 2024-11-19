@@ -1,14 +1,13 @@
 #ifndef REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 #define REDATAMLIB_FUZZYVARIABLEPARSER_HPP
 
-#include <mutex>
-#include <string>
-#include <utility> //  std::pair
-#include <vector>
-
 #include "ByteArrayReader.hpp"
 #include "Entity.hpp"
-#include "Variable.hpp"
+
+#include <mutex>
+#include <string>
+#include <utility>  //  std::pair
+#include <vector>
 
 namespace RedatamLib {
 using std::pair;
@@ -16,7 +15,7 @@ using std::string;
 using std::vector;
 
 class FuzzyVariableParser {
-public:
+ public:
   //  throws std::ios_base::failure if fails to open file
   FuzzyVariableParser(const string &filePath);
 
@@ -28,12 +27,12 @@ public:
 
   void ParseAllVariables(vector<Entity> &entities);
 
-private:
+ private:
   ByteArrayReader m_reader;
   string m_rootPath;
   std::mutex m_mtx;
 
-  vector<pair<size_t, size_t>> GetSearchBounds(vector<Entity> entities);
+  vector<pair<size_t, size_t>> GetSearchBounds(vector<Entity> &entities);
 
   static VarType ParseType(ByteArrayReader *reader);
   static string ParseIdxFileName(const string &rootPath,
@@ -52,6 +51,6 @@ private:
                               const string &rootPath, ByteArrayReader reader);
 };
 
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif //  REDATAMLIB_FUZZYVARIABLEPARSER_HPP
+#endif  //  REDATAMLIB_FUZZYVARIABLEPARSER_HPP

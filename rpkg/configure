@@ -10,7 +10,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # Set default flags
-PKG_CFLAGS="-Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers"
+PKG_CFLAGS="-Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils"
 PKG_LIBS="-Lvendor -Lredatamlib"
 
 # Use pkg-config if available

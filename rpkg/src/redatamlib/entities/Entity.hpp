@@ -1,11 +1,6 @@
 #ifndef REDATAMLIB_ENTITY_HPP
 #define REDATAMLIB_ENTITY_HPP
 
-#include <memory>
-#include <string>
-#include <utility> // pair
-#include <vector>
-
 #include "ByteArrayReader.hpp"
 #include "Variable.hpp"
 

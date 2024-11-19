@@ -1,7 +1,6 @@
 #include "utils.hpp"
 
 #include <algorithm> // min
-#include <iostream>  // cerr
 
 namespace RedatamLib {
 

@@ -1,10 +1,8 @@
 #include "Variable.hpp"
-
 #include "BitArrayReader.hpp"
 #include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
-
 using std::make_shared;
 using std::move;
 using std::out_of_range;
@@ -159,5 +157,4 @@ void Variable::ParseBIN(size_t size, ByteArrayReader &reader) {
 
   m_values = vals;
 }
-
 } // namespace RedatamLib

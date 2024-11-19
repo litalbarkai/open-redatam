@@ -1,10 +1,9 @@
 #include "FuzzyVariableParser.hpp"
+#include "utils.hpp" //  GetFileExtension, ThrowIfBad
 
 #include <cpp11/function.hpp> // stop
 #include <regex>              // regex, regex_search, smatch
 #include <thread>
-
-#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
 using cpp11::stop;

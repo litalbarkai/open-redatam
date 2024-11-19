@@ -1,7 +1,9 @@
-#include "redatamlib/entity/RedatamDatabase.hpp"
+#include <string>
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <string>
+
+#include "redatamlib/database/RedatamDatabase.hpp"
 
 pybind11::dict export_redatam_to_dict(const std::string &dicFilePath) {
   try {

@@ -1,4 +1,6 @@
-#include <algorithm> // std::min
+#include "utils.hpp"
+
+#include <algorithm> // min
 
 #ifdef _WIN32
 #include <windows.h>
@@ -7,10 +9,7 @@
 #include <unistd.h>   // access
 #endif
 
-#include "utils.hpp"
-
 namespace RedatamLib {
-
 using std::invalid_argument;
 using std::string;
 
@@ -91,5 +90,4 @@ bool CreateDirectories(const string &path) {
   return mkdir(path.c_str(), mode) == 0 || errno == EEXIST;
 }
 #endif
-
 } // namespace RedatamLib

@@ -1,12 +1,10 @@
 #ifndef REDATAMLIB_CSVEXPORTER_HPP
 #define REDATAMLIB_CSVEXPORTER_HPP
 
-#include <mutex>
-#include <string>
-#include <vector>
-
 #include "Entity.hpp"
 #include "Variable.hpp"
+
+#include <mutex>
 
 namespace RedatamLib {
 using std::mutex;

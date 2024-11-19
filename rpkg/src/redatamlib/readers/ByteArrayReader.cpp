@@ -1,10 +1,10 @@
+#include "ByteArrayReader.hpp"
+#include "utils.hpp"
+
 #include <algorithm> // search
 #include <fstream>   // ifstream
 #include <iterator>  // ostream_iterator, istreambuf_iterator
 #include <sstream>   // ostringstream
-
-#include "ByteArrayReader.hpp"
-#include "utils/utils.hpp"
 
 namespace RedatamLib {
 

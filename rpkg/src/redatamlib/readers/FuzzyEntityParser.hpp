@@ -1,13 +1,13 @@
 #ifndef REDATAMLIB_FUZZYENTITYPARSER_HPP
 #define REDATAMLIB_FUZZYENTITYPARSER_HPP
 
+#include "ByteArrayReader.hpp"
+#include "Entity.hpp"
+
 #include <string>
 #include <unordered_map>
 #include <utility> // pair
 #include <vector>
-
-#include "ByteArrayReader.hpp"
-#include "Entity.hpp"
 
 namespace RedatamLib {
 

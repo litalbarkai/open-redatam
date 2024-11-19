@@ -14,10 +14,10 @@ ext_modules = [
             'redatamlib/readers/FuzzyVariableParser.cpp',
             'redatamlib/exporters/ParentIDCalculator.cpp',
             'redatamlib/exporters/PyDictExporter.cpp',
-            'redatamlib/entity/RedatamDatabase.cpp',
             'redatamlib/entity/Variable.cpp',
             'redatamlib/readers/XMLParser.cpp',
-            'redatamlib/utils.cpp',
+            'redatamlib/utils/utils.cpp',
+            'redatamlib/database/RedatamDatabase.cpp',
             'main.cpp'
         ],
         include_dirs=[pybind11.get_include(), 'vendor', 'redatamlib',

@@ -1,10 +1,9 @@
+#include "XMLParser.hpp"
+#include "utils.hpp"
+
 #include <algorithm> // replace
 
-#include "XMLParser.hpp"
-#include "utils/utils.hpp"
-
 namespace RedatamLib {
-
 using pugi::xml_node;
 using std::cerr;
 using std::endl;
@@ -170,5 +169,4 @@ vector<Tag> XMLParser::ParseVarTags(xml_node var) {
 
   return ret;
 }
-
 } // namespace RedatamLib

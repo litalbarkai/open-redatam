@@ -1,33 +1,30 @@
 #ifndef REDATAMLIB_REDATAMDATABASE_HPP
 #define REDATAMLIB_REDATAMDATABASE_HPP
 
-#include <string>
-#include <vector>
+#include "Entity.hpp"
 #include <pybind11/pybind11.h>
 
-#include "Entity.hpp"
-
 namespace RedatamLib {
+using pybind11::dict;
 using std::string;
 using std::vector;
 
 class RedatamDatabase {
-public:
-  // Throws invalid_argument
+ public:
   explicit RedatamDatabase(const string &fileName);
   ~RedatamDatabase() = default;
 
   RedatamDatabase(const RedatamDatabase &) = delete;
   RedatamDatabase &operator=(const RedatamDatabase &) = delete;
 
-  pybind11::dict ExportPyLists() const;
+  dict ExportPyLists() const;
 
-private:
+ private:
   vector<Entity> m_entities;
 
   void OpenDictionary(const string &fileName);
 };
 
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif // REDATAMLIB_REDATAMDATABASE_HPP
+#endif  // REDATAMLIB_REDATAMDATABASE_HPP

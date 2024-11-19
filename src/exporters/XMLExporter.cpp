@@ -1,13 +1,12 @@
-#include <fstream>   // std::ofstream
-#include <iostream>  // std::endl
-#include <sstream>   // std::ostringstream
-#include <stdexcept> // std::runtime_error
-
 #include "XMLExporter.hpp"
 #include "utils.hpp"
 
-namespace RedatamLib {
+#include <fstream>   // ofstream
+#include <iostream>  // endl
+#include <sstream>   // ostringstream
+#include <stdexcept> // runtime_error
 
+namespace RedatamLib {
 using std::endl;
 using std::ofstream;
 using std::ostringstream;
@@ -83,5 +82,4 @@ string XMLExporter::GetVarType(VarType type) {
     return "UNKNOWN";
   }
 }
-
 } // namespace RedatamLib

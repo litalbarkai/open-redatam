@@ -1,7 +1,6 @@
 #include "Entity.hpp"
 
 namespace RedatamLib {
-
 using std::make_shared;
 using std::move;
 
@@ -52,5 +51,4 @@ void Entity::AttachChild(Entity *child) { m_child = child; }
 void Entity::AttachVariables(shared_ptr<vector<Variable>> variables) {
   m_variables = move(variables);
 }
-
 } // namespace RedatamLib

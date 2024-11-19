@@ -1,16 +1,15 @@
 #ifndef RLISTEXPORTER_HPP
 #define RLISTEXPORTER_HPP
 
+#include "Entity.hpp"
+
 #include <string>
 #include <vector>
-
 #include <cpp11/doubles.hpp>
 #include <cpp11/function.hpp> // cpp11::message
 #include <cpp11/integers.hpp>
 #include <cpp11/list.hpp>
 #include <cpp11/strings.hpp>
-
-#include "Entity.hpp"
 
 namespace RedatamLib {
 

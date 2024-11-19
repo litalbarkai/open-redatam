@@ -1,9 +1,8 @@
 #include "FuzzyEntityParser.hpp"
 #include "FuzzyVariableParser.hpp"
-#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
+#include "utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
-
 using std::make_pair;
 using std::move;
 
@@ -95,5 +94,4 @@ void FuzzyEntityParser::AssignChildren(
     }
   }
 }
-
 } // namespace RedatamLib

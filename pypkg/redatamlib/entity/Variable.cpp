@@ -1,7 +1,14 @@
 #include "Variable.hpp"
+
 #include "BitArrayReader.hpp"
+#include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
+
+using std::make_shared;
+using std::move;
+using std::out_of_range;
+
 Variable::Variable()
     : m_name(""), m_type(NA), m_idxFileName(""), m_dataSize(0), m_filter(""),
       m_range(""), m_tags(), m_description(""), m_decimals(0) {}
@@ -10,8 +17,8 @@ Variable::Variable(const string &name, VarType type, const string &idxFileName,
                    size_t dataSize, const string &filter, const string &range,
                    vector<Tag> tags, const string &description, size_t decimals)
     : m_name(name), m_type(type), m_idxFileName(idxFileName),
-      m_dataSize(dataSize), m_filter(filter), m_range(range), m_tags(tags),
-      m_description(description), m_decimals(decimals) {
+      m_dataSize(dataSize), m_filter(filter), m_range(range),
+      m_tags(move(tags)), m_description(description), m_decimals(decimals) {
   ParseValues();
 }
 
@@ -33,7 +40,7 @@ string Variable::GetDescription() const { return m_description; }
 
 size_t Variable::GetDecimals() const { return m_decimals; }
 
-std::shared_ptr<void> Variable::GetValues() const { return m_values; }
+shared_ptr<void> Variable::GetValues() const { return m_values; }
 
 void Variable::ParseValues() {
   ByteArrayReader reader(m_idxFileName);
@@ -69,31 +76,21 @@ void Variable::ParseValues() {
   }
 }
 
-void Variable::ParseStrings(size_t length, ByteArrayReader reader) {
-  vector<string> *vals = new vector<string>();
-  struct Deleter {
-    void operator()(void *ptr) const {
-      delete static_cast<vector<string> *>(ptr);
-    }
-  };
+void Variable::ParseStrings(size_t length, ByteArrayReader &reader) {
+  shared_ptr<vector<string>> vals = make_shared<vector<string>>();
 
   try {
     while (true) {
       vals->push_back(reader.ReadString(length));
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
-  m_values = shared_ptr<void>(static_cast<void *>(vals), Deleter());
+  m_values = vals;
 }
 
-void Variable::ParseIntegers(size_t size, ByteArrayReader reader) {
-  vector<uint32_t> *vals = new vector<uint32_t>();
-  struct Deleter {
-    void operator()(void *ptr) const {
-      delete static_cast<vector<uint32_t> *>(ptr);
-    }
-  };
+void Variable::ParseIntegers(size_t size, ByteArrayReader &reader) {
+  shared_ptr<vector<uint32_t>> vals = make_shared<vector<uint32_t>>();
 
   try {
     switch (size) {
@@ -109,19 +106,14 @@ void Variable::ParseIntegers(size_t size, ByteArrayReader reader) {
       }
       break;
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
-  m_values = shared_ptr<void>(static_cast<void *>(vals), Deleter());
+  m_values = vals;
 }
 
-void Variable::ParseFloats(ByteArrayReader reader) {
-  vector<double> *vals = new vector<double>();
-  struct Deleter {
-    void operator()(void *ptr) const {
-      delete static_cast<vector<double> *>(ptr);
-    }
-  };
+void Variable::ParseFloats(ByteArrayReader &reader) {
+  shared_ptr<vector<double>> vals = make_shared<vector<double>>();
   string temp;
 
   try {
@@ -130,51 +122,42 @@ void Variable::ParseFloats(ByteArrayReader reader) {
       vals->push_back(
           *(reinterpret_cast<double *>(const_cast<char *>(temp.c_str()))));
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
-  m_values = shared_ptr<void>(static_cast<void *>(vals), Deleter());
+  m_values = vals;
 }
 
-void Variable::ParsePCK(size_t size, ByteArrayReader reader) {
-  vector<uint32_t> *vals = new vector<uint32_t>();
-  struct Deleter {
-    void operator()(void *ptr) const {
-      delete static_cast<vector<uint32_t> *>(ptr);
-    }
-  };
+void Variable::ParsePCK(size_t size, ByteArrayReader &reader) {
+  shared_ptr<vector<uint32_t>> vals = make_shared<vector<uint32_t>>();
   uint32_t bits = 0;
   BitArrayReader bitReader(size);
 
   try {
     while (true) {
       bits = reader.ReadInt32LE();
-      bitReader.ParseBits(vals, bits);
+      bitReader.ParseBits(vals.get(), bits);
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
-  m_values = shared_ptr<void>(static_cast<void *>(vals), Deleter());
+  m_values = vals;
 }
 
-void Variable::ParseBIN(size_t size, ByteArrayReader reader) {
-  vector<uint32_t> *vals = new vector<uint32_t>();
-  struct Deleter {
-    void operator()(void *ptr) const {
-      delete static_cast<vector<uint32_t> *>(ptr);
-    }
-  };
+void Variable::ParseBIN(size_t size, ByteArrayReader &reader) {
+  shared_ptr<vector<uint32_t>> vals = make_shared<vector<uint32_t>>();
   uint32_t bits = 0;
   BitArrayReader bitReader(size);
 
   try {
     while (true) {
       bits = reader.ReadInt32BE();
-      bitReader.ParseBits(vals, bits);
+      bitReader.ParseBits(vals.get(), bits);
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
-  m_values = shared_ptr<void>(static_cast<void *>(vals), Deleter());
+  m_values = vals;
 }
+
 } // namespace RedatamLib

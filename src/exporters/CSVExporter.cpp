@@ -1,12 +1,11 @@
+#include "CSVExporter.hpp"
+#include "ParentIDCalculator.hpp"
+#include "utils.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <thread>
-#include <vector>
-
-#include "CSVExporter.hpp"
-#include "ParentIDCalculator.hpp"
-#include "utils.hpp"
 
 namespace RedatamLib {
 using std::cout;
@@ -159,5 +158,4 @@ void CSVExporter::ThreadExport(size_t start, size_t end,
     CreateVariablesData(entities[i]);
   }
 }
-
 } // namespace RedatamLib

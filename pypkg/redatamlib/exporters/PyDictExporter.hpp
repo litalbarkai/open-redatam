@@ -1,34 +1,34 @@
-#ifndef PYLISTEXPORTER_HPP
-#define PYLISTEXPORTER_HPP
+#ifndef PYDICTEXPORTER_HPP
+#define PYDICTEXPORTER_HPP
+
+#include "Entity.hpp"
 
 #include <string>
 #include <vector>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "Entity.hpp"
-
 namespace RedatamLib {
 
-class ListExporter {
-public:
-  ListExporter(const std::string &outputDirectory);
-  void ExportAll(std::vector<Entity> &entities);
-  pybind11::dict ExportAllPy(const std::vector<Entity> &entities) const;
+using pybind11::dict;
+using std::string;
+using std::vector;
 
-private:
-  std::string m_path;
+class PyDictExporter {
+ public:
+  explicit PyDictExporter(const string &outputDirectory);
+  dict ExportAllPy(const vector<Entity> &entities) const;
 
-  static std::string clean_string(const std::string &input);
-  void ListEntity(Entity &entity, pybind11::dict &result) const;
-  static void CreateVariablesLegend(Entity &e, pybind11::dict &result);
-  static void CreateVariablesLabels(Entity &e, pybind11::dict &result);
-  static void CreateVariablesData(Entity &e, pybind11::dict &result);
-  static void AddVariableLabels(const Variable &v, pybind11::dict &result,
-                                pybind11::dict &resultNames,
-                                const std::string &entityName);
+ private:
+  string m_path;
+
+  static std::string clean_string(const string &input);
+  void AddVariableLabels(const Variable &v,
+                         dict &result,
+                         dict &resultNames,
+                         const string &entityName) const;
 };
 
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif // PYLISTEXPORTER_HPP
+#endif  // PYDICTEXPORTER_HPP

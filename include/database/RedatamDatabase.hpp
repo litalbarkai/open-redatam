@@ -1,10 +1,6 @@
 #ifndef REDATAMLIB_REDATAMDATABASE_HPP
 #define REDATAMLIB_REDATAMDATABASE_HPP
 
-#include <stdexcept> // invalid_argument
-#include <string>
-#include <vector>
-
 #include "Entity.hpp"
 
 namespace RedatamLib {
@@ -13,7 +9,6 @@ using std::vector;
 
 class RedatamDatabase {
 public:
-  // Throws invalid_argument
   explicit RedatamDatabase(const string &fileName);
   ~RedatamDatabase() = default;
 

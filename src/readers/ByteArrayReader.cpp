@@ -1,13 +1,12 @@
+#include "ByteArrayReader.hpp"
+#include "utils.hpp"
+
 #include <algorithm> // search
 #include <fstream>   // ifstream
 #include <iterator>  // ostream_iterator, istreambuf_iterator
 #include <sstream>   // ostringstream
 
-#include "ByteArrayReader.hpp"
-#include "utils/utils.hpp"
-
 namespace RedatamLib {
-
 using std::all_of;
 using std::bad_alloc;
 using std::copy;
@@ -209,5 +208,4 @@ uint32_t ByteArrayReader::ReadInt32BE() {
   uint32_t b = static_cast<uint32_t>(ReadInt16BE());
   return a | b;
 }
-
 } // namespace RedatamLib

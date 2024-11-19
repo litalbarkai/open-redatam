@@ -3,7 +3,7 @@
 
 #include <cstddef>    // size_t
 #include <cstdint>    // uint16_t, uint32_t
-#include <stdexcept>  // std::out_of_range, std::length_error
+#include <stdexcept>  // out_of_range, length_error
 #include <string>
 #include <vector>
 
@@ -16,7 +16,7 @@ using std::vector;
 class ByteArrayReader {
  public:
   ByteArrayReader();
-  // throws std::ios_base::failure if fails to open file
+  // throws ios_base::failure if fails to open file
   ByteArrayReader(const string &filePath);
 
   ~ByteArrayReader() = default;
@@ -24,7 +24,7 @@ class ByteArrayReader {
   size_t GetPos() const;
   size_t GetEndPos() const;
 
-  // throws std::out_of_range
+  // throws out_of_range
   void SetPos(int newPos);
   void MovePos(int bytes);
   void MovePosTo(const string &subArr);
@@ -34,14 +34,14 @@ class ByteArrayReader {
   // whitespaces)
   bool TryReadStr(string *output, bool filterByContent = true);
 
-  // throws std::out_of_range
+  // throws out_of_range
   string ReadString(size_t length);
 
-  // throws std::out_of_range if there isn't such string
+  // throws out_of_range if there isn't such string
   // used to find variable names
   string GetFormerString();
 
-  // throws std::out_of_range; LE = little-endian, BE = big-endian
+  // throws out_of_range; LE = little-endian, BE = big-endian
   unsigned char ReadByte();
   uint16_t ReadInt16LE();
   uint32_t ReadInt32LE();

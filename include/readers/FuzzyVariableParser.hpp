@@ -3,7 +3,7 @@
 
 #include <mutex>
 #include <string>
-#include <utility>  //  std::pair
+#include <utility>  //  pair
 #include <vector>
 
 #include "ByteArrayReader.hpp"
@@ -14,10 +14,12 @@ namespace RedatamLib {
 using std::pair;
 using std::string;
 using std::vector;
+using std::mutex;
+using std::shared_ptr;
 
 class FuzzyVariableParser {
  public:
-  //  throws std::ios_base::failure if fails to open file
+  //  throws ios_base::failure if fails to open file
   FuzzyVariableParser(const string &filePath);
 
   FuzzyVariableParser(ByteArrayReader reader, const string &rootPath);
@@ -31,7 +33,7 @@ class FuzzyVariableParser {
  private:
   ByteArrayReader m_reader;
   string m_rootPath;
-  std::mutex m_mtx;
+  mutex m_mtx;
 
   vector<pair<size_t, size_t>> GetSearchBounds(vector<Entity> &entities);
 
@@ -43,10 +45,10 @@ class FuzzyVariableParser {
   static void ParseMissingAndNA(vector<Tag> *tags, ByteArrayReader *reader);
   static size_t ParseDecimals(ByteArrayReader *reader);
   static size_t GetSubstringLength(string delimiter, ByteArrayReader *reader);
-  static void ParseVariables(std::shared_ptr<vector<Variable>> output,
+  static void ParseVariables(shared_ptr<vector<Variable>> output,
                              pair<size_t, size_t> bounds,
                              const string &rootPath, ByteArrayReader reader);
-  static void ThreadParseVars(std::mutex &mutex, size_t start, size_t end,
+  static void ThreadParseVars(mutex &mutex, size_t start, size_t end,
                               vector<Entity> &entities,
                               vector<pair<size_t, size_t>> searchBounds,
                               const string &rootPath, ByteArrayReader reader);

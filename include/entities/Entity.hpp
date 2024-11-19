@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <string>
-#include <utility>  // std::pair
+#include <utility>  // pair
 #include <vector>
 
 #include "ByteArrayReader.hpp"

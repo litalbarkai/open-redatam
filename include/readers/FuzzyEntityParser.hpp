@@ -18,7 +18,7 @@ using std::vector;
 
 class FuzzyEntityParser {
  public:
-  //  throws std::ios_base::failure if fails to open file
+  //  throws ios_base::failure if fails to open file
   explicit FuzzyEntityParser(const string &filePath);
   ~FuzzyEntityParser() = default;
 
@@ -31,7 +31,7 @@ class FuzzyEntityParser {
   ByteArrayReader m_reader;
   string m_rootPath;
 
-  //  throws std::out_of_range
+  //  throws out_of_range
   pair<bool, Entity> TryGetEntity();
 
   //  Note: changes entities inner values

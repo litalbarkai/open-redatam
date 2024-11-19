@@ -11,6 +11,7 @@
 namespace RedatamLib {
 using std::string;
 using std::vector;
+using std::mutex;
 
 class CSVExporter {
  public:
@@ -24,7 +25,7 @@ class CSVExporter {
 
  private:
   string m_path;
-  mutable std::mutex m_mtx;
+  mutable mutex m_mtx;
 
   void CreateVariablesLegend(Entity &e) const;
   void CreateVariablesLabels(Entity &e) const;

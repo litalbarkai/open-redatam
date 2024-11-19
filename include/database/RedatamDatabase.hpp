@@ -1,7 +1,7 @@
 #ifndef REDATAMLIB_REDATAMDATABASE_HPP
 #define REDATAMLIB_REDATAMDATABASE_HPP
 
-#include <stdexcept>  // std::invalid_argument
+#include <stdexcept>  // invalid_argument
 #include <string>
 #include <vector>
 

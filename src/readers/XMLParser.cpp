@@ -8,6 +8,12 @@ namespace RedatamLib {
 using pugi::xml_node;
 using std::runtime_error;
 using std::string;
+using std::cerr;
+using std::endl;
+using std::exception;
+using std::move;
+using std::stoi;
+using std::make_shared;
 
 vector<Entity> XMLParser::ParseFile(const string &fileName) {
   m_rootPath = FindRootPath(fileName);
@@ -41,9 +47,9 @@ vector<Entity> XMLParser::ParseFile(const string &fileName) {
     for (size_t idx = 0; idx < ret.size() - 1; ++idx) {
       ret[idx].AttachChild(&ret[idx + 1]);
     }
-  } catch (const std::exception &e) {
+  } catch (const exception &e) {
     string errorMsg = "Error: " + string(e.what());
-    std::cerr << errorMsg << std::endl;
+    cerr << errorMsg << endl;
     throw;
   }
 
@@ -70,14 +76,14 @@ xml_node XMLParser::ParseEntity(vector<Entity> *results, xml_node node,
   shared_ptr<vector<Variable>> variables = ParseVariables(node);
   curr.AttachVariables(variables);
 
-  results->push_back(std::move(curr));
+  results->push_back(move(curr));
 
   xml_node child = node.child("entity");
   return child;
 }
 
 shared_ptr<vector<Variable>> XMLParser::ParseVariables(xml_node node) {
-  shared_ptr<vector<Variable>> ret = std::make_shared<vector<Variable>>();
+  shared_ptr<vector<Variable>> ret = make_shared<vector<Variable>>();
 
   for (xml_node var : node.children("variable")) {
     string name = GetTagValue(var, "name");
@@ -96,7 +102,7 @@ shared_ptr<vector<Variable>> XMLParser::ParseVariables(xml_node node) {
     string description = GetTagValue(var, "label");
 
     string decimalsStr = GetTagValue(var, "decimals");
-    size_t decimals = decimalsStr.empty() ? 0 : std::stoi(decimalsStr);
+    size_t decimals = decimalsStr.empty() ? 0 : stoi(decimalsStr);
 
     ret->emplace_back(name, typeDetails.first, idxFileName, typeDetails.second,
                       filter, range, tags, description, decimals);
@@ -124,7 +130,7 @@ pair<VarType, size_t> XMLParser::ParseVarTypeAndSize(xml_node var) {
     varType = PCK;
   }
 
-  size_t size = std::stoi(GetTagValue(details, "datasetSize"));
+  size_t size = stoi(GetTagValue(details, "datasetSize"));
 
   return {varType, size};
 }

@@ -18,11 +18,11 @@ string ReplaceRootPath(const string &rootPath, const string &fileName);
 string GetFileExtension(const string &fileName);
 
 bool TryGetFileExtension(const string &fileName, string *output);
-bool Exists(const std::string &path);
-bool CreateDirectories(const std::string &path);
+bool Exists(const string &path);
+bool CreateDirectories(const string &path);
 
 template <typename E>
-void ThrowIfBad(bool is_good_, std::error_code err_, const string &e_msg_) {
+void ThrowIfBad(bool is_good_, error_code err_, const string &e_msg_) {
   if (!is_good_) {
     throw E(err_, e_msg_);
   }
@@ -43,7 +43,7 @@ void ThrowIfBad(bool is_good_, const E &e_) {
 }
 
 template <typename E>
-void ThrowIfBad(bool is_good_, const std::string &e_msg_) {
+void ThrowIfBad(bool is_good_, const string &e_msg_) {
   if (!is_good_) {
     throw E(e_msg_);
   }

@@ -7,6 +7,7 @@ namespace RedatamLib {
 
 using std::make_shared;
 using std::move;
+using std::out_of_range;
 
 Variable::Variable()
     : m_name(""),
@@ -95,7 +96,7 @@ void Variable::ParseStrings(size_t length, ByteArrayReader &reader) {
     while (true) {
       vals->push_back(reader.ReadString(length));
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
   m_values = vals;
@@ -118,7 +119,7 @@ void Variable::ParseIntegers(size_t size, ByteArrayReader &reader) {
         }
         break;
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
   m_values = vals;
@@ -134,7 +135,7 @@ void Variable::ParseFloats(ByteArrayReader &reader) {
       vals->push_back(
           *(reinterpret_cast<double *>(const_cast<char *>(temp.c_str()))));
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
   m_values = vals;
@@ -150,7 +151,7 @@ void Variable::ParsePCK(size_t size, ByteArrayReader &reader) {
       bits = reader.ReadInt32LE();
       bitReader.ParseBits(vals.get(), bits);
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
   m_values = vals;
@@ -166,7 +167,7 @@ void Variable::ParseBIN(size_t size, ByteArrayReader &reader) {
       bits = reader.ReadInt32BE();
       bitReader.ParseBits(vals.get(), bits);
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
   m_values = vals;

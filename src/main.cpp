@@ -1,4 +1,4 @@
-#include <iostream> // std::cerr, std::cout, std::endl
+#include <iostream> // cerr, cout, endl
 #include <string>
 
 #ifdef _WIN32
@@ -15,6 +15,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 using std::string;
+using std::exception;
 
 int main(int argc, char *argv[]) {
   if (argc != 3) {
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]) {
     db.ExportCSVFiles(outputDirPath);
     db.ExportSummary(outputDirPath);
     cout << "Conversion successful!" << endl;
-  } catch (const std::exception &e) {
+  } catch (const exception &e) {
     cout << "\033[1;31mConversion failed.\033[0m" << endl;
     return 1;
   }

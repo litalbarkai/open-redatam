@@ -1,11 +1,9 @@
-#include <cctype>  // std::tolower
 #include <string>  // find_last_of, substr, npos
 
 #include "FuzzyEntityParser.hpp"
 #include "RListExporter.hpp"
 #include "XMLParser.hpp"
 #include "RedatamDatabase.hpp"
-
 #include "utils/utils.hpp"  // ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {

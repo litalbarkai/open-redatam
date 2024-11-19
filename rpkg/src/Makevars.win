@@ -1,4 +1,4 @@
-PKG_CPPFLAGS=-Ivendor -Iredatamlib -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers
+PKG_CPPFLAGS=-Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils
 PKG_LIBS=-Lvendor -Lredatamlib
 
 # Explicitly list all source files

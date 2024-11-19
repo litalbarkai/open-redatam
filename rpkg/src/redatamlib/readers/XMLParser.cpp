@@ -21,8 +21,7 @@ vector<Entity> XMLParser::ParseFile(const string &fileName) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(fileName.c_str());
     if (!result) {
-      string errorMsg =
-          "Error parsing file: " + std::string(result.description());
+      string errorMsg = "Error parsing file: " + string(result.description());
       throw runtime_error(errorMsg);
     }
 
@@ -46,7 +45,7 @@ vector<Entity> XMLParser::ParseFile(const string &fileName) {
       ret[idx].AttachChild(&ret[idx + 1]);
     }
   } catch (const std::exception &e) {
-    string errorMsg = "Error: " + std::string(e.what());
+    string errorMsg = "Error: " + string(e.what());
     message(errorMsg.c_str());
     throw;
   }

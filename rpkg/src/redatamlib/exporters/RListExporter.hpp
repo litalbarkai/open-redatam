@@ -14,6 +14,8 @@
 
 namespace RedatamLib {
 
+using std::string;
+
 class ListExporter {
  public:
   ListExporter(const std::string &outputDirectory);
@@ -30,7 +32,7 @@ class ListExporter {
   static void AddVariableLabels(const Variable &v,
                                 cpp11::writable::list &result,
                                 cpp11::writable::strings &resultNames,
-                                const std::string &entityName);
+                                const string &entityName);
 };
 
 }  // namespace RedatamLib

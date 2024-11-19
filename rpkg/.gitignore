@@ -10,5 +10,9 @@ src/redatamlib/exporters/*.o
 src/redatamlib/exporters/*.so
 src/redatamlib/readers/*.o
 src/redatamlib/readers/*.so
+src/redatamlib/utils/*.o
+src/redatamlib/utils/*.so
+src/redatamlib/database/*.o
+src/redatamlib/database/*.so
 src/vendor/*.o
 src/vendor/*.so

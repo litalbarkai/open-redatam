@@ -1,4 +1,9 @@
-# redatam 2.0.1
+# redatam 2.1.0
+
+* Streamlined the C++ code. Minimal performance improvements, but it is now
+  easier to read.
+
+# redatam 2.0.4
 
 * Refactored C++ to R list casting to avoid growing a list in a loop. It now
   creates a list with a lenght equal to the number of entities and variables

@@ -15,7 +15,7 @@ using std::transform;
 using std::vector;
 using namespace cpp11;
 
-ListExporter::ListExporter(const std::string &outputDirectory)
+ListExporter::ListExporter(const string &outputDirectory)
     : m_path(outputDirectory) {
   if (!m_path.empty() && '/' != m_path.back()) {
     m_path.append("/");
@@ -102,7 +102,7 @@ list ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
             break;
           }
           default:
-            std::string unknownTypeMsg = "Unknown variable type: " + v.GetName();
+            string unknownTypeMsg = "Unknown variable type: " + v.GetName();
             message(unknownTypeMsg.c_str());
             break;
         }
@@ -130,7 +130,7 @@ list ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
 void ListExporter::AddVariableLabels(const Variable &v,
                                      writable::list &result,
                                      writable::strings &resultNames,
-                                     const std::string &entityName) {
+                                     const string &entityName) {
   if (!v.GetTags().empty()) {
     writable::list labelTable;
     writable::strings variableColumn;

@@ -10,7 +10,7 @@ set(PUGIXML_PATH "../vendor/pugixml")
 
 # Debug: Print the paths being used
 message(STATUS "Source path: ${SRC_PATH}")
-message(STATUS "Include path: ${INCLUDE_PATH}")
+message(STATUS "Include path: ${INCLUDE_PATH}")     
 message(STATUS "PugiXML path: ${PUGIXML_PATH}")
 
 # Verify that the paths exist
@@ -25,10 +25,12 @@ include_directories(${INCLUDE_PATH})
 include_directories(${INCLUDE_PATH}/entities)
 include_directories(${INCLUDE_PATH}/readers)
 include_directories(${INCLUDE_PATH}/exporters)
+include_directories(${INCLUDE_PATH}/database)
+include_directories(${INCLUDE_PATH}/utils)
 include_directories(${PUGIXML_PATH})
 
 # Debug: Print the include directories
-message(STATUS "Include directories: ${INCLUDE_PATH}, ${INCLUDE_PATH}/entities, ${INCLUDE_PATH}/readers, ${INCLUDE_PATH}/exporters, ${PUGIXML_PATH}")
+message(STATUS "Include directories: ${INCLUDE_PATH}, ${INCLUDE_PATH}/entities, ${INCLUDE_PATH}/readers, ${INCLUDE_PATH}/exporters, ${INCLUDE_PATH}/database, ${INCLUDE_PATH}/utils, ${PUGIXML_PATH}")
 
 # Source files
 file(GLOB_RECURSE REDATAM_SRCS "${SRC_PATH}/*.cpp")

@@ -3,15 +3,17 @@
 
 #include <mutex>
 #include <string>
+#include <vector>
 
 #include "Entity.hpp"
 #include "Variable.hpp"
 
 namespace RedatamLib {
 using std::string;
+using std::vector;
 
 class CSVExporter {
-public:
+ public:
   explicit CSVExporter(const string &outputDirectory);
   ~CSVExporter() = default;
 
@@ -20,20 +22,15 @@ public:
 
   void ExportAll(vector<Entity> &entities);
 
-private:
+ private:
   string m_path;
-  std::mutex m_mtx;
+  mutable std::mutex m_mtx;
 
-  static void CreateVariablesLegend(std::mutex &mutex, Entity &e,
-                                    const string &outputDirectory);
-  static void CreateVariablesLabels(std::mutex &mutex, Entity &e,
-                                    const string &outputDirectory);
-  static void CreateVariablesData(std::mutex &mutex, Entity &e,
-                                  const string &outputDirectory);
-  static void ThreadExport(std::mutex &mutex, size_t start, size_t end,
-                           vector<Entity> &entities,
-                           const string &outputDirectory);
+  void CreateVariablesLegend(Entity &e) const;
+  void CreateVariablesLabels(Entity &e) const;
+  void CreateVariablesData(Entity &e) const;
+  void ThreadExport(size_t start, size_t end, vector<Entity> &entities) const;
 };
-} // namespace RedatamLib
+}  // namespace RedatamLib
 
-#endif // REDATAMLIB_CSVEXPORTER_HPP
+#endif  // REDATAMLIB_CSVEXPORTER_HPP

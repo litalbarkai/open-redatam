@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database>
-  <entity name="URU2011" pointer="rpkg/dev/uru2011mini/URU2011MINI0000.ptr">
-    <entity name="DEPTO" pointer="rpkg/dev/uru2011mini/URU2011MINI0001.ptr">
-      <variable name="NDEPTO" label="DEPTO" type="STRING" size="14" decimals="0" range="0 TO 0" filter="" data="rpkg/dev/uru2011mini/URU2011MINI0001.rbf" />
-      <entity name="SEXO" pointer="rpkg/dev/uru2011mini/URU2011MINI0002.ptr">
-        <variable name="SEXO" label="SEXO" type="STRING" size="6" decimals="0" range="0 TO 0" filter="" data="rpkg/dev/uru2011mini/URU2011MINI0002.rbf" />
-        <variable name="CUENTA" label="CUENTA" type="INTEGER" size="27" decimals="0" range="0 TO 99999999" filter="" data="rpkg/dev/uru2011mini/URU2011MINI0003.rbf">
-          <valueLabels>
-            <valueLabel name="100000001" value="MISSING" />
-            <valueLabel name="100000000" value="NOTAPPLICABLE" />
-          </valueLabels>
-        </variable>
-      </entity>
-    </entity>
-  </entity>
-</database>
+<RedatamConverterDescription>
+	<Entity name="URU2011" />
+	<Entity name="DEPTO">
+		<Variable name="NDEPTO" type="CHR" description="DEPTO" />
+	</Entity>
+	<Entity name="SEXO">
+		<Variable name="SEXO" type="CHR" description="SEXO" />
+		<Variable name="CUENTA" type="PCK" description="CUENTA">
+			<Tags>
+				<Tag key="100000001" value="MISSING" />
+				<Tag key="100000000" value="NOTAPPLICABLE" />
+			</Tags>
+		</Variable>
+	</Entity>
+</RedatamConverterDescription>

@@ -1,16 +1,16 @@
-#include <cctype>    //  std::tolower
-#include <iostream>  //  std::cout
-#include <stdexcept> //  std::invalid_argument
-#include <string>    //  find_last_of, substr, npos
+#include "RedatamDatabase.hpp"
+
+#include <string>  // find_last_of, substr, npos
 
 #include "CSVExporter.hpp"
 #include "FuzzyEntityParser.hpp"
 #include "RedatamDatabase.hpp"
 #include "XMLExporter.hpp"
 #include "XMLParser.hpp"
-#include "utils.hpp" //  ThrowIfBad, GetFileExtension
+#include "utils/utils.hpp"  // ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {
+
 using std::invalid_argument;
 using std::string;
 using std::vector;
@@ -33,17 +33,16 @@ void RedatamDatabase::ExportSummary(const string &outputDir) {
 void RedatamDatabase::OpenDictionary(const string &fileName) {
   string ext = GetFileExtension(fileName);
 
-  if (".dic" == ext) {
+  if (ext == ".dic") {
     FuzzyEntityParser parser(fileName);
     m_entities = parser.ParseEntities();
-  } else if (".dicx" == ext) {
+  } else if (ext == ".dicx") {
     XMLParser parser;
     m_entities = parser.ParseFile(fileName);
   } else {
-    ThrowIfBad<invalid_argument>(
-        false,
-        invalid_argument(
-            "Error: Dictionary file's extension must be .dic or .dicx ."));
+    ThrowIfBad<std::invalid_argument>(
+        false, "Error: Dictionary file's extension must be .dic or .dicx.");
   }
 }
-} // namespace RedatamLib
+
+}  // namespace RedatamLib

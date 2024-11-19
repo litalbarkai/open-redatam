@@ -5,17 +5,12 @@ GUI_DIR = gui
 OBJ_DIR = obj
 LIB_DIR = lib
 PUGIXML_DIR = vendor/pugixml
-INCLUDE_DIRS = -I $(INC_DIR) -I $(INC_DIR)/entities -I $(INC_DIR)/readers -I $(INC_DIR)/exporters -I $(PUGIXML_DIR)
+INCLUDE_DIRS = -I $(INC_DIR) -I $(INC_DIR)/entities -I $(INC_DIR)/readers -I $(INC_DIR)/exporters -I $(INC_DIR)/utils -I $(INC_DIR)/database -I $(PUGIXML_DIR)
 
 # Compiler and linker
 CXX = g++
 CXXFLAGS = -std=c++11 -O3 -Wall -fPIC $(INCLUDE_DIRS)
 LDFLAGS = -pthread -L$(LIB_DIR)
-
-# Debug
-# CXX = clang++
-# CXXFLAGS = -std=c++11 -O3 -Wall -fPIC $(INCLUDE_DIRS) -fsanitize=address -g
-# LDFLAGS = -pthread -L$(LIB_DIR) -fsanitize=address
 
 # Qt flags
 QT_CXXFLAGS = $(shell pkg-config --cflags Qt5Widgets)

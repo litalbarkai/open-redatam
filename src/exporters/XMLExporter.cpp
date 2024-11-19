@@ -1,12 +1,13 @@
-#include <fstream>   //  std::ofstream
-#include <iostream>  //  std::endl
-#include <sstream>   //  std::ostringstream
-#include <stdexcept> //  std::runtime_error
+#include <fstream>    // std::ofstream
+#include <iostream>   // std::endl
+#include <sstream>    // std::ostringstream
+#include <stdexcept>  // std::runtime_error
 
 #include "XMLExporter.hpp"
 #include "utils.hpp"
 
 namespace RedatamLib {
+
 using std::endl;
 using std::ofstream;
 using std::ostringstream;
@@ -17,86 +18,70 @@ XMLExporter::XMLExporter(const std::string &outputDirectory)
   pugi::xml_node decl = m_doc.append_child(pugi::node_declaration);
   decl.append_attribute("version") = "1.0";
   decl.append_attribute("encoding") = "UTF-8";
-
-  m_doc.append_child("database");
 }
 
-void XMLExporter::ExportSummary(std::vector<Entity> &entities) {
-  pugi::xml_node root = m_doc.child("database");
+void XMLExporter::ExportSummary(vector<Entity> &entities) {
+  pugi::xml_node root = m_doc.append_child("RedatamConverterDescription");
 
-  CreateEntityElement(entities[0], root);
-
-  if (!m_doc.save_file(m_path.c_str(), "  ")) {
-    throw runtime_error("Error: Failed to save XML file.");
+  for (Entity &e : entities) {
+    CreateEntityElement(e, root);
   }
+
+  ofstream fs(m_path);
+  if (!fs.is_open()) {
+    throw runtime_error("Error: Failed to create file.");
+  }
+  m_doc.save(fs);
 }
 
-void XMLExporter::SetAttribute(pugi::xml_node &node, const std::string &name,
-                               const std::string &value) {
+void XMLExporter::SetAttribute(pugi::xml_node &node, const string &name,
+                               const string &value) {
   node.append_attribute(name.c_str()) = value.c_str();
 }
 
 void XMLExporter::CreateEntityElement(Entity &e, pugi::xml_node &parentTag) {
-  pugi::xml_node elem = parentTag.append_child("entity");
-
-  SetAttribute(elem, "name", e.GetName());
-  SetAttribute(elem, "pointer", e.GetPTRPath());
+  pugi::xml_node entityNode = parentTag.append_child("Entity");
+  SetAttribute(entityNode, "name", e.GetName());
 
   for (Variable &v : *(e.GetVariables().get())) {
-    CreateVariableElement(v, elem);
-  }
-
-  Entity *child = e.GetChild();
-  if (nullptr != child) {
-    CreateEntityElement(*child, elem);
+    CreateVariableElement(v, entityNode);
   }
 }
 
 void XMLExporter::CreateVariableElement(Variable &v,
                                         pugi::xml_node &parentTag) {
-  pugi::xml_node elem = parentTag.append_child("variable");
+  pugi::xml_node variableNode = parentTag.append_child("Variable");
+  SetAttribute(variableNode, "name", v.GetName());
+  SetAttribute(variableNode, "type", GetVarType(v.GetType()));
+  SetAttribute(variableNode, "description", v.GetDescription());
 
-  SetAttribute(elem, "name", v.GetName());
-  SetAttribute(elem, "label", v.GetDescription());
-  SetAttribute(elem, "type", GetVarType(v.GetType()));
-  SetAttribute(elem, "size", std::to_string(v.GetDataSize()));
-  SetAttribute(elem, "decimals", std::to_string(v.GetDecimals()));
-  SetAttribute(elem, "range", v.GetRange());
-  SetAttribute(elem, "filter", v.GetFilter());
-  SetAttribute(elem, "data", v.GetFilePath());
-
-  vector<Tag> tags = v.GetTags();
-  if (!tags.empty()) {
-    pugi::xml_node tagsHeader = elem.append_child("valueLabels");
-
-    for (Tag &t : tags) {
-      pugi::xml_node label = tagsHeader.append_child("valueLabel");
-      SetAttribute(label, "name", t.first);
-      SetAttribute(label, "value", t.second);
+  if (!v.GetTags().empty()) {
+    pugi::xml_node tagsNode = variableNode.append_child("Tags");
+    for (Tag &t : v.GetTags()) {
+      pugi::xml_node tagNode = tagsNode.append_child("Tag");
+      SetAttribute(tagNode, "key", t.first);
+      SetAttribute(tagNode, "value", t.second);
     }
   }
 }
 
-//  static
-std::string XMLExporter::GetVarType(VarType type) {
+string XMLExporter::GetVarType(VarType type) {
   switch (type) {
-  case CHR:
-    return "STRING";
-
-  case DBL:
-    return "REAL";
-
-  case INT:
-    return "INT16";
-
-  case LNG:
-  case BIN:
-  case PCK:
-    return "INTEGER";
-
-  case NA:
-  default:
-    return "";
+    case BIN:
+      return "BIN";
+    case PCK:
+      return "PCK";
+    case INT:
+      return "INT";
+    case LNG:
+      return "LNG";
+    case CHR:
+      return "CHR";
+    case DBL:
+      return "DBL";
+    default:
+      return "UNKNOWN";
   }
 }
-} // namespace RedatamLib
+
+}  // namespace RedatamLib

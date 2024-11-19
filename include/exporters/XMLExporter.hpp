@@ -8,18 +8,20 @@
 #include "pugixml.hpp"
 
 namespace RedatamLib {
+
 using std::string;
 using std::vector;
 
 class XMLExporter {
-public:
+ public:
   explicit XMLExporter(const string &outputDirectory);
   ~XMLExporter() = default;
   void ExportSummary(vector<Entity> &entities);
 
-private:
+ private:
   string m_path;
   pugi::xml_document m_doc;
+
   void SetAttribute(pugi::xml_node &node, const string &name,
                     const string &value);
   void CreateEntityElement(Entity &e, pugi::xml_node &parentTag);
@@ -27,6 +29,7 @@ private:
 
   static string GetVarType(VarType type);
 };
-} // namespace RedatamLib
 
-#endif // REDATAMLIB_XMLEXPORTER_HPP
+}  // namespace RedatamLib
+
+#endif  // REDATAMLIB_XMLEXPORTER_HPP

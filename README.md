@@ -387,6 +387,73 @@ DIC and DICX parsing leads to the same results.
 18 25 [85+]        55680      1.70  55604     1.69     76  0.00315
 ```
 
+## Code structure
+
+### Readers
+
+`ByteArrayReader`:
+  - Provides basic file reading and byte manipulation.
+  - Used by: `BitArrayReader`, `FuzzyEntityParser`, `Variable`.
+
+`BitArrayReader`:
+  - Splits binary data into variable-sized chunks.
+  - Used by: `Variable`.
+
+`FuzzyEntityParser`:
+  - Reads and parses `.dic` files.
+  - Depends on: `ByteArrayReader`.
+  - Used by: `RedatamDatabase`.
+
+`XMLParser`:
+`- Reads and parses `.dicx` files.
+ - Depends on: pugixml (`src/vendor`).
+ - Used by: `RedatamDatabase`.
+
+### Entities
+
+`Variable`:
+  - Represents a data structure within the system.
+  - Depends on: `ByteArrayReader`, `BitArrayReader`.
+  - Used by: `Entity`.
+
+`Entity`:
+  - A higher-level representation grouping `Variable` and other metadata.
+  - Depends on: `Variable`.
+  - Used by: `RedatamDatabase`.
+
+### Exporters
+
+`CSVExporter`:
+  - Converts entities to CSV-compatible structures.
+  - Depends on: `Entity`, `ParentIDCalculator` and `utils`.
+  - Used by: `RedatamDatabase`.
+
+`XMLExporter`:
+  - Converts entities and their variables into an XML-compatible structure.
+  - Depends on: `Entity`, `utils`, and pugixml (`src/vendor`).
+  - Used by: `RedatamDatabase`.
+
+`ParentIDCalculator`:
+  - Calculates parent IDs for a child `Entity` based on row data.
+  - Depends on: `Entity`.
+  - Used by: `CSVExporter`.
+
+`RListExporter` (R package):
+  - Converts entities to R-compatible structures.
+  - Depends on: `Entity`.
+  - Used by: `RedatamDatabase`.
+
+`PyDictExporter` (Python package):
+  - Converts entities to Python-compatible structures.
+  - Depends on: `Entity`.
+  - Used by: `RedatamDatabase`.
+
+### Database
+
+`RedatamDatabase`:
+  - The central orchestrator that manages entities and interacts with parsers and exporters.
+  - Depends on: `Entity`, `FuzzyEntityParser`, `XMLParser`, `RListExporter`, `PyDictExporter`.
+
 ## Donating
 
 If you find this software useful, please consider donating. You can donate via [BuyMeACoffee](https://buymeacoffee.com/pacha).

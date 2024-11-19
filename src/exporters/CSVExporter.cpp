@@ -1,7 +1,8 @@
-#include <fstream>  //  std::ofstream
-#include <iostream> //  std::endl
-#include <sstream>  //  std::ostringstream
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <thread>
+#include <vector>
 
 #include "CSVExporter.hpp"
 #include "ParentIDCalculator.hpp"
@@ -11,14 +12,15 @@ namespace RedatamLib {
 using std::endl;
 using std::ofstream;
 using std::ostringstream;
+using std::vector;
 
 CSVExporter::CSVExporter(const string &outputDirectory)
     : m_path(outputDirectory) {
-  if ('/' != m_path.back()) {
+  if (m_path.back() != '/') {
     m_path.append("/");
   }
 
-  std::string labels_path = m_path + "Labels/";
+  string labels_path = m_path + "Labels/";
   if (!Exists(labels_path)) {
     CreateDirectories(labels_path);
   }
@@ -29,14 +31,14 @@ void CSVExporter::ExportAll(vector<Entity> &entities) {
   numThreads = std::min(entities.size(), numThreads);
 
   size_t chunkSize = entities.size() / numThreads;
+  vector<std::thread> threads;
 
-  std::vector<std::thread> threads;
   for (size_t i = 0; i < numThreads; ++i) {
     size_t start = i * chunkSize;
     size_t end = (i == numThreads - 1) ? entities.size() : start + chunkSize;
 
-    threads.push_back(std::thread(ThreadExport, std::ref(m_mtx), start, end,
-                                  std::ref(entities), m_path));
+    threads.emplace_back(&CSVExporter::ThreadExport, this, start, end,
+                         std::ref(entities));
   }
 
   for (auto &t : threads) {
@@ -44,9 +46,7 @@ void CSVExporter::ExportAll(vector<Entity> &entities) {
   }
 }
 
-//  static
-void CSVExporter::CreateVariablesLegend(std::mutex &mutex, Entity &e,
-                                        const string &outputDirectory) {
+void CSVExporter::CreateVariablesLegend(Entity &e) const {
   string entityName = e.GetName();
   ostringstream os;
 
@@ -61,17 +61,15 @@ void CSVExporter::CreateVariablesLegend(std::mutex &mutex, Entity &e,
     os << v.GetName() << ";" << v.GetDescription() << endl;
   }
 
-  std::lock_guard<std::mutex> lock(mutex);
-  ofstream fs(outputDirectory + "Labels/" + entityName + "-VARIABLES.csv");
+  std::lock_guard<std::mutex> lock(m_mtx);
+  ofstream fs(m_path + "Labels/" + entityName + "-VARIABLES.csv");
   ThrowIfBad<std::ios_base::failure>(
       fs.is_open(), std::ios_base::failure("Error: Failed to create file."));
   fs << os.str();
 }
 
-//  static
-void CSVExporter::CreateVariablesLabels(std::mutex &mutex, Entity &e,
-                                        const string &outputDirectory) {
-  string path = outputDirectory + "Labels/" + e.GetName() + "-";
+void CSVExporter::CreateVariablesLabels(Entity &e) const {
+  string path = m_path + "Labels/" + e.GetName() + "-";
 
   for (Variable &v : *(e.GetVariables().get())) {
     if (!v.GetTags().empty()) {
@@ -82,7 +80,7 @@ void CSVExporter::CreateVariablesLabels(std::mutex &mutex, Entity &e,
         os << t.first << ";" << t.second << endl;
       }
 
-      std::lock_guard<std::mutex> lock(mutex);
+      std::lock_guard<std::mutex> lock(m_mtx);
       ofstream fs(path + v.GetName() + "-LABELS.csv");
       ThrowIfBad<std::ios_base::failure>(
           fs.is_open(),
@@ -92,9 +90,7 @@ void CSVExporter::CreateVariablesLabels(std::mutex &mutex, Entity &e,
   }
 }
 
-//  static
-void CSVExporter::CreateVariablesData(std::mutex &mutex, Entity &e,
-                                      const string &outputDirectory) {
+void CSVExporter::CreateVariablesData(Entity &e) const {
   ostringstream os;
   bool hasParent = !e.GetParentName().empty();
   ParentIDCalculator pIDCalc(&e);
@@ -117,47 +113,48 @@ void CSVExporter::CreateVariablesData(std::mutex &mutex, Entity &e,
 
     for (Variable &v : *(e.GetVariables().get())) {
       switch (v.GetType()) {
-      case BIN:
-      case PCK:
-      case INT:
-      case LNG:
-        os << ";"
-           << (*(static_cast<vector<uint32_t> *>(
-                  v.GetValues().get())))[row - 1];
-        break;
+        case BIN:
+        case PCK:
+        case INT:
+        case LNG:
+          os << ";"
+             << (*(static_cast<vector<uint32_t> *>(
+                    v.GetValues().get())))[row - 1];
+          break;
 
-      case CHR:
-        os << ";"
-           << (*(static_cast<vector<string> *>(v.GetValues().get())))[row - 1];
-        break;
+        case CHR:
+          os << ";"
+             << (*(static_cast<vector<string> *>(
+                    v.GetValues().get())))[row - 1];
+          break;
 
-      case DBL:
-        os << ";"
-           << (*(static_cast<vector<double> *>(v.GetValues().get())))[row - 1];
-        break;
+        case DBL:
+          os << ";"
+             << (*(static_cast<vector<double> *>(
+                    v.GetValues().get())))[row - 1];
+          break;
 
-      default:
-        break;
+        default:
+          break;
       }
     }
   }
 
-  std::lock_guard<std::mutex> lock(mutex);
-  ofstream fs(outputDirectory + e.GetName() + ".csv");
+  std::lock_guard<std::mutex> lock(m_mtx);
+  ofstream fs(m_path + e.GetName() + ".csv");
   ThrowIfBad<std::ios_base::failure>(
       fs.is_open(), std::ios_base::failure("Error: Failed to create file."));
   fs << os.str();
 }
 
-//  static
-void CSVExporter::ThreadExport(std::mutex &mutex, size_t start, size_t end,
-                               vector<Entity> &entities,
-                               const string &outputDirectory) {
+void CSVExporter::ThreadExport(size_t start, size_t end,
+                               vector<Entity> &entities) const {
   for (size_t i = start; i < end; ++i) {
     std::cout << "Exporting " << entities[i].GetName() << "..." << std::endl;
-    CreateVariablesLegend(mutex, entities[i], outputDirectory);
-    CreateVariablesLabels(mutex, entities[i], outputDirectory);
-    CreateVariablesData(mutex, entities[i], outputDirectory);
+    CreateVariablesLegend(entities[i]);
+    CreateVariablesLabels(entities[i]);
+    CreateVariablesData(entities[i]);
   }
 }
-} // namespace RedatamLib
+
+}  // namespace RedatamLib

@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <string>
-#include <utility>  // pair
+#include <utility> // pair
 #include <vector>
 
 #include "ByteArrayReader.hpp"
@@ -16,7 +16,7 @@ using std::string;
 using std::vector;
 
 class Entity {
- public:
+public:
   Entity();
   Entity(const string &name, const string &parentName,
          const string &description, const string &idxFileName,
@@ -39,7 +39,7 @@ class Entity {
   void AttachChild(Entity *child);
   void AttachVariables(shared_ptr<vector<Variable>> variables);
 
- private:
+private:
   string m_name;
   string m_parentName;
   string m_description;
@@ -50,6 +50,6 @@ class Entity {
   ByteArrayReader m_reader;
   size_t m_rowsCount;
 };
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  // REDATAMLIB_ENTITY_HPP
+#endif // REDATAMLIB_ENTITY_HPP

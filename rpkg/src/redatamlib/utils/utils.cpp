@@ -1,9 +1,11 @@
 #include "utils.hpp"
 
-#include <algorithm>  // std::min
-#include <iostream>   // std::cerr
+#include <algorithm> // min
+#include <iostream>  // cerr
 
 namespace RedatamLib {
+
+using std::invalid_argument;
 
 string FindRootPath(const string &fileName) {
 #ifdef _WIN32
@@ -40,7 +42,8 @@ string ReplaceRootPath(const string &rootPath, const string &fileName) {
   }
 
   size_t pos = normalizedFileName.find_first_not_of("/\\");
-  normalizedFileName = (pos == string::npos) ? "" : normalizedFileName.substr(pos);
+  normalizedFileName =
+      (pos == string::npos) ? "" : normalizedFileName.substr(pos);
 
   string fullPath = normalizedRootPath + normalizedFileName;
   return fullPath;
@@ -49,7 +52,7 @@ string ReplaceRootPath(const string &rootPath, const string &fileName) {
 string GetFileExtension(const string &fileName) {
   size_t pos = fileName.find_last_of('.');
   if (pos == string::npos) {
-    ThrowIfBad<std::invalid_argument>(false, "Error: File has no extension.");
+    ThrowIfBad<invalid_argument>(false, "Error: File has no extension.");
   }
   return fileName.substr(pos);
 }
@@ -63,4 +66,4 @@ bool TryGetFileExtension(const string &fileName, string *output) {
   return true;
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

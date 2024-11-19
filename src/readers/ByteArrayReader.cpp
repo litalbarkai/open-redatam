@@ -1,7 +1,7 @@
-#include <algorithm>  // search
-#include <fstream>    // ifstream
-#include <iterator>   // ostream_iterator, istreambuf_iterator
-#include <sstream>    // ostringstream
+#include <algorithm> // search
+#include <fstream>   // ifstream
+#include <iterator>  // ostream_iterator, istreambuf_iterator
+#include <sstream>   // ostringstream
 
 #include "ByteArrayReader.hpp"
 #include "utils/utils.hpp"
@@ -121,9 +121,9 @@ bool ByteArrayReader::TryReadStr(string *output, bool filterByContent) {
 
   try {
     uint16_t len = ReadInt16LE();
-    ThrowIfBad<length_error>(
-        0 < len && 128 > len && m_currPos + len <= m_endPos,
-        length_error("Error: Invalid string length."));
+    ThrowIfBad<length_error>(0 < len && 128 > len &&
+                                 m_currPos + len <= m_endPos,
+                             length_error("Error: Invalid string length."));
 
     *output = ReadString(len);
   } catch (const bad_alloc &e) {
@@ -149,13 +149,13 @@ string ByteArrayReader::ReadString(size_t length) {
 }
 
 string ByteArrayReader::GetFormerString() {
-  size_t offset = 2;  // string length is indicated by 2 bytes
+  size_t offset = 2; // string length is indicated by 2 bytes
   MovePos(-offset);
 
   uint16_t len = ReadInt16LE();
   while (len != offset - 2) {
     ++offset;
-    MovePos(-3);  // string length + 1 to move backwards
+    MovePos(-3); // string length + 1 to move backwards
     len = ReadInt16LE();
   }
 
@@ -210,4 +210,4 @@ uint32_t ByteArrayReader::ReadInt32BE() {
   return a | b;
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

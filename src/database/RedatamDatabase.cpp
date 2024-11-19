@@ -1,13 +1,13 @@
 #include "RedatamDatabase.hpp"
 
-#include <string>  // find_last_of, substr, npos
+#include <string> // find_last_of, substr, npos
 
 #include "CSVExporter.hpp"
 #include "FuzzyEntityParser.hpp"
 #include "RedatamDatabase.hpp"
 #include "XMLExporter.hpp"
 #include "XMLParser.hpp"
-#include "utils/utils.hpp"  // ThrowIfBad, GetFileExtension
+#include "utils/utils.hpp" // ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {
 
@@ -45,4 +45,4 @@ void RedatamDatabase::OpenDictionary(const string &fileName) {
   }
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

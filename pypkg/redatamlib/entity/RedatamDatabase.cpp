@@ -1,13 +1,13 @@
-#include <cctype>    // std::tolower
+#include <cctype> // std::tolower
+#include <pybind11/pybind11.h>
 #include <stdexcept> // std::invalid_argument
 #include <string>    // find_last_of, substr, npos
-#include <pybind11/pybind11.h>
 
 #include "FuzzyEntityParser.hpp"
+#include "PyDictExporter.hpp"
 #include "RedatamDatabase.hpp"
 #include "XMLParser.hpp"
 #include "utils.hpp" // ThrowIfBad, GetFileExtension
-#include "PyDictExporter.hpp"
 
 namespace RedatamLib {
 using std::invalid_argument;

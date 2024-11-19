@@ -1,10 +1,10 @@
+#include "PyDictExporter.hpp"
 #include <algorithm> // For std::replace
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include "PyDictExporter.hpp"
 
 #include "Entity.hpp"
 #include "ParentIDCalculator.hpp"

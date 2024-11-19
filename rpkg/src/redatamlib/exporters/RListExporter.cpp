@@ -1,6 +1,6 @@
 #include "RListExporter.hpp"
 
-#include <algorithm>  // For std::replace
+#include <algorithm> // For std::replace
 #include <sstream>
 
 #include "Entity.hpp"
@@ -9,8 +9,9 @@
 namespace RedatamLib {
 
 using std::endl;
-using std::string;
+using std::exception;
 using std::ostringstream;
+using std::string;
 using std::transform;
 using std::vector;
 using namespace cpp11;
@@ -22,7 +23,7 @@ ListExporter::ListExporter(const string &outputDirectory)
   }
 }
 
-list ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
+list ListExporter::ExportAllR(const vector<Entity> &entities) const {
   size_t numEntities = entities.size();
   writable::list result(numEntities);
   writable::strings resultNames(numEntities);
@@ -30,13 +31,15 @@ list ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
   for (size_t entityIndex = 0; entityIndex < numEntities; ++entityIndex) {
     const Entity &entity = entities[entityIndex];
     string entityName = entity.GetName();
-    transform(entityName.begin(), entityName.end(), entityName.begin(), ::tolower);
+    transform(entityName.begin(), entityName.end(), entityName.begin(),
+              ::tolower);
 
     string exportingEntityMsg = "Exporting " + entityName + "...";
     message(exportingEntityMsg.c_str());
 
     size_t numVariables = entity.GetVariables()->size();
-    writable::list entityList(numVariables + 2);  // +2 for REF_ID and PARENT_REF_ID
+    writable::list entityList(numVariables +
+                              2); // +2 for REF_ID and PARENT_REF_ID
     writable::strings variableNames(numVariables + 2);
 
     // Add REF_ID and PARENT_REF_ID columns
@@ -68,46 +71,50 @@ list ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
       const Variable &v = entity.GetVariables()->at(varIndex);
       try {
         switch (v.GetType()) {
-          case BIN:
-          case PCK:
-          case INT:
-          case LNG: {
-            vector<uint32_t> *values = static_cast<std::vector<uint32_t> *>(v.GetValues().get());
-            writable::integers rvalues(numRows);
-            for (size_t i = 0; i < numRows; i++) {
-              rvalues[i] = values->at(i);
-            }
-            entityList[varIndex + 2] = rvalues;
-            break;
+        case BIN:
+        case PCK:
+        case INT:
+        case LNG: {
+          vector<uint32_t> *values =
+              static_cast<vector<uint32_t> *>(v.GetValues().get());
+          writable::integers rvalues(numRows);
+          for (size_t i = 0; i < numRows; i++) {
+            rvalues[i] = values->at(i);
           }
-          case CHR: {
-            vector<string> *values = static_cast<vector<string> *>(v.GetValues().get());
-            writable::strings rvalues(numRows);
-            for (size_t i = 0; i < numRows; i++) {
-              // replace '\0' with ' '
-              string clean_string = values->at(i);
-              replace(clean_string.begin(), clean_string.end(), '\0', ' ');
-              rvalues[i] = clean_string;
-            }
-            entityList[varIndex + 2] = rvalues;
-            break;
-          }
-          case DBL: {
-            vector<double> *values = static_cast<vector<double> *>(v.GetValues().get());
-            writable::doubles rvalues(numRows);
-            for (size_t i = 0; i < numRows; i++) {
-              rvalues[i] = values->at(i);
-            }
-            entityList[varIndex + 2] = rvalues;
-            break;
-          }
-          default:
-            string unknownTypeMsg = "Unknown variable type: " + v.GetName();
-            message(unknownTypeMsg.c_str());
-            break;
+          entityList[varIndex + 2] = rvalues;
+          break;
         }
-      } catch (const std::exception &e) {
-        string errorExportingVariableMsg = "Error exporting variable: " + v.GetName() + " - " + e.what();
+        case CHR: {
+          vector<string> *values =
+              static_cast<vector<string> *>(v.GetValues().get());
+          writable::strings rvalues(numRows);
+          for (size_t i = 0; i < numRows; i++) {
+            // replace '\0' with ' '
+            string clean_string = values->at(i);
+            replace(clean_string.begin(), clean_string.end(), '\0', ' ');
+            rvalues[i] = clean_string;
+          }
+          entityList[varIndex + 2] = rvalues;
+          break;
+        }
+        case DBL: {
+          vector<double> *values =
+              static_cast<vector<double> *>(v.GetValues().get());
+          writable::doubles rvalues(numRows);
+          for (size_t i = 0; i < numRows; i++) {
+            rvalues[i] = values->at(i);
+          }
+          entityList[varIndex + 2] = rvalues;
+          break;
+        }
+        default:
+          string unknownTypeMsg = "Unknown variable type: " + v.GetName();
+          message(unknownTypeMsg.c_str());
+          break;
+        }
+      } catch (const exception &e) {
+        string errorExportingVariableMsg =
+            "Error exporting variable: " + v.GetName() + " - " + e.what();
         message(errorExportingVariableMsg.c_str());
       }
 
@@ -127,8 +134,7 @@ list ListExporter::ExportAllR(const std::vector<Entity> &entities) const {
   return result;
 }
 
-void ListExporter::AddVariableLabels(const Variable &v,
-                                     writable::list &result,
+void ListExporter::AddVariableLabels(const Variable &v, writable::list &result,
                                      writable::strings &resultNames,
                                      const string &entityName) {
   if (!v.GetTags().empty()) {
@@ -151,8 +157,7 @@ void ListExporter::AddVariableLabels(const Variable &v,
 
     string variableColumnName = v.GetName();
     string meaningColumnName = v.GetName() + "_DESCRIPTION";
-    writable::strings columnNames = {variableColumnName,
-                                            meaningColumnName};
+    writable::strings columnNames = {variableColumnName, meaningColumnName};
     labelTable.names() = columnNames;
 
     string tableName = entityName + "_LABELS_" + v.GetName();
@@ -165,4 +170,4 @@ void ListExporter::AddVariableLabels(const Variable &v,
   }
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

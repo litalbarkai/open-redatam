@@ -1,20 +1,22 @@
-#include <cpp11/function.hpp>  // stop
+#include <cpp11/function.hpp> // stop
 
 #include "FuzzyEntityParser.hpp"
 #include "FuzzyVariableParser.hpp"
-#include "utils/utils.hpp"  //  GetFileExtension, ThrowIfBad
+#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
 
-  using std::move;
-  using std::make_pair;
-  using cpp11::stop;
+using cpp11::stop;
+using std::make_pair;
+using std::move;
+using std::out_of_range;
+using std::pair;
 
 FuzzyEntityParser::FuzzyEntityParser(const string &filePath)
     : m_reader(filePath), m_rootPath(FindRootPath(filePath)) {}
 
 vector<Entity> FuzzyEntityParser::ParseEntities() {
-  std::pair<bool, Entity> curr;
+  pair<bool, Entity> curr;
   vector<Entity> ret;
   unordered_map<string, Entity *> entities;
 
@@ -27,7 +29,7 @@ vector<Entity> FuzzyEntityParser::ParseEntities() {
         m_reader.MovePos(1);
       }
     }
-  } catch (const std::out_of_range &) {
+  } catch (const out_of_range &) {
   }
 
   if (ret.empty()) {
@@ -46,7 +48,7 @@ vector<Entity> FuzzyEntityParser::ParseEntities() {
   return ret;
 }
 
-std::pair<bool, Entity> FuzzyEntityParser::TryGetEntity() {
+pair<bool, Entity> FuzzyEntityParser::TryGetEntity() {
   size_t originalPosition = m_reader.GetPos();
 
   string entityName;
@@ -81,9 +83,10 @@ std::pair<bool, Entity> FuzzyEntityParser::TryGetEntity() {
   }
   idxFileName = ReplaceRootPath(m_rootPath, idxFileName);
 
-  std::pair<size_t, size_t> bounds = make_pair(originalPosition, m_reader.GetPos());
+  pair<size_t, size_t> bounds = make_pair(originalPosition, m_reader.GetPos());
 
-  return {true, Entity(entityName, parentEntityName, description, idxFileName, bounds)};
+  return {true, Entity(entityName, parentEntityName, description, idxFileName,
+                       bounds)};
 }
 
 //  static
@@ -97,4 +100,4 @@ void FuzzyEntityParser::AssignChildren(
   }
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

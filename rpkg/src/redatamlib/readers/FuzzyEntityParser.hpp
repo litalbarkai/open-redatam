@@ -3,7 +3,7 @@
 
 #include <string>
 #include <unordered_map>
-#include <utility>  // pair
+#include <utility> // pair
 #include <vector>
 
 #include "ByteArrayReader.hpp"
@@ -17,7 +17,7 @@ using std::unordered_map;
 using std::vector;
 
 class FuzzyEntityParser {
- public:
+public:
   //  throws std::ios_base::failure if fails to open file
   explicit FuzzyEntityParser(const string &filePath);
   ~FuzzyEntityParser() = default;
@@ -27,7 +27,7 @@ class FuzzyEntityParser {
 
   vector<Entity> ParseEntities();
 
- private:
+private:
   ByteArrayReader m_reader;
   string m_rootPath;
 
@@ -35,9 +35,10 @@ class FuzzyEntityParser {
   pair<bool, Entity> TryGetEntity();
 
   //  Note: changes entities inner values
-  static void AssignChildren(vector<Entity> &entitites, unordered_map<string, Entity *> mapping);
+  static void AssignChildren(vector<Entity> &entitites,
+                             unordered_map<string, Entity *> mapping);
 };
 
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  //  REDATAMLIB_FUZZYENTITYPARSER_HPP
+#endif //  REDATAMLIB_FUZZYENTITYPARSER_HPP

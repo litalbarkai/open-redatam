@@ -2,32 +2,21 @@
 
 namespace RedatamLib {
 
-using std::move;
 using std::make_shared;
+using std::move;
 
 Entity::Entity()
-    : m_name(""),
-      m_parentName(""),
-      m_description(""),
-      m_indexFilename(""),
-      m_child(nullptr),
-      m_variables(make_shared<vector<Variable>>()),
-      m_bounds({0, 0}),
-      m_reader(),
-      m_rowsCount(0) {}
+    : m_name(""), m_parentName(""), m_description(""), m_indexFilename(""),
+      m_child(nullptr), m_variables(make_shared<vector<Variable>>()),
+      m_bounds({0, 0}), m_reader(), m_rowsCount(0) {}
 
 Entity::Entity(const string &name, const string &parentName,
                const string &description, const string &idxFileName,
                pair<size_t, size_t> bounds)
-    : m_name(name),
-      m_parentName(parentName),
-      m_description(description),
-      m_indexFilename(idxFileName),
-      m_child(nullptr),
-      m_variables(make_shared<vector<Variable>>()),
-      m_bounds(bounds),
-      m_reader(idxFileName),
-      m_rowsCount(0) {
+    : m_name(name), m_parentName(parentName), m_description(description),
+      m_indexFilename(idxFileName), m_child(nullptr),
+      m_variables(make_shared<vector<Variable>>()), m_bounds(bounds),
+      m_reader(idxFileName), m_rowsCount(0) {
   // PTR files shouldn't be empty, but in the odd case it is - treat it as
   // holding zeros
   if (m_reader.GetEndPos() == m_reader.GetPos()) {
@@ -36,7 +25,7 @@ Entity::Entity(const string &name, const string &parentName,
     m_reader.SetPos(m_reader.GetEndPos() - 4);
     m_rowsCount = m_reader.ReadInt32LE();
 
-    m_reader.SetPos(4);  // advance past header of zeros
+    m_reader.SetPos(4); // advance past header of zeros
   }
 }
 
@@ -64,4 +53,4 @@ void Entity::AttachVariables(shared_ptr<vector<Variable>> variables) {
   m_variables = move(variables);
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

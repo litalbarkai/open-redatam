@@ -14,4 +14,4 @@ size_t ParentIDCalculator::GetParentID(size_t currRow) {
   return m_currID;
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

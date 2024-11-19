@@ -10,28 +10,15 @@ using std::move;
 using std::out_of_range;
 
 Variable::Variable()
-    : m_name(""),
-      m_type(NA),
-      m_idxFileName(""),
-      m_dataSize(0),
-      m_filter(""),
-      m_range(""),
-      m_tags(),
-      m_description(""),
-      m_decimals(0) {}
+    : m_name(""), m_type(NA), m_idxFileName(""), m_dataSize(0), m_filter(""),
+      m_range(""), m_tags(), m_description(""), m_decimals(0) {}
 
 Variable::Variable(const string &name, VarType type, const string &idxFileName,
                    size_t dataSize, const string &filter, const string &range,
                    vector<Tag> tags, const string &description, size_t decimals)
-    : m_name(name),
-      m_type(type),
-      m_idxFileName(idxFileName),
-      m_dataSize(dataSize),
-      m_filter(filter),
-      m_range(range),
-      m_tags(move(tags)),
-      m_description(description),
-      m_decimals(decimals) {
+    : m_name(name), m_type(type), m_idxFileName(idxFileName),
+      m_dataSize(dataSize), m_filter(filter), m_range(range),
+      m_tags(move(tags)), m_description(description), m_decimals(decimals) {
   ParseValues();
 }
 
@@ -59,33 +46,33 @@ void Variable::ParseValues() {
   ByteArrayReader reader(m_idxFileName);
 
   switch (m_type) {
-    case BIN:
-      ParseBIN(m_dataSize, reader);
-      break;
+  case BIN:
+    ParseBIN(m_dataSize, reader);
+    break;
 
-    case CHR:
-      ParseStrings(m_dataSize, reader);
-      break;
+  case CHR:
+    ParseStrings(m_dataSize, reader);
+    break;
 
-    case DBL:
-      ParseFloats(reader);
-      break;
+  case DBL:
+    ParseFloats(reader);
+    break;
 
-    case INT:
-      ParseIntegers(2, reader);
-      break;
+  case INT:
+    ParseIntegers(2, reader);
+    break;
 
-    case LNG:
-      ParseIntegers(4, reader);
-      break;
+  case LNG:
+    ParseIntegers(4, reader);
+    break;
 
-    case PCK:
-      ParsePCK(m_dataSize, reader);
-      break;
+  case PCK:
+    ParsePCK(m_dataSize, reader);
+    break;
 
-    case NA:
-    default:
-      break;
+  case NA:
+  default:
+    break;
   }
 }
 
@@ -107,17 +94,17 @@ void Variable::ParseIntegers(size_t size, ByteArrayReader &reader) {
 
   try {
     switch (size) {
-      case 2:
-        while (true) {
-          vals->push_back(reader.ReadInt16LE());
-        }
-        break;
+    case 2:
+      while (true) {
+        vals->push_back(reader.ReadInt16LE());
+      }
+      break;
 
-      case 4:
-        while (true) {
-          vals->push_back(reader.ReadInt32LE());
-        }
-        break;
+    case 4:
+      while (true) {
+        vals->push_back(reader.ReadInt32LE());
+      }
+      break;
     }
   } catch (const out_of_range &) {
   }
@@ -173,4 +160,4 @@ void Variable::ParseBIN(size_t size, ByteArrayReader &reader) {
   m_values = vals;
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

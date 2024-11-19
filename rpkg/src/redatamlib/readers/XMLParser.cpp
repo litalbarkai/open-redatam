@@ -1,16 +1,20 @@
-#include <algorithm>           // replace
+#include <algorithm> // replace
 
-#include <cpp11/function.hpp>  // message
+#include <cpp11/function.hpp> // message
 
 #include "XMLParser.hpp"
 #include "utils/utils.hpp"
 
 namespace RedatamLib {
 
-using std::runtime_error;
-using std::string;
-using pugi::xml_node;
 using cpp11::message;
+using pugi::xml_node;
+using std::exception;
+using std::make_shared;
+using std::move;
+using std::runtime_error;
+using std::stoi;
+using std::string;
 
 vector<Entity> XMLParser::ParseFile(const string &fileName) {
   m_rootPath = FindRootPath(fileName);
@@ -44,7 +48,7 @@ vector<Entity> XMLParser::ParseFile(const string &fileName) {
     for (size_t idx = 0; idx < ret.size() - 1; ++idx) {
       ret[idx].AttachChild(&ret[idx + 1]);
     }
-  } catch (const std::exception &e) {
+  } catch (const exception &e) {
     string errorMsg = "Error: " + string(e.what());
     message(errorMsg.c_str());
     throw;
@@ -53,15 +57,13 @@ vector<Entity> XMLParser::ParseFile(const string &fileName) {
   return ret;
 }
 
-string XMLParser::GetTagValue(xml_node node, const string &tag,
-                              size_t idx) {
+string XMLParser::GetTagValue(xml_node node, const string &tag, size_t idx) {
   xml_node child = node.child(tag.c_str());
   return child ? child.child_value() : "";
 }
 
-xml_node XMLParser::ParseEntity(vector<Entity> *results,
-                                      xml_node node,
-                                      const string &parentName) {
+xml_node XMLParser::ParseEntity(vector<Entity> *results, xml_node node,
+                                const string &parentName) {
   string name = GetTagValue(node, "name");
 
   string description = GetTagValue(node, "label");
@@ -75,14 +77,14 @@ xml_node XMLParser::ParseEntity(vector<Entity> *results,
   shared_ptr<vector<Variable>> variables = ParseVariables(node);
   curr.AttachVariables(variables);
 
-  results->push_back(std::move(curr));
+  results->push_back(move(curr));
 
   xml_node child = node.child("entity");
   return child;
 }
 
 shared_ptr<vector<Variable>> XMLParser::ParseVariables(xml_node node) {
-  shared_ptr<vector<Variable>> ret = std::make_shared<vector<Variable>>();
+  shared_ptr<vector<Variable>> ret = make_shared<vector<Variable>>();
 
   for (xml_node var : node.children("variable")) {
     string name = GetTagValue(var, "name");
@@ -101,7 +103,7 @@ shared_ptr<vector<Variable>> XMLParser::ParseVariables(xml_node node) {
     string description = GetTagValue(var, "label");
 
     string decimalsStr = GetTagValue(var, "decimals");
-    size_t decimals = decimalsStr.empty() ? 0 : std::stoi(decimalsStr);
+    size_t decimals = decimalsStr.empty() ? 0 : stoi(decimalsStr);
 
     ret->emplace_back(name, typeDetails.first, idxFileName, typeDetails.second,
                       filter, range, tags, description, decimals);
@@ -129,7 +131,7 @@ pair<VarType, size_t> XMLParser::ParseVarTypeAndSize(xml_node var) {
     varType = PCK;
   }
 
-  size_t size = std::stoi(GetTagValue(details, "datasetSize"));
+  size_t size = stoi(GetTagValue(details, "datasetSize"));
 
   return {varType, size};
 }
@@ -157,8 +159,7 @@ vector<Tag> XMLParser::ParseVarTags(xml_node var) {
     return ret;
   }
 
-  for (xml_node valueLabel :
-       valueLabelTag.children("valueLabelElement")) {
+  for (xml_node valueLabel : valueLabelTag.children("valueLabelElement")) {
     string key = GetTagValue(valueLabel, "value");
     string value = GetTagValue(valueLabel, "label");
 
@@ -171,4 +172,4 @@ vector<Tag> XMLParser::ParseVarTags(xml_node var) {
   return ret;
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

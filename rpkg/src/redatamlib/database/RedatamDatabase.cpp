@@ -1,18 +1,18 @@
-#include <string>  // find_last_of, substr, npos
+#include <string> // find_last_of, substr, npos
 
 #include "FuzzyEntityParser.hpp"
 #include "RListExporter.hpp"
-#include "XMLParser.hpp"
 #include "RedatamDatabase.hpp"
-#include "utils/utils.hpp"  // ThrowIfBad, GetFileExtension
+#include "XMLParser.hpp"
+#include "utils/utils.hpp" // ThrowIfBad, GetFileExtension
 
 namespace RedatamLib {
 
+using cpp11::list;
+using cpp11::message;
 using std::invalid_argument;
 using std::string;
 using std::vector;
-using cpp11::list;
-using cpp11::message;
 
 RedatamDatabase::RedatamDatabase(const string &fileName) {
   message("Opening dictionary file...");
@@ -34,8 +34,9 @@ void RedatamDatabase::OpenDictionary(const string &fileName) {
     XMLParser parser;
     m_entities = parser.ParseFile(fileName);
   } else {
-    ThrowIfBad<std::invalid_argument>(false, "Error: Dictionary file's extension must be .dic or .dicx.");
+    ThrowIfBad<invalid_argument>(
+        false, "Error: Dictionary file's extension must be .dic or .dicx.");
   }
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

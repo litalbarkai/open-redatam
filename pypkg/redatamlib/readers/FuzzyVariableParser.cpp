@@ -1,6 +1,6 @@
 #include <algorithm> //  std::replace
-#include <regex>     //  std::regex, std::smatch, std::regex_search
 #include <iostream>  //  std::cerr
+#include <regex>     //  std::regex, std::smatch, std::regex_search
 #include <thread>
 
 #include "FuzzyVariableParser.hpp"

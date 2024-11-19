@@ -13,12 +13,12 @@ using std::string;
 using std::vector;
 
 class XMLExporter {
- public:
+public:
   explicit XMLExporter(const string &outputDirectory);
   ~XMLExporter() = default;
   void ExportSummary(vector<Entity> &entities);
 
- private:
+private:
   string m_path;
   pugi::xml_document m_doc;
 
@@ -30,6 +30,6 @@ class XMLExporter {
   static string GetVarType(VarType type);
 };
 
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  // REDATAMLIB_XMLEXPORTER_HPP
+#endif // REDATAMLIB_XMLEXPORTER_HPP

@@ -1,9 +1,9 @@
 #ifndef REDATAMLIB_BYTEARRREADER_HPP
 #define REDATAMLIB_BYTEARRREADER_HPP
 
-#include <cstddef>    // size_t
-#include <cstdint>    // uint16_t, uint32_t
-#include <stdexcept>  // out_of_range, length_error
+#include <cstddef>   // size_t
+#include <cstdint>   // uint16_t, uint32_t
+#include <stdexcept> // out_of_range, length_error
 #include <string>
 #include <vector>
 
@@ -14,7 +14,7 @@ using std::string;
 using std::vector;
 
 class ByteArrayReader {
- public:
+public:
   ByteArrayReader();
   // throws ios_base::failure if fails to open file
   ByteArrayReader(const string &filePath);
@@ -48,7 +48,7 @@ class ByteArrayReader {
   uint16_t ReadInt16BE();
   uint32_t ReadInt32BE();
 
- private:
+private:
   vector<unsigned char> m_data;
   size_t m_currPos;
   size_t m_endPos;
@@ -58,6 +58,6 @@ class ByteArrayReader {
   bool IsValidStr(const string &str);
 };
 
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  // REDATAMLIB_BYTEARRREADER_HPP
+#endif // REDATAMLIB_BYTEARRREADER_HPP

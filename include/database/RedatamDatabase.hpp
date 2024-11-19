@@ -1,7 +1,7 @@
 #ifndef REDATAMLIB_REDATAMDATABASE_HPP
 #define REDATAMLIB_REDATAMDATABASE_HPP
 
-#include <stdexcept>  // invalid_argument
+#include <stdexcept> // invalid_argument
 #include <string>
 #include <vector>
 
@@ -12,7 +12,7 @@ using std::string;
 using std::vector;
 
 class RedatamDatabase {
- public:
+public:
   // Throws invalid_argument
   explicit RedatamDatabase(const string &fileName);
   ~RedatamDatabase() = default;
@@ -23,12 +23,12 @@ class RedatamDatabase {
   void ExportCSVFiles(const string &outputDir);
   void ExportSummary(const string &outputDir);
 
- private:
+private:
   vector<Entity> m_entities;
 
   void OpenDictionary(const string &fileName);
 };
 
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  // REDATAMLIB_REDATAMDATABASE_HPP
+#endif // REDATAMLIB_REDATAMDATABASE_HPP

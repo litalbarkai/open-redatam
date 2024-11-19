@@ -1,4 +1,4 @@
-#include <algorithm>           // replace
+#include <algorithm> // replace
 
 #include "XMLParser.hpp"
 #include "utils/utils.hpp"
@@ -6,14 +6,14 @@
 namespace RedatamLib {
 
 using pugi::xml_node;
-using std::runtime_error;
-using std::string;
 using std::cerr;
 using std::endl;
 using std::exception;
-using std::move;
-using std::stoi;
 using std::make_shared;
+using std::move;
+using std::runtime_error;
+using std::stoi;
+using std::string;
 
 vector<Entity> XMLParser::ParseFile(const string &fileName) {
   m_rootPath = FindRootPath(fileName);
@@ -171,4 +171,4 @@ vector<Tag> XMLParser::ParseVarTags(xml_node var) {
   return ret;
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

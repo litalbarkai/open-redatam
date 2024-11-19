@@ -3,7 +3,7 @@
 
 #include <mutex>
 #include <string>
-#include <utility>  //  pair
+#include <utility> //  pair
 #include <vector>
 
 #include "ByteArrayReader.hpp"
@@ -11,14 +11,14 @@
 #include "Variable.hpp"
 
 namespace RedatamLib {
+using std::mutex;
 using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::mutex;
-using std::shared_ptr;
 
 class FuzzyVariableParser {
- public:
+public:
   //  throws ios_base::failure if fails to open file
   FuzzyVariableParser(const string &filePath);
 
@@ -30,7 +30,7 @@ class FuzzyVariableParser {
 
   void ParseAllVariables(vector<Entity> &entities);
 
- private:
+private:
   ByteArrayReader m_reader;
   string m_rootPath;
   mutex m_mtx;
@@ -54,6 +54,6 @@ class FuzzyVariableParser {
                               const string &rootPath, ByteArrayReader reader);
 };
 
-}  // namespace RedatamLib
+} // namespace RedatamLib
 
-#endif  //  REDATAMLIB_FUZZYVARIABLEPARSER_HPP
+#endif //  REDATAMLIB_FUZZYVARIABLEPARSER_HPP

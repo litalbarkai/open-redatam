@@ -57,8 +57,8 @@
 // commented to avoid R CMD check warning
 // #if defined(_MSC_VER) && defined(__c2__)
 // #pragma clang diagnostic push
-// #pragma clang diagnostic ignored "-Wdeprecated" // this function or variable may be unsafe
-// #endif
+// #pragma clang diagnostic ignored "-Wdeprecated" // this function or variable
+// may be unsafe #endif
 
 #ifdef __INTEL_COMPILER
 #pragma warning(disable : 177) // function was declared but never referenced

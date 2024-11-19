@@ -1,7 +1,7 @@
-#include <fstream>    // std::ofstream
-#include <iostream>   // std::endl
-#include <sstream>    // std::ostringstream
-#include <stdexcept>  // std::runtime_error
+#include <fstream>   // std::ofstream
+#include <iostream>  // std::endl
+#include <sstream>   // std::ostringstream
+#include <stdexcept> // std::runtime_error
 
 #include "XMLExporter.hpp"
 #include "utils.hpp"
@@ -67,21 +67,21 @@ void XMLExporter::CreateVariableElement(Variable &v,
 
 string XMLExporter::GetVarType(VarType type) {
   switch (type) {
-    case BIN:
-      return "BIN";
-    case PCK:
-      return "PCK";
-    case INT:
-      return "INT";
-    case LNG:
-      return "LNG";
-    case CHR:
-      return "CHR";
-    case DBL:
-      return "DBL";
-    default:
-      return "UNKNOWN";
+  case BIN:
+    return "BIN";
+  case PCK:
+    return "PCK";
+  case INT:
+    return "INT";
+  case LNG:
+    return "LNG";
+  case CHR:
+    return "CHR";
+  case DBL:
+    return "DBL";
+  default:
+    return "UNKNOWN";
   }
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

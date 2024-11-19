@@ -1,10 +1,10 @@
-#include <algorithm>  // std::min
+#include <algorithm> // std::min
 
 #ifdef _WIN32
 #include <windows.h>
 #else
-#include <sys/stat.h>  // mkdir
-#include <unistd.h>    // access
+#include <sys/stat.h> // mkdir
+#include <unistd.h>   // access
 #endif
 
 #include "utils.hpp"
@@ -84,9 +84,7 @@ bool CreateDirectories(const string &path) {
          GetLastError() == ERROR_ALREADY_EXISTS;
 }
 #else
-bool Exists(const string &path) {
-  return access(path.c_str(), F_OK) != -1;
-}
+bool Exists(const string &path) { return access(path.c_str(), F_OK) != -1; }
 
 bool CreateDirectories(const string &path) {
   mode_t mode = 0755;
@@ -94,4 +92,4 @@ bool CreateDirectories(const string &path) {
 }
 #endif
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

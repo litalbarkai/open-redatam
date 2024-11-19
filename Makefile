@@ -90,7 +90,4 @@ $(OBJ_DIR)/moc_%.o: $(OBJ_DIR)/moc_%.cpp
 clean:
 	rm -rf $(OBJ_DIR) $(LIB_DIR) $(TARGET_REDATAM) $(TARGET_GUI)
 
-format: $(shell find . -name '*.h') $(shell find . -name '*.hpp') $(shell find . -name '*.cpp')
-	@${clang_format} -i $?
-
 .PHONY: all clean nogui

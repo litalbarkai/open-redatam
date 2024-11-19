@@ -11,14 +11,14 @@
 namespace RedatamLib {
 using std::cout;
 using std::endl;
-using std::ofstream;
-using std::ostringstream;
-using std::vector;
-using std::thread;
-using std::ref;
+using std::ios_base;
 using std::lock_guard;
 using std::mutex;
-using std::ios_base;
+using std::ofstream;
+using std::ostringstream;
+using std::ref;
+using std::thread;
+using std::vector;
 
 CSVExporter::CSVExporter(const string &outputDirectory)
     : m_path(outputDirectory) {
@@ -43,7 +43,8 @@ void CSVExporter::ExportAll(vector<Entity> &entities) {
     size_t start = i * chunkSize;
     size_t end = (i == numThreads - 1) ? entities.size() : start + chunkSize;
 
-    threads.emplace_back(&CSVExporter::ThreadExport, this, start, end, ref(entities));
+    threads.emplace_back(&CSVExporter::ThreadExport, this, start, end,
+                         ref(entities));
   }
 
   for (auto &t : threads) {
@@ -68,7 +69,8 @@ void CSVExporter::CreateVariablesLegend(Entity &e) const {
 
   lock_guard<mutex> lock(m_mtx);
   ofstream fs(m_path + "Labels/" + entityName + "-VARIABLES.csv");
-  ThrowIfBad<ios_base::failure>(fs.is_open(), ios_base::failure("Error: Failed to create file."));
+  ThrowIfBad<ios_base::failure>(
+      fs.is_open(), ios_base::failure("Error: Failed to create file."));
   fs << os.str();
 }
 
@@ -86,7 +88,8 @@ void CSVExporter::CreateVariablesLabels(Entity &e) const {
 
       lock_guard<mutex> lock(m_mtx);
       ofstream fs(path + v.GetName() + "-LABELS.csv");
-      ThrowIfBad<ios_base::failure>(fs.is_open(), ios_base::failure("Error: Failed to create file."));
+      ThrowIfBad<ios_base::failure>(
+          fs.is_open(), ios_base::failure("Error: Failed to create file."));
       fs << os.str();
     }
   }
@@ -115,36 +118,35 @@ void CSVExporter::CreateVariablesData(Entity &e) const {
 
     for (Variable &v : *(e.GetVariables().get())) {
       switch (v.GetType()) {
-        case BIN:
-        case PCK:
-        case INT:
-        case LNG:
-          os << ";"
-             << (*(static_cast<vector<uint32_t> *>(
-                    v.GetValues().get())))[row - 1];
-          break;
+      case BIN:
+      case PCK:
+      case INT:
+      case LNG:
+        os << ";"
+           << (*(static_cast<vector<uint32_t> *>(
+                  v.GetValues().get())))[row - 1];
+        break;
 
-        case CHR:
-          os << ";"
-             << (*(static_cast<vector<string> *>(
-                    v.GetValues().get())))[row - 1];
-          break;
+      case CHR:
+        os << ";"
+           << (*(static_cast<vector<string> *>(v.GetValues().get())))[row - 1];
+        break;
 
-        case DBL:
-          os << ";"
-             << (*(static_cast<vector<double> *>(
-                    v.GetValues().get())))[row - 1];
-          break;
+      case DBL:
+        os << ";"
+           << (*(static_cast<vector<double> *>(v.GetValues().get())))[row - 1];
+        break;
 
-        default:
-          break;
+      default:
+        break;
       }
     }
   }
 
   lock_guard<mutex> lock(m_mtx);
   ofstream fs(m_path + e.GetName() + ".csv");
-  ThrowIfBad<ios_base::failure>(fs.is_open(), ios_base::failure("Error: Failed to create file."));
+  ThrowIfBad<ios_base::failure>(
+      fs.is_open(), ios_base::failure("Error: Failed to create file."));
   fs << os.str();
 }
 
@@ -158,4 +160,4 @@ void CSVExporter::ThreadExport(size_t start, size_t end,
   }
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

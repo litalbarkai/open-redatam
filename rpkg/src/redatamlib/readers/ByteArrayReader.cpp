@@ -1,26 +1,26 @@
-#include <algorithm>  // search
-#include <fstream>    // ifstream
-#include <iterator>   // ostream_iterator, istreambuf_iterator
-#include <sstream>    // ostringstream
+#include <algorithm> // search
+#include <fstream>   // ifstream
+#include <iterator>  // ostream_iterator, istreambuf_iterator
+#include <sstream>   // ostringstream
 
 #include "ByteArrayReader.hpp"
 #include "utils/utils.hpp"
 
 namespace RedatamLib {
 
+using std::all_of;
+using std::bad_alloc;
+using std::copy;
+using std::exception;
 using std::ifstream;
+using std::isalnum;
 using std::istreambuf_iterator;
 using std::ostream_iterator;
 using std::ostringstream;
+using std::out_of_range;
 using std::search;
 using std::string;
 using std::transform;
-using std::bad_alloc;
-using std::exception;
-using std::out_of_range;
-using std::copy;
-using std::all_of;
-using std::isalnum;
 
 ByteArrayReader::ByteArrayReader() : m_currPos(0), m_endPos(0) {}
 
@@ -43,7 +43,7 @@ ByteArrayReader::ByteArrayReader(const string &filePath)
     auto pos = lowerFilename.find_last_of('.');
     if (pos != string::npos) {
       transform(lowerFilename.begin() + pos, lowerFilename.end(),
-                     lowerFilename.begin() + pos, ::tolower);
+                lowerFilename.begin() + pos, ::tolower);
     }
     fs.open(directory + lowerFilename, std::ios::binary);
     if (!fs.is_open()) {
@@ -51,7 +51,7 @@ ByteArrayReader::ByteArrayReader(const string &filePath)
       string upperFilename = filename;
       if (pos != string::npos) {
         transform(upperFilename.begin() + pos, upperFilename.end(),
-                       upperFilename.begin() + pos, ::toupper);
+                  upperFilename.begin() + pos, ::toupper);
       }
       fs.open(directory + upperFilename, std::ios::binary);
       if (!fs.is_open()) {
@@ -59,30 +59,29 @@ ByteArrayReader::ByteArrayReader(const string &filePath)
         string upperFileNameLowerExt = filename;
         if (pos != string::npos) {
           transform(upperFileNameLowerExt.begin(),
-                         upperFileNameLowerExt.begin() + pos,
-                         upperFileNameLowerExt.begin(), ::toupper);
+                    upperFileNameLowerExt.begin() + pos,
+                    upperFileNameLowerExt.begin(), ::toupper);
           transform(upperFileNameLowerExt.begin() + pos,
-                         upperFileNameLowerExt.end(),
-                         upperFileNameLowerExt.begin() + pos, ::tolower);
+                    upperFileNameLowerExt.end(),
+                    upperFileNameLowerExt.begin() + pos, ::tolower);
         }
         fs.open(directory + upperFileNameLowerExt, std::ios::binary);
         if (!fs.is_open()) {
           // Try with uppercase filename and extension
           string upperFileNameUpperExt = filename;
-          transform(upperFileNameUpperExt.begin(),
-                         upperFileNameUpperExt.end(),
-                         upperFileNameUpperExt.begin(), ::toupper);
+          transform(upperFileNameUpperExt.begin(), upperFileNameUpperExt.end(),
+                    upperFileNameUpperExt.begin(), ::toupper);
           fs.open(directory + upperFileNameUpperExt, std::ios::binary);
           if (!fs.is_open()) {
             // Try with lowercase filename and uppercase extension
             string lowerFileNameUpperExt = filename;
             if (pos != string::npos) {
               transform(lowerFileNameUpperExt.begin(),
-                             lowerFileNameUpperExt.begin() + pos,
-                             lowerFileNameUpperExt.begin(), ::tolower);
+                        lowerFileNameUpperExt.begin() + pos,
+                        lowerFileNameUpperExt.begin(), ::tolower);
               transform(lowerFileNameUpperExt.begin() + pos,
-                             lowerFileNameUpperExt.end(),
-                             lowerFileNameUpperExt.begin() + pos, ::toupper);
+                        lowerFileNameUpperExt.end(),
+                        lowerFileNameUpperExt.begin() + pos, ::toupper);
             }
             fs.open(directory + lowerFileNameUpperExt, std::ios::binary);
             if (!fs.is_open()) {
@@ -94,7 +93,8 @@ ByteArrayReader::ByteArrayReader(const string &filePath)
     }
   }
 
-  m_data = vector<unsigned char>((istreambuf_iterator<char>(fs)), istreambuf_iterator<char>());
+  m_data = vector<unsigned char>((istreambuf_iterator<char>(fs)),
+                                 istreambuf_iterator<char>());
   m_endPos = fs.tellg();
 }
 
@@ -121,9 +121,9 @@ bool ByteArrayReader::TryReadStr(string *output, bool filterByContent) {
 
   try {
     uint16_t len = ReadInt16LE();
-    ThrowIfBad<length_error>(
-        0 < len && 128 > len && m_currPos + len <= m_endPos,
-        length_error("Error: Invalid string length."));
+    ThrowIfBad<length_error>(0 < len && 128 > len &&
+                                 m_currPos + len <= m_endPos,
+                             length_error("Error: Invalid string length."));
 
     *output = ReadString(len);
   } catch (const bad_alloc &e) {
@@ -149,13 +149,13 @@ string ByteArrayReader::ReadString(size_t length) {
 }
 
 string ByteArrayReader::GetFormerString() {
-  size_t offset = 2;  // string length is indicated by 2 bytes
+  size_t offset = 2; // string length is indicated by 2 bytes
   MovePos(-offset);
 
   uint16_t len = ReadInt16LE();
   while (len != offset - 2) {
     ++offset;
-    MovePos(-3);  // string length + 1 to move backwards
+    MovePos(-3); // string length + 1 to move backwards
     len = ReadInt16LE();
   }
 
@@ -164,9 +164,8 @@ string ByteArrayReader::GetFormerString() {
 
 size_t ByteArrayReader::FindNextMatch(const vector<unsigned char> &subArr,
                                       size_t len, size_t startPos) {
-  auto nextPosIt =
-      search(m_data.begin() + startPos, m_data.end() - len + 1,
-                  subArr.begin(), subArr.end());
+  auto nextPosIt = search(m_data.begin() + startPos, m_data.end() - len + 1,
+                          subArr.begin(), subArr.end());
   return nextPosIt - m_data.begin();
 }
 
@@ -211,4 +210,4 @@ uint32_t ByteArrayReader::ReadInt32BE() {
   return a | b;
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

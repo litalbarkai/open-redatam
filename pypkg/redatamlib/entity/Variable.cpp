@@ -1,5 +1,5 @@
-#include "BitArrayReader.hpp"
 #include "Variable.hpp"
+#include "BitArrayReader.hpp"
 
 namespace RedatamLib {
 Variable::Variable()

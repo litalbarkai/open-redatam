@@ -1,16 +1,15 @@
 #include "FuzzyVariableParser.hpp"
 
-#include <regex>  // regex, regex_search, smatch
+#include <regex> // regex, regex_search, smatch
 #include <thread>
 
-#include "utils/utils.hpp"  //  GetFileExtension, ThrowIfBad
+#include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
 
 using std::exception;
 using std::invalid_argument;
 using std::lock_guard;
-using std::min;
 using std::mutex;
 using std::out_of_range;
 using std::ref;
@@ -38,7 +37,7 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
 
   // R-devel suggestion: Default to using all available hardware concurrency
   size_t maxThreads = thread::hardware_concurrency();
-  size_t numThreads = min(entities.size(), maxThreads);
+  size_t numThreads = std::min(entities.size(), maxThreads);
 
   if (numThreads == 0) {
     numThreads = 1;
@@ -61,8 +60,8 @@ void FuzzyVariableParser::ParseAllVariables(vector<Entity> &entities) {
   }
 }
 
-vector<pair<size_t, size_t>> FuzzyVariableParser::GetSearchBounds(
-    vector<Entity> &entities) {
+vector<pair<size_t, size_t>>
+FuzzyVariableParser::GetSearchBounds(vector<Entity> &entities) {
   vector<pair<size_t, size_t>> ret;
 
   if (entities.empty()) {
@@ -111,7 +110,7 @@ string FuzzyVariableParser::ParseIdxFileName(const string &rootPath,
 
   reader->SetPos(ogPos + 1);
   string ret = reader->ReadString(len);
-  reader->MovePos(1);  //  "'"
+  reader->MovePos(1); //  "'"
 
   ret = ReplaceRootPath(rootPath, ret);
 
@@ -127,48 +126,47 @@ size_t FuzzyVariableParser::ParseDataSize(VarType type,
   smatch match;
 
   switch (type) {
-    case DBL:
-      return 8;
-      break;
+  case DBL:
+    return 8;
+    break;
 
-    case LNG:
-      return 4;
-      break;
+  case LNG:
+    return 4;
+    break;
 
-    case INT:
-      return 2;
-      break;
+  case INT:
+    return 2;
+    break;
 
-    case BIN:
-    case CHR:
-    case PCK:
-      reader->MovePos(6);  //  " SIZE "
-      len = GetSubstringLength("", reader);
-      str = reader->ReadString(len);
+  case BIN:
+  case CHR:
+  case PCK:
+    reader->MovePos(6); //  " SIZE "
+    len = GetSubstringLength("", reader);
+    str = reader->ReadString(len);
 
-      // Extract the numeric part from the string
-      if (regex_search(str, match, re)) {
-        try {
-          return stoi(match.str());
-        } catch (const invalid_argument &e) {
-          throw invalid_argument("Invalid argument: " + string(e.what()) +
-                                 " for string: '" + str + "'");
-        } catch (const out_of_range &e) {
-          throw out_of_range("Out of range: " + string(e.what()) +
-                             " for string: '" + str + "'");
-        }
-      } else {
-        throw invalid_argument("No numeric part found in string: '" + str +
-                               "'");
+    // Extract the numeric part from the string
+    if (regex_search(str, match, re)) {
+      try {
+        return stoi(match.str());
+      } catch (const invalid_argument &e) {
+        throw invalid_argument("Invalid argument: " + string(e.what()) +
+                               " for string: '" + str + "'");
+      } catch (const out_of_range &e) {
+        throw out_of_range("Out of range: " + string(e.what()) +
+                           " for string: '" + str + "'");
       }
-      break;
+    } else {
+      throw invalid_argument("No numeric part found in string: '" + str + "'");
+    }
+    break;
 
-    case NA:
-    default:
-      break;
+  case NA:
+  default:
+    break;
   }
 
-  return 0;  // Default return value if no case matches
+  return 0; // Default return value if no case matches
 }
 
 //  static
@@ -177,7 +175,7 @@ vector<Tag> FuzzyVariableParser::ParseTags(ByteArrayReader *reader) {
 
   string discard("");
   reader->TryReadStr(
-      &discard);  //  data type identifier ("INTEGER", "STRING", "REAL")
+      &discard); //  data type identifier ("INTEGER", "STRING", "REAL")
 
   size_t ogPos = reader->GetPos();
   size_t len = reader->ReadInt16LE();
@@ -185,14 +183,14 @@ vector<Tag> FuzzyVariableParser::ParseTags(ByteArrayReader *reader) {
     size_t keyLen = GetSubstringLength(" ", reader);
     string key = reader->ReadString(keyLen);
 
-    reader->MovePos(1);  //  " "
+    reader->MovePos(1); //  " "
 
     size_t valLen = GetSubstringLength("\t", reader);
     string value = reader->ReadString(valLen);
 
     ret.push_back(Tag(key, value));
 
-    reader->MovePos(1);  //  "\t"
+    reader->MovePos(1); //  "\t"
   }
 
   return ret;
@@ -223,7 +221,7 @@ void FuzzyVariableParser::ParseMissingAndNA(vector<Tag> *tags,
       ThrowIfBad(maxPos > reader->GetPos(),
                  out_of_range("Label doesn't belong to current variable."));
 
-      reader->MovePos(missing.size() + 1);  //  missing + " "
+      reader->MovePos(missing.size() + 1); //  missing + " "
       size_t keyLen1 = GetSubstringLength(" ", reader);
       string key1 = reader->ReadString(keyLen1);
       tags->push_back(Tag(key1, missing));
@@ -236,9 +234,9 @@ void FuzzyVariableParser::ParseMissingAndNA(vector<Tag> *tags,
       ThrowIfBad(maxPos > reader->GetPos(),
                  out_of_range("Label doesn't belong to current variable."));
 
-      reader->MovePos(na.size() + 1);  //  na + " "
-      size_t keyLen2 =
-          min(GetSubstringLength("", reader), GetSubstringLength(" ", reader));
+      reader->MovePos(na.size() + 1); //  na + " "
+      size_t keyLen2 = std::min(GetSubstringLength("", reader),
+                                GetSubstringLength(" ", reader));
       string key2 = reader->ReadString(keyLen2);
       tags->push_back(Tag(key2, na));
     } catch (const exception &) {
@@ -249,9 +247,9 @@ void FuzzyVariableParser::ParseMissingAndNA(vector<Tag> *tags,
 
 //  static
 size_t FuzzyVariableParser::ParseDecimals(ByteArrayReader *reader) {
-  reader->MovePos(10);  //  " DECIMALS "
+  reader->MovePos(10); //  " DECIMALS "
   size_t len =
-      min(GetSubstringLength("", reader), GetSubstringLength(" ", reader));
+      std::min(GetSubstringLength("", reader), GetSubstringLength(" ", reader));
   return stoi(reader->ReadString(len));
 }
 
@@ -284,10 +282,10 @@ void FuzzyVariableParser::ParseVariables(shared_ptr<vector<Variable>> output,
           reader.GetPos() < bounds.second,
           out_of_range("Error: DATASET doesn't belong to current entity."));
 
-      reader.MovePos(-2);  //  "DATASET" length indicator
+      reader.MovePos(-2); //  "DATASET" length indicator
       string varName = reader.GetFormerString();
 
-      reader.MovePos(10);  //  "DATASET" + length indicator + " "
+      reader.MovePos(10); //  "DATASET" + length indicator + " "
       VarType type = ParseType(&reader);
       string idxFileName = ParseIdxFileName(rootPath, &reader);
       size_t dataSize = ParseDataSize(type, &reader);
@@ -331,4 +329,4 @@ void FuzzyVariableParser::ThreadParseVars(
   }
 }
 
-}  // namespace RedatamLib
+} // namespace RedatamLib

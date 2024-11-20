@@ -4,7 +4,6 @@
 
 namespace RedatamLib {
 using std::make_pair;
-using std::move;
 
 FuzzyEntityParser::FuzzyEntityParser(const string &filePath)
     : m_reader(filePath), m_rootPath(FindRootPath(filePath)) {}
@@ -18,7 +17,7 @@ vector<Entity> FuzzyEntityParser::ParseEntities() {
     while (true) {
       curr = TryGetEntity();
       if (curr.first) {
-        ret.push_back(move(curr.second));
+        ret.push_back(std::move(curr.second));
       } else {
         m_reader.MovePos(1);
       }

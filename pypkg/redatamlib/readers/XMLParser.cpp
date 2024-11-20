@@ -5,12 +5,10 @@
 #include "utils/utils.hpp"
 
 namespace RedatamLib {
-
 using pugi::xml_node;
 using pybind11::print;
 using std::exception;
 using std::make_shared;
-using std::move;
 using std::runtime_error;
 using std::stoi;
 using std::string;
@@ -76,7 +74,7 @@ xml_node XMLParser::ParseEntity(vector<Entity> *results, xml_node node,
   shared_ptr<vector<Variable>> variables = ParseVariables(node);
   curr.AttachVariables(variables);
 
-  results->push_back(move(curr));
+  results->push_back(std::move(curr));
 
   xml_node child = node.child("entity");
   return child;
@@ -170,5 +168,4 @@ vector<Tag> XMLParser::ParseVarTags(xml_node var) {
 
   return ret;
 }
-
 } // namespace RedatamLib

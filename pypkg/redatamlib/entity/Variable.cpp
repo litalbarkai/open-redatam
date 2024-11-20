@@ -4,9 +4,7 @@
 #include "ByteArrayReader.hpp"
 
 namespace RedatamLib {
-
 using std::make_shared;
-using std::move;
 using std::out_of_range;
 
 Variable::Variable()
@@ -18,7 +16,7 @@ Variable::Variable(const string &name, VarType type, const string &idxFileName,
                    vector<Tag> tags, const string &description, size_t decimals)
     : m_name(name), m_type(type), m_idxFileName(idxFileName),
       m_dataSize(dataSize), m_filter(filter), m_range(range),
-      m_tags(move(tags)), m_description(description), m_decimals(decimals) {
+      m_tags(std::move(tags)), m_description(description), m_decimals(decimals) {
   ParseValues();
 }
 
@@ -159,5 +157,4 @@ void Variable::ParseBIN(size_t size, ByteArrayReader &reader) {
 
   m_values = vals;
 }
-
 } // namespace RedatamLib

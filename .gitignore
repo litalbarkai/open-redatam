@@ -47,3 +47,5 @@ redatam_0.0.1_amd64.deb
 redatamguiwindows/__/gui/moc_mainwindow.cpp
 redatamguiwindows/__/gui/moc_mainwindow.cpp_parameters
 redatamguiwindows/gui/moc_mainwindow.cpp_parameters
+dev/cpp11-0.5.0
+dev/pybind11-2.13.6

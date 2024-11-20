@@ -9,7 +9,6 @@
 #include <pybind11/stl.h>
 
 namespace RedatamLib {
-
 using pybind11::dict;
 using std::string;
 using std::vector;
@@ -30,5 +29,4 @@ class PyDictExporter {
 };
 
 }  // namespace RedatamLib
-
 #endif  // PYDICTEXPORTER_HPP

@@ -3,7 +3,6 @@
 namespace RedatamLib {
 
 using std::make_shared;
-using std::move;
 
 Entity::Entity()
     : m_name(""), m_parentName(""), m_description(""), m_indexFilename(""),
@@ -50,7 +49,7 @@ Entity *Entity::GetChild() const { return m_child; }
 void Entity::AttachChild(Entity *child) { m_child = child; }
 
 void Entity::AttachVariables(shared_ptr<vector<Variable>> variables) {
-  m_variables = move(variables);
+  m_variables = std::move(variables);
 }
 
 } // namespace RedatamLib

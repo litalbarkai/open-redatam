@@ -3,9 +3,7 @@
 #include "utils/utils.hpp" //  GetFileExtension, ThrowIfBad
 
 namespace RedatamLib {
-
 using std::make_pair;
-using std::move;
 using std::out_of_range;
 using std::pair;
 using std::runtime_error;
@@ -22,7 +20,7 @@ vector<Entity> FuzzyEntityParser::ParseEntities() {
     while (true) {
       curr = TryGetEntity();
       if (curr.first) {
-        ret.push_back(move(curr.second));
+        ret.push_back(std::move(curr.second));
       } else {
         m_reader.MovePos(1);
       }
@@ -97,5 +95,4 @@ void FuzzyEntityParser::AssignChildren(
     }
   }
 }
-
 } // namespace RedatamLib

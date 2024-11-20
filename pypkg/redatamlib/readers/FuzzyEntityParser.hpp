@@ -10,7 +10,6 @@
 #include <vector>
 
 namespace RedatamLib {
-
 using std::pair;
 using std::string;
 using std::unordered_map;
@@ -40,5 +39,4 @@ class FuzzyEntityParser {
 };
 
 }  // namespace RedatamLib
-
 #endif  //  REDATAMLIB_FUZZYENTITYPARSER_HPP

@@ -1,5 +1,6 @@
 # Open Redatam <img src="rpkg/man/figures/logo.svg" align="right" height="139" alt="" />
 
+[![Version](https://img.shields.io/github/v/release/pachadotdev/open-redatam)](https://github.com/pachadotdev/open-redatam/releases)
 [![Ubuntu app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-ubuntu.yml)
 [![Mac app](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-mac.yml)
 [![Build Windows executables](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml/badge.svg)](https://github.com/pachadotdev/open-redatam/actions/workflows/build-windows.yml)

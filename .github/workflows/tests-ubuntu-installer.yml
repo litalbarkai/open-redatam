@@ -18,7 +18,7 @@ jobs:
 
       - name: Download Ubuntu installer
         run: |
-          curl -L -o open-redatam-ubuntu.deb https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-ubuntu.deb
+          curl -L -o open-redatam-ubuntu.deb https://github.com/pachadotdev/open-redatam/releases/download/v2.1.0/open-redatam-ubuntu.deb
 
       - name: Install Ubuntu package
         run: |

@@ -1,4 +1,8 @@
-# redatam 0.1
+# redatam 2.0
+
+* Follows the same changes to the C++ code as the R package.
+
+# redatam 1.0
 
 * First working version.
 * This is a port of the R package to Python using C++ 11.

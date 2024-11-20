@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "redatam"
-version = "0.1.0"
+version = "2.1.0"
 description = "A package for Redatam data conversion"
 authors = [
   { name="Mauricio Vargas Sepulveda", email="m.sepulveda@mail.utoronto.ca" }

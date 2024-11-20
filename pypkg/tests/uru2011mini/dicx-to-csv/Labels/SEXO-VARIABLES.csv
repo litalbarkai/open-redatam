@@ -1,0 +1,5 @@
+variable;label
+SEXO_REF_ID;Identifier for SEXO
+DEPTO_REF_ID;Parent entity Id
+SEXO;SEXO
+CUENTA;CUENTA

@@ -1,0 +1,29 @@
+PKG_CPPFLAGS=@cflags@
+PKG_LIBS=@libs@
+# CXXFLAGS=@cxxflags@
+LDFLAGS=@ldflags@
+
+# Explicitly list all source files
+SOURCES = vendor/pugixml.cpp \
+          redatamlib/readers/BitArrayReader.cpp \
+          redatamlib/readers/ByteArrayReader.cpp \
+          redatamlib/entities/Entity.cpp \
+          redatamlib/readers/FuzzyEntityParser.cpp \
+          redatamlib/readers/FuzzyVariableParser.cpp \
+          redatamlib/exporters/ParentIDCalculator.cpp \
+          redatamlib/exporters/RListExporter.cpp \
+          redatamlib/entities/Variable.cpp \
+          redatamlib/readers/XMLParser.cpp \
+          redatamlib/utils/utils.cpp \
+          redatamlib/database/RedatamDatabase.cpp \
+          main.cpp \
+          cpp11.cpp
+
+# Convert source files to object files
+OBJECTS = $(SOURCES:.cpp=.o)
+
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
+
+clean: rm -f $(OBJECTS) $(SHLIB)

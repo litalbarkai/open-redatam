@@ -1,0 +1,65 @@
+name: Build Windows executables
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-windows:
+    runs-on: windows-2019
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+          dir: 'C:\'
+
+      - name: Install DirectX
+        run: choco install directx -y
+
+      - name: Install NSIS
+        run: choco install nsis -y
+
+      - name: Build redatam
+        run: |
+          cd redatamwindows
+          cmake -G "Visual Studio 16 2019" .
+          cmake --build . --config Release
+          cmake --install . --config Release
+          cd ..
+
+      - name: Build redatamgui
+        run: |
+          cd redatamguiwindows
+          cmake . -G "Visual Studio 16 2019"
+          cmake --build . --config Release
+          & "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
+          cp ..\redatamwindows\Release\redatam.exe Release\redatam.exe
+
+      - name: Test redatam with a DIC file on Windows
+        run: redatamwindows\Release\redatam.exe test\uru2011mini\uru2011mini.dic test\uru2011mini\dic-to-csv
+
+      - name: Test redatam with a DICX file on Windows
+        run: redatamwindows\Release\redatam.exe test\uru2011mini\uru2011mini.dicx test\uru2011mini\dicx-to-csv
+
+      - name: Create installer
+        run: |
+          cd redatamguiwindows
+          makensis installer.nsi
+
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-redatam-windows
+          path: redatamguiwindows/open-redatam-windows.exe

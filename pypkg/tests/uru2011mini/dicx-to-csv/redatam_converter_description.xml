@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RedatamConverterDescription>
+	<Entity name="URU2011" />
+	<Entity name="DEPTO">
+		<Variable name="NDEPTO" type="CHR" description="DEPTO" />
+	</Entity>
+	<Entity name="SEXO">
+		<Variable name="SEXO" type="CHR" description="SEXO" />
+		<Variable name="CUENTA" type="PCK" description="CUENTA" />
+	</Entity>
+</RedatamConverterDescription>

@@ -1,0 +1,50 @@
+name: Test macOS Installer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-installer:
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download macOS DMG
+        run: |
+          curl -L -o open-redatam-mac.dmg https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-mac.dmg
+
+      - name: Mount DMG
+        run: |
+          hdiutil attach open-redatam-mac.dmg
+
+      - name: List contents of test/uru2011mini directory
+        run: ls -l test/uru2011mini
+
+      - name: Verify installation and convert DIC file
+        run: |
+          /Volumes/Redatam/Applications/redatam test/uru2011mini/uru2011mini.dic test/uru2011mini/dic-to-csv
+          /Volumes/Redatam/Applications/redatam test/uru2011mini/uru2011mini.dicx test/uru2011mini/dicx-to-csv
+
+      - name: Check conversion results
+        run: |
+          ls -l test/uru2011mini/dic-to-csv
+          ls -l test/uru2011mini/dicx-to-csv
+
+      - name: Install XQuartz
+        run: brew install --cask xquartz
+
+      - name: Start XQuartz and run RedatamGUI.app
+        run: |
+          open -a XQuartz
+          export DISPLAY=:0
+          sleep 3
+          open /Volumes/Redatam/Applications/RedatamGUI.app
+          sleep 10 # Wait for the application to start
+          pkill -f XQuartz

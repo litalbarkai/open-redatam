@@ -1,39 +1,35 @@
 #ifndef REDATAMLIB_CSVEXPORTER_HPP
 #define REDATAMLIB_CSVEXPORTER_HPP
 
-#include <string>
-#include <mutex>
-
 #include "Entity.hpp"
 #include "Variable.hpp"
 
-namespace RedatamLib
-{
+#include <mutex>
+
+namespace RedatamLib {
+using std::mutex;
 using std::string;
+using std::vector;
 
 class CSVExporter {
 public:
-    explicit CSVExporter(const string& outputDirectory);
-    ~CSVExporter() = default;
+  explicit CSVExporter(const string &outputDirectory);
+  ~CSVExporter() = default;
 
-    CSVExporter(const CSVExporter&) = delete;
-    CSVExporter& operator=(const CSVExporter&) = delete;
+  CSVExporter(const CSVExporter &) = delete;
+  CSVExporter &operator=(const CSVExporter &) = delete;
 
-    void ExportAll(vector<Entity>& entities);
+  void ExportAll(vector<Entity> &entities);
 
 private:
-    string m_path;
-    std::mutex m_mtx;
+  string m_path;
+  mutable mutex m_mtx;
 
-    static void CreateVariablesLegend(std::mutex& mutex, Entity& e, const string& outputDirectory);
-    static void CreateVariablesLabels(std::mutex& mutex, Entity& e, const string& outputDirectory);
-    static void CreateVariablesData(std::mutex& mutex, Entity& e, const string& outputDirectory);
-    static void ThreadExport(std::mutex& mutex,
-                            size_t start, size_t end,
-                            vector<Entity>& entities,
-                            const string&  outputDirectory);
+  void CreateVariablesLegend(Entity &e) const;
+  void CreateVariablesLabels(Entity &e) const;
+  void CreateVariablesData(Entity &e) const;
+  void ThreadExport(size_t start, size_t end, vector<Entity> &entities) const;
 };
 } // namespace RedatamLib
 
 #endif // REDATAMLIB_CSVEXPORTER_HPP
-

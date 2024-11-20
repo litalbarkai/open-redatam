@@ -1,19 +1,21 @@
-PKG_CPPFLAGS = -Ivendor -Iredatamlib
-PKG_LIBS = -Lvendor -Lredatamlib
+PKG_CPPFLAGS=-Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils
+PKG_LIBS=-Lvendor -Lredatamlib
+# CXXFLAGS=-stdlib=libc++
+LDFLAGS=-stdlib=libc++
 
 # Explicitly list all source files
 SOURCES = vendor/pugixml.cpp \
-          redatamlib/BitArrayReader.cpp \
-          redatamlib/ByteArrayReader.cpp \
-          redatamlib/Entity.cpp \
-          redatamlib/FuzzyEntityParser.cpp \
-          redatamlib/FuzzyVariableParser.cpp \
-          redatamlib/ParentIDCalculator.cpp \
-          redatamlib/RListExporter.cpp \
-          redatamlib/RedatamDatabase.cpp \
-          redatamlib/Variable.cpp \
-          redatamlib/XMLParser.cpp \
-          redatamlib/utils.cpp \
+          redatamlib/readers/BitArrayReader.cpp \
+          redatamlib/readers/ByteArrayReader.cpp \
+          redatamlib/entities/Entity.cpp \
+          redatamlib/readers/FuzzyEntityParser.cpp \
+          redatamlib/readers/FuzzyVariableParser.cpp \
+          redatamlib/exporters/ParentIDCalculator.cpp \
+          redatamlib/exporters/RListExporter.cpp \
+          redatamlib/entities/Variable.cpp \
+          redatamlib/readers/XMLParser.cpp \
+          redatamlib/utils/utils.cpp \
+          redatamlib/database/RedatamDatabase.cpp \
           main.cpp \
           cpp11.cpp
 
@@ -24,5 +26,4 @@ all: $(SHLIB)
 
 $(SHLIB): $(OBJECTS)
 
-clean:
-	rm -f $(OBJECTS) $(SHLIB)
+clean: rm -f $(OBJECTS) $(SHLIB)

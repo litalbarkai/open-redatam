@@ -6,13 +6,13 @@
 \alias{redatam-package}
 \title{redatam: Import 'REDATAM' Files}
 \description{
-Import 'REDATAM' files into R. 'REDATAM' is a software for the manipulation of microdata from censuses and surveys. This package provides functions to import 'REDATAM' files into R. It is based on De Grande (2016) \url{https://www.jstor.org/stable/24890658}.
+Import 'REDATAM' formats into R via the 'Open REDATAM' C++ library \url{https://github.com/litalbarkai/open-redatam} based on De Grande (2016) \url{https://www.jstor.org/stable/24890658}.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/litalbarkai/redatam-converter}
-  \item Report bugs at \url{https://github.com/litalbarkai/redatam-converter/issues}
+  \item \url{https://github.com/litalbarkai/open-redatam}
+  \item Report bugs at \url{https://github.com/litalbarkai/open-redatam/issues}
 }
 
 }
@@ -22,6 +22,13 @@ Useful links:
 Authors:
 \itemize{
   \item Lital Barkai
+}
+
+Other contributors:
+\itemize{
+  \item Ivan Krylov [contributor]
+  \item Arseny Kapoulkine ('pugixml' C++ library) [contributor]
+  \item  Oriental Republic of Uruguay (Aggregated census data from 2011) [data contributor]
 }
 
 }

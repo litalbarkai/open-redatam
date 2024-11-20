@@ -1,0 +1,57 @@
+name: Test Ubuntu Installer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-installer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Ubuntu installer
+        run: |
+          curl -L -o open-redatam-ubuntu.deb https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-ubuntu.deb
+
+      - name: Install Ubuntu package
+        run: |
+          sudo apt install -y gdebi-core
+          sudo gdebi -n -q open-redatam-ubuntu.deb
+
+      - name: Verify installation and convert DIC file
+        run: |
+          /usr/local/bin/redatam test/uru2011mini/uru2011mini.dic test/uru2011mini/dic-to-csv
+          /usr/local/bin/redatam test/uru2011mini/uru2011mini.dicx test/uru2011mini/dicx-to-csv
+
+      - name: Check conversion results
+        run: |
+          ls -l test/uru2011mini/dic-to-csv
+          ls -l test/uru2011mini/dicx-to-csv
+          
+          validate_csv() {
+            local file=$1
+            local expected_lines=$2
+            local expected_columns=$3
+
+            # Get the number of lines
+            actual_lines=$(wc -l < "$file")
+            # Get the number of columns (assuming the first line contains the headers)
+            actual_columns=$(head -n 1 "$file" | awk -F';' '{print NF}')
+
+            if [[ "$actual_lines" -eq "$expected_lines" && "$actual_columns" -eq "$expected_columns" ]]; then
+              echo "Validation passed for $file"
+            else
+              echo "Validation failed for $file: expected $expected_lines lines and $expected_columns columns, but got $actual_lines lines and $actual_columns columns"
+              exit 1
+            fi
+          }
+
+          validate_csv "test/uru2011mini/dic-to-csv/SEXO.csv" 38 4
+          validate_csv "test/uru2011mini/dicx-to-csv/SEXO.csv" 38 4

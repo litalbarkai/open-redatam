@@ -1,0 +1,77 @@
+name: Python package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: read-all
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [3.8]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Update pip to the latest version
+        run: python -m pip install --upgrade pip
+
+      - name: Create and activate virtual environment (Linux and macOS)
+        if: runner.os != 'Windows'
+        run: |
+          cd pypkg
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+
+      - name: Create and activate virtual environment (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          cd pypkg
+          python -m venv venv
+          venv\Scripts\activate
+          python -m pip install --upgrade pip
+
+      - name: Install dependencies (Linux and macOS)
+        if: runner.os != 'Windows'
+        run: |
+          cd pypkg
+          source venv/bin/activate
+          pip install pandas numpy pybind11
+          pip install --use-pep517 .
+
+      - name: Install dependencies (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          cd pypkg
+          venv\Scripts\activate
+          pip install pandas numpy pybind11
+          pip install --use-pep517 .
+
+      - name: Run tests (Linux and macOS)
+        if: runner.os != 'Windows'
+        run: |
+          cd pypkg
+          source venv/bin/activate
+          python tests/basic-test.py
+
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          cd pypkg
+          venv\Scripts\activate
+          python tests/basic-test.py

@@ -1,0 +1,56 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+name: R package (Docker)
+
+permissions: read-all
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+    container: ${{ matrix.config.container }}
+
+    name: ${{ matrix.config.name }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/ubuntu-gcc12:latest' }, name: 'r-devel-linux-x86_64-debian-gcc'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/ubuntu-clang:latest' }, name: 'r-devel-linux-x86_64-debian-clang'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/atlas:latest' }, name: 'ATLAS'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/c23:latest' }, name: 'C23'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/clang-asan:latest' }, name: 'clang-ASAN'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/clang16:latest' }, name: 'clang16'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/clang17:latest' }, name: 'clang17'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/clang18:latest' }, name: 'clang18'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/clang19:latest' }, name: 'clang19'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/clang20:latest' }, name: 'clang20'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/donttest:latest' }, name: 'donttest'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/gcc13:latest' }, name: 'gcc13'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/gcc13:latest' }, name: 'gcc14'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/intel:latest' }, name: 'intel'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/mkl:latest' }, name: 'mkl'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/nold:latest' }, name: 'noLD'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/noremap:latest' }, name: 'noRemap'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/valgrind:latest' }, name: 'rchk'}
+          - {os: ubuntu-latest, container: { image: 'ghcr.io/r-hub/containers/valgrind:latest' }, name: 'valgrind'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check package
+        run: |
+          cd ./rpkg
+          R -q -e 'pak::pkg_install(c("deps::.", "any::rcmdcheck"), dependencies = TRUE)'
+          R -q -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), build_args = "--no-manual", error_on = "error")'

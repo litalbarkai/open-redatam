@@ -4,24 +4,29 @@
 #include <QLineEdit>
 #include <QMainWindow>
 #include <QProcess>
+#include <QTextEdit>
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
- public:
+public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
- private slots:
+private slots:
   void onSelectInputFile();
   void onSelectOutputDirectory();
   void onConvert();
   void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+  void onReadyReadStandardOutput();
+  void onReadyReadStandardError();
+  void onBuyMeACoffee();
 
- private:
+private:
   QProcess *process;
   QLineEdit *inputFileText;
   QLineEdit *outputDirText;
+  QTextEdit *outputTextEdit;
 };
 
-#endif  // MAINWINDOW_H
+#endif // MAINWINDOW_H

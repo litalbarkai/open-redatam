@@ -1,113 +1,96 @@
-#include <algorithm>    //  std::replace
-
 #include "FuzzyEntityParser.hpp"
 #include "FuzzyVariableParser.hpp"
-#include "utils.hpp"                //  GetFileExtension, ThrowIfBad
+#include "utils.hpp" //  GetFileExtension, ThrowIfBad
 
-namespace RedatamLib
-{
-FuzzyEntityParser::FuzzyEntityParser(const string& filePath) :
-    m_reader(filePath),
-    m_rootPath(FindRootPath(filePath))
-{}
+namespace RedatamLib {
+using std::make_pair;
 
-vector<Entity> FuzzyEntityParser::ParseEntities()
-{
-    pair<bool, Entity> curr;
-    vector<Entity> ret;
-    unordered_map<string, Entity*> entities;
+FuzzyEntityParser::FuzzyEntityParser(const string &filePath)
+    : m_reader(filePath), m_rootPath(FindRootPath(filePath)) {}
 
-    try
-    {
-        while (true)
-        {
-            curr = TryGetEntity();
-            if (curr.first)
-            {
-                ret.push_back(curr.second);
-            }
-            else
-            {
-                m_reader.MovePos(1);
-            }
-        }
+vector<Entity> FuzzyEntityParser::ParseEntities() {
+  std::pair<bool, Entity> curr;
+  vector<Entity> ret;
+  unordered_map<string, Entity *> entities;
+
+  try {
+    while (true) {
+      curr = TryGetEntity();
+      if (curr.first) {
+        ret.push_back(std::move(curr.second));
+      } else {
+        m_reader.MovePos(1);
+      }
     }
-    catch (const std::out_of_range&)
-    {}
+  } catch (const std::out_of_range &) {
+  }
 
-    for (Entity& e : ret)
-    {
-        entities[e.GetName()] = &e;
-    }
+  if (ret.empty()) {
+    throw std::out_of_range("Error: No entities found.");
+  }
 
-    AssignChildren(ret, entities);
+  for (Entity &e : ret) {
+    entities[e.GetName()] = &e;
+  }
 
-    FuzzyVariableParser varParser(m_reader, m_rootPath);
-    varParser.ParseAllVariables(ret);
+  AssignChildren(ret, entities);
 
-    return ret;
+  FuzzyVariableParser varParser(m_reader, m_rootPath);
+  varParser.ParseAllVariables(ret);
+
+  return ret;
 }
 
-pair<bool, Entity> FuzzyEntityParser::TryGetEntity()
-{
-    size_t ogPos = m_reader.GetPos();
+std::pair<bool, Entity> FuzzyEntityParser::TryGetEntity() {
+  size_t originalPosition = m_reader.GetPos();
 
-    string entityName("");
-    if (!m_reader.TryReadStr(&entityName) || entityName.empty())
-    {
-        m_reader.SetPos(ogPos);
-        return pair(false, Entity());
-    }
+  string entityName;
+  if (!m_reader.TryReadStr(&entityName) || entityName.empty()) {
+    m_reader.SetPos(originalPosition);
+    return {false, Entity()};
+  }
 
-    string entityNameRepeated("");
-    if (!m_reader.TryReadStr(&entityNameRepeated))
-    {
-        m_reader.MovePos(2);
-    }
-    else if (entityName != entityNameRepeated)
-    {
-        m_reader.SetPos(ogPos);
-        return pair(false, Entity());
-    }
+  string entityNameRepeated;
+  if (!m_reader.TryReadStr(&entityNameRepeated)) {
+    m_reader.MovePos(2);
+  } else if (entityName != entityNameRepeated) {
+    m_reader.SetPos(originalPosition);
+    return {false, Entity()};
+  }
 
-    string parentEntityName("");
-    if (!entityNameRepeated.empty() && !m_reader.TryReadStr(&parentEntityName))
-    {}
+  string parentEntityName;
+  if (!entityNameRepeated.empty() && !m_reader.TryReadStr(&parentEntityName)) {
+  }
 
-    string description("");
-    if (!m_reader.TryReadStr(&description, false))
-    {
-        m_reader.MovePos(2);
-    }
+  string description;
+  if (!m_reader.TryReadStr(&description, false)) {
+    m_reader.MovePos(2);
+  }
 
-    string idxFileName(""), ext("");
-    if ((!m_reader.TryReadStr(&idxFileName, false)) ||
-        !(!idxFileName.empty() && TryGetFileExtension(idxFileName, &ext) &&
-        ".ptr" == ext))
-    {
-        m_reader.SetPos(ogPos);
-        return pair(false, Entity());
-    }
-    idxFileName = ReplaceRootPath(m_rootPath, idxFileName);
+  string idxFileName, ext;
+  if ((!m_reader.TryReadStr(&idxFileName, false)) ||
+      !(!idxFileName.empty() && TryGetFileExtension(idxFileName, &ext) &&
+        ".ptr" == ext)) {
+    m_reader.SetPos(originalPosition);
+    return {false, Entity()};
+  }
+  idxFileName = ReplaceRootPath(m_rootPath, idxFileName);
 
-    pair<size_t, size_t> bounds(ogPos, m_reader.GetPos());
+  std::pair<size_t, size_t> bounds =
+      make_pair(originalPosition, m_reader.GetPos());
 
-    return pair(true,
-            Entity(entityName, parentEntityName, description, idxFileName, bounds));
+  return {true, Entity(entityName, parentEntityName, description, idxFileName,
+                       bounds)};
 }
 
 //  static
-void FuzzyEntityParser::AssignChildren(vector<Entity>& entitites,
-                                        unordered_map<string, Entity*> mapping)
-{
-    for (Entity& e : entitites)
-    {
-        string parent = e.GetParentName();
-        if ("" != parent)
-        {
-            mapping[parent]->AttachChild(&e);
-        }
+void FuzzyEntityParser::AssignChildren(
+    vector<Entity> &entitites, unordered_map<string, Entity *> mapping) {
+  for (Entity &e : entitites) {
+    string parent = e.GetParentName();
+    if (!parent.empty()) {
+      mapping[parent]->AttachChild(&e);
     }
+  }
 }
-
 } // namespace RedatamLib

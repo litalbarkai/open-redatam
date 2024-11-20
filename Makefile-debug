@@ -1,0 +1,50 @@
+# Paths
+INC_DIR = include
+SRC_DIR = src
+GUI_DIR = gui
+OBJ_DIR = obj
+LIB_DIR = lib
+PUGIXML_DIR = vendor/pugixml
+INCLUDE_DIRS = -I $(INC_DIR) -I $(INC_DIR)/entities -I $(INC_DIR)/readers -I $(INC_DIR)/exporters -I $(INC_DIR)/utils -I $(INC_DIR)/database -I $(PUGIXML_DIR)
+
+# Compiler and linker
+CXX = g++
+CXXFLAGS = -std=c++11 -g -O0 -Wall -fPIC $(INCLUDE_DIRS)
+LDFLAGS = -pthread -L$(LIB_DIR)
+
+# Source files
+SRCS = $(filter-out $(SRC_DIR)/main.cpp, $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp))
+OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS)) $(OBJ_DIR)/vendor/pugixml/pugixml.o
+
+# Targets
+TARGET_REDATAM = redatam
+TARGET_REDATAM_LIB = libredatam.a
+
+# Rules
+all: $(TARGET_REDATAM)
+
+# Build redatam
+$(OBJ_DIR)/vendor/pugixml/pugixml.o: $(PUGIXML_DIR)/pugixml.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+$(TARGET_REDATAM): $(OBJS) $(OBJ_DIR)/main.o
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+# Build redatam as a static library
+$(TARGET_REDATAM_LIB): $(OBJS)
+	@mkdir -p $(LIB_DIR)
+	ar rcs $(LIB_DIR)/$@ $^
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(QT_CXXFLAGS) -c -o $@ $<
+
+clean:
+	rm -rf $(OBJ_DIR) $(LIB_DIR) $(TARGET_REDATAM)
+
+.PHONY: all clean

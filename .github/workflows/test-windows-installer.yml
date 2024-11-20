@@ -1,0 +1,35 @@
+name: Test Windows Installer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-installer:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Windows installer
+        run: |
+          curl -L -o open-redatam-windows.exe https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-windows.exe
+
+      - name: Install Windows package
+        run: |
+          Start-Process -FilePath open-redatam-windows.exe -ArgumentList '/S', '/D=C:\Program Files\OpenRedatam' -Wait
+
+      - name: Verify installation and convert DIC file
+        run: |
+          & "C:\Program Files\OpenRedatam\redatam.exe" test\uru2011mini\uru2011mini.dic test\uru2011mini\dic-to-csv
+          & "C:\Program Files\OpenRedatam\redatam.exe" test\uru2011mini\uru2011mini.dicx test\uru2011mini\dicx-to-csv
+
+      - name: Check conversion results
+        run: |
+          dir test\uru2011mini\dic-to-csv
+          dir test\uru2011mini\dicx-to-csv

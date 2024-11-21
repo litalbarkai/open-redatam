@@ -24,8 +24,6 @@ jobs:
           - {os: macos-14, r: 'release', name: 'macos-14-r-release'}
           - {os: ubuntu-latest, r: 'release', name: 'ubuntu-latest-r-release'}
           - {os: windows-latest, r: 'release', name: 'windows-latest-r-release'}
-          - {os: macos-13, r: 'devel', name: 'macos-13-r-devel'}
-          - {os: macos-14, r: 'devel', name: 'macos-14-r-devel'}
           - {os: ubuntu-latest, r: 'devel', name: 'ubuntu-latest-r-devel'}
           - {os: windows-latest, r: 'devel', name: 'windows-latest-r-devel'}
           

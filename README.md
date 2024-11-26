@@ -21,7 +21,7 @@ This software is a full C++ ground-up rewrite of the original [Redatam Converter
 
 **If you use Python**: We have a Python [package](pypkg) 📦 that allows to directly read REDATAM databases in Python.
 
-**If you only need the processed data**: We provide tidied [microdata](https://github.com/pachadotdev/redatam-microdata/releases) 📊 for R in RDS format.
+**If you only need the processed data**: We provide tidy [microdata](https://github.com/pachadotdev/redatam-microdata/releases) 📊 in R and CSV format.
 
 ## Usage
 
@@ -100,48 +100,6 @@ cmake --build . --config Release
 "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
 cd ..
 ```
-
-## Testing
-
-### Reading
-
-Ticked = Passed; Blank = Failed
-
-#### DIC format
-
-- [x] Argentina 1991 (`CP1991ARG/datos/Arg91CPV.dic`)
-- [x] Argentina 2001 (`CP2001ARG-DATA/CpvAr01_pub_v12.dic`)
-- [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dic`)
-- [x] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dic`)
-- [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic`)
-- [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dic`)
-- [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dic`)
-- [x] Ecuador 2010 (`CP2010ECU/Base/CE11.dic`)
-- [x] Ecuador (Galapagos) 2015 (`test/galapagos/cg15.dic`)
-- [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dic`)
-- [x] Guatemala 2018 (`CP2018GTM/BasePub/CPV2018GT_BasePublica.dic`)
-- [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
-- [ ] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dic`)
-- [x] Myanmar 2014 (`CP2014MMR/Union.dic`)
-- [x] Peru 2007 (`CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dic`)
-- [x] Peru 2017 (`CP2017PER/BaseD/BaseR/CPVPER2017D.dic`)
-- [x] Uruguay 2011 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
-
-#### DICX format
-
-- [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dicx`)
-- [x] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dicx`)
-- [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Comunidad.dicx`)
-- [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dicx`)
-- [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dicx`)
-- [x] Ecuador 2010 (`CP2010ECU/Base/cpv2010ecu.dicx`)
-- [x] Ecuador (Galapagos) 2015 (`test/galapagos/cg15.dicX`)
-- [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dicx`)
-- [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dicx`)
-- [x] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dicx`)
-- [x] Mexico 2015 (`ECI2015MEX/BaseR/ECI2015MX.dicX`)
-- [x] Peru 2007 (`CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dicx`)
-- [x] Uruguay 2011 (`CP2011URY/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX`)
 
 ### Validation against IPUMS data
 

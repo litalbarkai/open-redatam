@@ -40,16 +40,12 @@ string ReplaceRootPath(const string &rootPath, const string &fileName) {
     normalizedRootPath.append("/");
   }
 
-  // Remove any leading "./" or ".\" from the file name
+  // Remove everything before the last '/' or '\'
   string normalizedFileName = fileName;
-  if (normalizedFileName.find("./") == 0 ||
-      normalizedFileName.find(".\\") == 0) {
-    normalizedFileName = normalizedFileName.substr(2);
+  size_t pos = normalizedFileName.find_last_of("/\\");
+  if (pos != string::npos) {
+    normalizedFileName = normalizedFileName.substr(pos + 1);
   }
-
-  size_t pos = normalizedFileName.find_first_not_of("/\\");
-  normalizedFileName =
-      (pos == string::npos) ? "" : normalizedFileName.substr(pos);
 
   string fullPath = normalizedRootPath + normalizedFileName;
   return fullPath;

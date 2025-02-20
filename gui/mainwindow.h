@@ -1,19 +1,20 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QLabel>
 #include <QLineEdit>
 #include <QMainWindow>
 #include <QProcess>
-#include <QTextEdit>
+#include <QProgressBar>
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
-public:
+ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
-private slots:
+ private slots:
   void onSelectInputFile();
   void onSelectOutputDirectory();
   void onConvert();
@@ -21,12 +22,14 @@ private slots:
   void onReadyReadStandardOutput();
   void onReadyReadStandardError();
   void onBuyMeACoffee();
+  void updateProgress(int value, const QString &entity);
 
-private:
+ private:
   QProcess *process;
   QLineEdit *inputFileText;
   QLineEdit *outputDirText;
-  QTextEdit *outputTextEdit;
+  QProgressBar *progressBar;
+  QLabel *statusLabel;
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

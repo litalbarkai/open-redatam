@@ -3,19 +3,15 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QHBoxLayout>
-#include <QIcon>
-#include <QLabel>
-#include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QTextEdit>
 #include <QUrl>
 #include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), process(new QProcess(this)) {
   // Set window geometry
-  setGeometry(0, 0, 400, 300);
+  setGeometry(0, 0, 400, 200);
   setWindowTitle("Open Redatam");
 
   // Central widget and layout
@@ -44,8 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
 
   // Donate button
   QPushButton *buyMeACoffeeButton = new QPushButton("Donate", this);
-  QIcon bmcIcon(":/path/to/bmc_icon.png"); // Update the path to your icon file
-  buyMeACoffeeButton->setIcon(bmcIcon);
 
   // Create a horizontal layout for the buttons
   QHBoxLayout *buttonLayout = new QHBoxLayout();
@@ -59,10 +53,13 @@ MainWindow::MainWindow(QWidget *parent)
   // Add the button layout to the main vertical layout
   vbox->addLayout(buttonLayout);
 
-  // Output text edit
-  outputTextEdit = new QTextEdit(this);
-  outputTextEdit->setReadOnly(true);
-  vbox->addWidget(outputTextEdit);
+  // Progress bar and status label
+  progressBar = new QProgressBar(this);
+  progressBar->setRange(0, 100);
+  progressBar->setValue(0);
+  statusLabel = new QLabel("", this);
+  vbox->addWidget(progressBar);
+  vbox->addWidget(statusLabel);
 
   // Footer
   QHBoxLayout *footerSizer = new QHBoxLayout();
@@ -148,6 +145,9 @@ void MainWindow::onConvert() {
                           "ensure 'redatam' is installed and accessible.");
     return;
   }
+
+  progressBar->setValue(0);
+  statusLabel->setText("Starting conversion...");
 }
 
 void MainWindow::onProcessFinished(int exitCode,
@@ -158,19 +158,38 @@ void MainWindow::onProcessFinished(int exitCode,
                           "Conversion failed. Please check the input file and "
                           "output directory.\n" +
                               error);
-  } else {
-    QMessageBox::information(this, "Success", "Conversion successful!");
   }
+  // else {
+  //   QMessageBox::information(this, "Success", "Conversion successful!");
+  // }
 }
 
 void MainWindow::onReadyReadStandardOutput() {
   QString output = process->readAllStandardOutput();
-  outputTextEdit->append(output);
+
+  // The output contains lines like "Exporting ENTITY..."
+  QRegExp regex("Exporting (\\w+)...");
+  if (regex.indexIn(output) != -1) {
+    QString entity = regex.cap(1);
+    int progress = 0;
+    if (progress < 100) {
+      progress += 10;
+    }
+    updateProgress(progress, entity);
+  }
 }
 
 void MainWindow::onReadyReadStandardError() {
   QString error = process->readAllStandardError();
-  outputTextEdit->append(error);
+}
+
+void MainWindow::updateProgress(int value, const QString &entity) {
+  progressBar->setValue(value);
+  statusLabel->setText("Exporting " + entity + "...");
+
+  if (value == 100) {
+    statusLabel->setText("Conversion successful!");
+  }
 }
 
 void MainWindow::onBuyMeACoffee() {

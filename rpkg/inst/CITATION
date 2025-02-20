@@ -1,0 +1,10 @@
+bibentry(
+  "Article",
+  title = "The {REDATAM} format and its challenges for data access and information creation in public policy",
+  author = "Mauricio Vargas Sepulveda, Lital Barkai",
+  year = 2025,
+  journal = "Data and Policy",
+  volume = 7,
+  pages = "e18",
+  doi = "10.1017/dap.2025.4"
+)

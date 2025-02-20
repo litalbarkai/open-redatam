@@ -13,6 +13,10 @@
 
 Open Redatam is an open source software for extracting raw information from REDATAM databases. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
 
+Please read our article for the full context of this project (Open Access):
+
+> Vargas Sepúlveda, Mauricio and Barkai, Lital. 2025. "The REDATAM format and its challenges for data access and information creation in public policy." *Data & Policy* 7 (January): e18. [https://dx.doi.org/10.1017/dap.2025.4](https://dx.doi.org/10.1017/dap.2025.4). 
+
 This software is a full C++ ground-up rewrite of the original [Redatam Converter](https://github.com/discontinuos/open-redatam/blob/master/README-EN.md) created by Pablo de Grande and written in C#. Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
 
 ## For R and Python users (otherwise skip this section)
@@ -43,15 +47,21 @@ The REDATAM database will be exported to CSV files and an XML summary of the tab
 
 ### From binaries
 
-On Ubuntu, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-ubuntu.deb) and install it. This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry. The installer creates an entry in the Applications folder for Open Redatam GUI and you can also use the command line tool from the Terminal by calling `redatam`.
+#### Ubuntu
 
-On Mac, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-mac.dmg). The image contains `redatam` and `redatamgui`, which you can copy to "Applications". The app is not verified because it does not make sense for us to pay 200 USD/year just to sign one image. You can install it anyways this by going to the System Settings in the Apple menu and then:
+Download the [DEB file](https://github.com/pachadotdev/open-redatam/releases/latest) and install it. This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry. The installer creates an entry in the Applications folder for Open Redatam GUI and you can also use the command line tool from the Terminal by calling `redatam`.
+
+#### Mac
+
+Download the [DMG file](https://github.com/pachadotdev/open-redatam/releases/latest). The image contains `redatam` and `redatamgui`, which you can copy to "Applications". The app is not verified because it does not make sense for us to pay 200 USD/year just to sign one image. You can install it anyways this by going to the System Settings in the Apple menu and then:
 
 1. Select Privacy & Security.
 2. Scroll down to the Security section.
 3. Click "Open Anyway" beneath the message "RedatamGUI was blocked for use because it is not from an identified developer."
 
-On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-windows.exe) and install it. The installer creates an entry in the Start Menu for Open Redatam GUI and you can also use the command line tool from Power Shell by calling `C:\Program Files (x86)\Open Redatam\redatam.exe`.
+#### Windows
+
+Download the [EXE file](https://github.com/pachadotdev/open-redatam/releases/latest) and install it. The installer creates an entry in the Start Menu for Open Redatam GUI and you can also use the command line tool from Power Shell by calling `C:\Program Files (x86)\Open Redatam\redatam.exe`.
 
 ### From source
 

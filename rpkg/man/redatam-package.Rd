@@ -6,7 +6,7 @@
 \alias{redatam-package}
 \title{redatam: Import 'REDATAM' Files}
 \description{
-Import 'REDATAM' formats into R via the 'Open REDATAM' C++ library \url{https://github.com/litalbarkai/open-redatam} based on De Grande (2016) \url{https://www.jstor.org/stable/24890658}.
+Import 'REDATAM' formats into R via the 'Open REDATAM' C++ library. The full context of this project and details about the implementation are available in \doi{10.1017/dap.2025.4} (Open Access).
 }
 \seealso{
 Useful links:

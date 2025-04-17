@@ -13,6 +13,10 @@
 
 Open Redatam is an open source software for extracting raw information from REDATAM databases. It was created to recover information of REDATAM databases for statistical analysis using standard tools such as SPSS, STATA, R, etc.
 
+Please read our article for the full context of this project (Open Access):
+
+> Vargas Sepúlveda, Mauricio and Barkai, Lital. 2025. "The REDATAM format and its challenges for data access and information creation in public policy." *Data & Policy* 7 (January): e18. [https://dx.doi.org/10.1017/dap.2025.4](https://dx.doi.org/10.1017/dap.2025.4). 
+
 This software is a full C++ ground-up rewrite of the original [Redatam Converter](https://github.com/discontinuos/open-redatam/blob/master/README-EN.md) created by Pablo de Grande and written in C#. Rewriting the original C# code in C++ allows for better portability and the ability to use the program within R, Python, and other languages.
 
 ## For R and Python users (otherwise skip this section)
@@ -21,7 +25,7 @@ This software is a full C++ ground-up rewrite of the original [Redatam Converter
 
 **If you use Python**: We have a Python [package](pypkg) 📦 that allows to directly read REDATAM databases in Python.
 
-**If you only need the processed data**: We provide tidied [microdata](https://github.com/pachadotdev/redatam-microdata/releases) 📊 for R in RDS format.
+**If you only need the processed data**: We provide tidy [microdata](https://github.com/pachadotdev/redatam-microdata/releases) 📊 in R and CSV format.
 
 ## Usage
 
@@ -43,15 +47,21 @@ The REDATAM database will be exported to CSV files and an XML summary of the tab
 
 ### From binaries
 
-On Ubuntu, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-ubuntu.deb) and install it. This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry. The installer creates an entry in the Applications folder for Open Redatam GUI and you can also use the command line tool from the Terminal by calling `redatam`.
+#### Ubuntu
 
-On Mac, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-mac.dmg). The image contains `redatam` and `redatamgui`, which you can copy to "Applications". The app is not verified because it does not make sense for us to pay 200 USD/year just to sign one image. You can install it anyways this by going to the System Settings in the Apple menu and then:
+Download the [DEB file](https://github.com/pachadotdev/open-redatam/releases/latest) and install it. This will install `redatam` and `redatamgui` in `/usr/local/bin/` with the necessary dependencies and a desktop entry. The installer creates an entry in the Applications folder for Open Redatam GUI and you can also use the command line tool from the Terminal by calling `redatam`.
+
+#### Mac
+
+Download the [DMG file](https://github.com/pachadotdev/open-redatam/releases/latest). The image contains `redatam` and `redatamgui`, which you can copy to "Applications". The app is not verified because it does not make sense for us to pay 200 USD/year just to sign one image. You can install it anyways this by going to the System Settings in the Apple menu and then:
 
 1. Select Privacy & Security.
 2. Scroll down to the Security section.
 3. Click "Open Anyway" beneath the message "RedatamGUI was blocked for use because it is not from an identified developer."
 
-On Windows, download the [latest release](https://github.com/pachadotdev/open-redatam/releases/download/v2.0/open-redatam-windows.exe) and install it. The installer creates an entry in the Start Menu for Open Redatam GUI and you can also use the command line tool from Power Shell by calling `C:\Program Files (x86)\Open Redatam\redatam.exe`.
+#### Windows
+
+Download the [EXE file](https://github.com/pachadotdev/open-redatam/releases/latest) and install it. The installer creates an entry in the Start Menu for Open Redatam GUI and you can also use the command line tool from Power Shell by calling `C:\Program Files (x86)\Open Redatam\redatam.exe`.
 
 ### From source
 
@@ -100,48 +110,6 @@ cmake --build . --config Release
 "C:\Qt\5.15.2\msvc2019_64\bin\windeployqt.exe" --release .\Release\redatamgui.exe
 cd ..
 ```
-
-## Testing
-
-### Reading
-
-Ticked = Passed; Blank = Failed
-
-#### DIC format
-
-- [x] Argentina 1991 (`CP1991ARG/datos/Arg91CPV.dic`)
-- [x] Argentina 2001 (`CP2001ARG-DATA/CpvAr01_pub_v12.dic`)
-- [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dic`)
-- [x] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dic`)
-- [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Municipio.dic`)
-- [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dic`)
-- [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dic`)
-- [x] Ecuador 2010 (`CP2010ECU/Base/CE11.dic`)
-- [x] Ecuador (Galapagos) 2015 (`test/galapagos/cg15.dic`)
-- [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dic`)
-- [x] Guatemala 2018 (`CP2018GTM/BasePub/CPV2018GT_BasePublica.dic`)
-- [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
-- [ ] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dic`)
-- [x] Myanmar 2014 (`CP2014MMR/Union.dic`)
-- [x] Peru 2007 (`CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dic`)
-- [x] Peru 2017 (`CP2017PER/BaseD/BaseR/CPVPER2017D.dic`)
-- [x] Uruguay 2011 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dic`)
-
-#### DICX format
-
-- [x] Argentina 2010 (`CP2010ARG/BASE_AMP_DPTO/CPV2010Ampliado.dicx`)
-- [x] Bolivia 2001 (`CP2001BOL/Cp2001BOL/BaseOriginal/CPV2001.dicx`)
-- [x] Bolivia 2012 (`CP2012BOL/BaseMunicipio_V3/CPV2012Comunidad.dicx`)
-- [x] Chile 2017 (`CP2017CHL/BaseOrg16/CPV2017-16.dicx`)
-- [x] Dominican Republic 2002 (`CP2002DOM/Cp2002DOM/BaseOriginal/CPV2002DOM.dicx`)
-- [x] Ecuador 2010 (`CP2010ECU/Base/cpv2010ecu.dicx`)
-- [x] Ecuador (Galapagos) 2015 (`test/galapagos/cg15.dicX`)
-- [x] El Salvador 2007 (`CP2007SLV/CP2007SLV/BaseTotal/CPV2007ES.dicx`)
-- [x] Mexico 2000 (`CP2000MEX/Cp2000MEX/BaseOriginal/cpmx2000.dicx`)
-- [x] Mexico 2010 (`CP2010MEX/BasePubM/MC10.dicx`)
-- [x] Mexico 2015 (`ECI2015MEX/BaseR/ECI2015MX.dicX`)
-- [x] Peru 2007 (`CP2007PER/CP2007PER/BasePub/CPV2007PER_PUB.dicx`)
-- [x] Uruguay 2011 (`CP2011URY/CP2011URY/BaseRPub/CPV2011_uruguay_publica.dicX`)
 
 ### Validation against IPUMS data
 

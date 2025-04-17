@@ -24,6 +24,9 @@ jobs:
           target: 'desktop'
           arch: 'win64_msvc2019_64'
           dir: 'C:\'
+          mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
+          cache: true
+          setup-python: true
 
       - name: Install DirectX
         run: choco install directx -y

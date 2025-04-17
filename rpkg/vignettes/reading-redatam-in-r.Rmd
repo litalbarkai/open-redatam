@@ -14,6 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+Please read our article for the full context of this project (Open Access):
+
+> Vargas Sepúlveda, Mauricio and Barkai, Lital. 2025. "The REDATAM format and
+  its challenges for data access and information creation in public policy."
+  *Data & Policy* 7 (January): e18. [https://dx.doi.org/10.1017/dap.2025.4](https://dx.doi.org/10.1017/dap.2025.4). 
+
 We start by downloading the Chilean Census 2017 from ECLAC website (link valid
 as of 2024-10-01):
 
@@ -132,7 +138,7 @@ overcrowding %>%
 ```
 
 ```
-# A tibble: 4 × 3
+# A tibble: 4 x 3
 # Groups:   comuna, overcrowding_discrete [4]
   comuna   overcrowding_discrete     n
   <fct>    <chr>                 <int>
@@ -141,7 +147,7 @@ overcrowding %>%
 3 VITACURA Mean                    174
 4 VITACURA No Overcrowding       26752
 
-# A tibble: 4 × 3
+# A tibble: 4 x 3
 # Groups:   comuna, overcrowding_discrete [4]
   comuna     overcrowding_discrete     n
   <fct>      <chr>                 <int>

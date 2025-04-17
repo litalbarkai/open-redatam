@@ -10,6 +10,10 @@ Open Redatam is a software for extracting raw information from REDATAM databases
 
 For the standalone C++ command line application and desktop app, see the [main directory](https://github.com/pachadotdev/open-redatam/) of this repository.
 
+Please read our article for the full context of this project (Open Access):
+
+> Vargas Sepúlveda, Mauricio and Barkai, Lital. 2025. "The REDATAM format and its challenges for data access and information creation in public policy." *Data & Policy* 7 (January): e18. [https://dx.doi.org/10.1017/dap.2025.4](https://dx.doi.org/10.1017/dap.2025.4). 
+
 To install the R package, run the following command:
 
 ```r

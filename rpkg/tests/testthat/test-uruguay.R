@@ -58,8 +58,8 @@ test_that("reading works", {
   expect_equal(dim(d2), c(38L,4L))
 
   # copy .dic to .DIC
-  file.copy(dic, gsub("\\.dic$", ".DIC", dic), overwrite = TRUE)
+  file.copy(dic, gsub("mini\\.dic$", "mini2.DIC", dic), overwrite = TRUE)
 
-  res3 <- read_redatam(gsub("\\.dic$", ".DIC", dic))
-  expect_type(res2, "list")
+  res3 <- read_redatam(gsub("mini\\.dic$", "mini2.DIC", dic))
+  expect_type(res3, "list")
 })

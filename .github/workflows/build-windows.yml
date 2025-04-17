@@ -16,18 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set environment variables
-        run: |
-          echo "AQTSERVER=https://ftp.jaist.ac.jp/pub/qtproject/" >> $GITHUB_ENV
-
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: '5.15.2'
+          version: '5.15.*'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
           dir: 'C:\'
+          mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
+          cache: true
+          setup-python: true
 
       - name: Install DirectX
         run: choco install directx -y

@@ -16,7 +16,7 @@
 read_redatam <- function(dictionary) {
   dictionary <- normalizePath(dictionary)
 
-  if (grepl("\\.dic$|\\.DIC$|\\.dicx$|\\.DICX$||\\.dicX", dictionary)) {
+  if (grepl("\\.dic$|\\.DIC$|\\.dicx$|\\.DICX$|\\.dicX$", dictionary)) {
     res <- export_redatam_to_list_(dictionary)
   } else {
     stop("The file extension must be either .dic or .dicx")

@@ -56,4 +56,10 @@ test_that("reading works", {
   d2 <- res2$sexo
   expect_true(is.data.frame(d2))
   expect_equal(dim(d2), c(38L,4L))
+
+  # copy .dic to .DIC
+  file.copy(dic, gsub("\\.dic$", ".DIC", dic), overwrite = TRUE)
+
+  res3 <- read_redatam(gsub("\\.dic$", ".DIC", dic))
+  expect_type(res2, "list")
 })

@@ -1,3 +1,7 @@
+# redatam 2.1.2
+* Fixes a bug with .DIC/.DICX files that are not accepted when these are
+  not in lower case (e.g., file.dic or file.dicx).
+
 # redatam 2.1.0
 
 * Streamlined the C++ code. Minimal performance improvements, but it is now

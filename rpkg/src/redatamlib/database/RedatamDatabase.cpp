@@ -25,10 +25,10 @@ list RedatamDatabase::ExportRLists() const {
 void RedatamDatabase::OpenDictionary(const string &fileName) {
   string ext = GetFileExtension(fileName);
 
-  if (ext == ".dic") {
+  if (ext == ".dic" || ext == ".DIC") {
     FuzzyEntityParser parser(fileName);
     m_entities = parser.ParseEntities();
-  } else if (ext == ".dicx") {
+  } else if (ext == ".dicx" || ext == ".DICX" || ext == ".dicX") {
     XMLParser parser;
     m_entities = parser.ParseFile(fileName);
   } else {

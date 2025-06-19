@@ -27,51 +27,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Update pip to the latest version
-        run: python -m pip install --upgrade pip
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
-      - name: Create and activate virtual environment (Linux and macOS)
-        if: runner.os != 'Windows'
+      - name: Install and test package
         run: |
           cd pypkg
-          python -m venv venv
-          source venv/bin/activate
-          python -m pip install --upgrade pip
-
-      - name: Create and activate virtual environment (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          cd pypkg
-          python -m venv venv
-          venv\Scripts\activate
-          python -m pip install --upgrade pip
-
-      - name: Install dependencies (Linux and macOS)
-        if: runner.os != 'Windows'
-        run: |
-          cd pypkg
-          source venv/bin/activate
-          pip install pandas numpy pybind11
-          pip install --use-pep517 .
-
-      - name: Install dependencies (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          cd pypkg
-          venv\Scripts\activate
-          pip install pandas numpy pybind11
-          pip install --use-pep517 .
-
-      - name: Run tests (Linux and macOS)
-        if: runner.os != 'Windows'
-        run: |
-          cd pypkg
-          source venv/bin/activate
-          python tests/basic-test.py
-
-      - name: Run tests (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          cd pypkg
-          venv\Scripts\activate
-          python tests/basic-test.py
+          uv sync
+          uv run tests/basic-test.py

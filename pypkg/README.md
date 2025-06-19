@@ -19,25 +19,21 @@ Install the Python package using [`uv`](https://docs.astral.sh/uv/):
 git clone https://github.com/pachadotdev/open-redatam.git
 cd open-redatam/pypkg
 
-# 1. Clean up old build artifacts and virtual environment
-rm -rf build dist *.egg-info
-rm -rf venv/
-
-# 2. Sync the environment (creates venv and installs dependencies)
+# Sync the environment (creates venv and installs dependencies)
 uv sync
-
-# 3. Install package in editable mode
-uv pip install -e .
-
-# 4. Test
-uv run tests/basic-test.py
 ```
 
-As a developer, be sure to clean up and re-install after making changes:
+For developers working on the code:
 
 ```bash
+# Clean up old build artifacts
 rm -rf build dist *.egg-info
+
+# Install package in editable mode
 uv pip install -e .
+
+# Test
+uv run tests/basic-test.py
 ```
 
 ## Processed data

@@ -12,5 +12,6 @@ authors = [
 dependencies = [
   "pandas",
   "numpy",
-  "chardet"
+  "chardet",
+  "pybind11>=2.13.6",
 ]

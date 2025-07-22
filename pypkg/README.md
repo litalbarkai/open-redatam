@@ -13,30 +13,27 @@ Please read our article for the full context of this project (Open Access):
 
 > Vargas Sepúlveda, Mauricio and Barkai, Lital. 2025. "The REDATAM format and its challenges for data access and information creation in public policy." *Data & Policy* 7 (January): e18. [https://dx.doi.org/10.1017/dap.2025.4](https://dx.doi.org/10.1017/dap.2025.4). 
 
-Install the Python package using a virtual environment:
+Install the Python package using [`uv`](https://docs.astral.sh/uv/):
 
 ```bash
 git clone https://github.com/pachadotdev/open-redatam.git
 cd open-redatam/pypkg
 
-python -m venv venv
-source venv/bin/activate
-python -m pip install --upgrade pip
-pip install pandas numpy pybind11
-pip install --use-pep517 .
+# Sync the environment (creates venv and installs dependencies)
+uv sync
 ```
 
-As a developer, be sure to delete the previous build after doing changes and re-installing:
+For developers working on the code:
 
 ```bash
-rm -rf build dist redatam.egg-info
-pip install --use-pep517 .
-```
+# Clean up old build artifacts
+rm -rf build dist *.egg-info
 
-As an optional step, you can run the tests:
+# Install package in editable mode
+uv pip install -e .
 
-```bash
-python tests/basic-test.py
+# Test
+uv run tests/basic-test.py
 ```
 
 ## Processed data

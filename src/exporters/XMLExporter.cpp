@@ -1,6 +1,7 @@
 #include "XMLExporter.hpp"
 #include "utils.hpp"
 
+#include <algorithm> // replace
 #include <fstream>   // ofstream
 #include <iostream>  // endl
 #include <sstream>   // ostringstream
@@ -10,6 +11,7 @@ namespace RedatamLib {
 using std::endl;
 using std::ofstream;
 using std::ostringstream;
+using std::replace;
 using std::runtime_error;
 
 XMLExporter::XMLExporter(const std::string &outputDirectory)
@@ -33,9 +35,27 @@ void XMLExporter::ExportSummary(vector<Entity> &entities) {
   m_doc.save(fs);
 }
 
+string XMLExporter::CleanString(const string &input) {
+  string output;
+  for (char c : input) {
+    if (c == '\0') {
+      // Replace null bytes with spaces
+      output += ' ';
+    } else if ((c & 0x80) == 0) {
+      // ASCII character
+      output += c;
+    } else {
+      // Replace non-UTF-8 character with a placeholder
+      output += '?';
+    }
+  }
+  return output;
+}
+
 void XMLExporter::SetAttribute(pugi::xml_node &node, const string &name,
                                const string &value) {
-  node.append_attribute(name.c_str()) = value.c_str();
+  string cleanValue = CleanString(value);
+  node.append_attribute(name.c_str()) = cleanValue.c_str();
 }
 
 void XMLExporter::CreateEntityElement(Entity &e, pugi::xml_node &parentTag) {

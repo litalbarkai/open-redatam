@@ -26,6 +26,7 @@ private:
   void CreateEntityElement(Entity &e, pugi::xml_node &parentTag);
   void CreateVariableElement(Variable &v, pugi::xml_node &parentTag);
 
+  static string CleanString(const string &input);
   static string GetVarType(VarType type);
 };
 } // namespace RedatamLib

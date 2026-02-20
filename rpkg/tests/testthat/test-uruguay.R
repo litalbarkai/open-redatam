@@ -24,11 +24,15 @@ test_that("reading works", {
   }
 
   # find the dictionary
-  dic <- list.files(dout, pattern = "\\.dic$", full.names = TRUE,
-    recursive = TRUE)
-  
-  dicx <- list.files(dout, pattern = "\\.dicx$", full.names = TRUE,
-    recursive = TRUE)
+  dic <- list.files(dout,
+    pattern = "\\.dic$", full.names = TRUE,
+    recursive = TRUE
+  )
+
+  dicx <- list.files(dout,
+    pattern = "\\.dicx$", full.names = TRUE,
+    recursive = TRUE
+  )
 
   # read DIC
 
@@ -40,14 +44,14 @@ test_that("reading works", {
   d <- res$sexo
   expect_true(is.data.frame(d))
   expect_true(is.factor(d$sexo))
-  expect_equal(dim(d), c(38L,4L))
+  expect_equal(dim(d), c(38L, 4L))
 
   daux <- res$sexo_labels_cuenta
   expect_true(is.factor(daux$cuenta_description))
-  expect_equal(dim(daux), c(2L,2L))
+  expect_equal(dim(daux), c(2L, 2L))
 
   # read DICX
-  
+
   res2 <- read_redatam(dicx)
 
   expect_type(res2, "list")
@@ -55,7 +59,7 @@ test_that("reading works", {
 
   d2 <- res2$sexo
   expect_true(is.data.frame(d2))
-  expect_equal(dim(d2), c(38L,4L))
+  expect_equal(dim(d2), c(38L, 4L))
 
   # copy .dic to .DIC
   file.copy(dic, gsub("mini\\.dic$", "mini2.DIC", dic), overwrite = TRUE)

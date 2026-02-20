@@ -33,7 +33,11 @@ fix_encoding_in_data_table <- function(y) {
 # Extract the unique values of the "chr" vectors in the lists
 extract_strings <- function(y) {
   if (is.data.table(y)) {
-    return(unlist(y[, lapply(.SD, function(col) if (is.character(col)) col else NULL)]))
+    return(
+      unlist(
+        y[, lapply(.SD, function(col) if (is.character(col)) col else NULL)]
+      )
+    )
   } else {
     return(unlist(y[vapply(y, is.character, logical(1))]))
   }
@@ -63,7 +67,9 @@ tidy_names_ <- function(x) {
     }
 
     # apply janitor to the non-empty names
-    cleaned_names <- ifelse(element_names == "", element_names, make_clean_names(element_names))
+    cleaned_names <- ifelse(
+      element_names == "", element_names, make_clean_names(element_names)
+    )
     names(x) <- cleaned_names
 
     # apply tidy_names_ recursively
@@ -90,14 +96,17 @@ tidy_names_ <- function(x) {
 # +
 # convert empty strings to NA
 trim_and_clean_internal_ <- function(x) {
-  str_replace_all(str_trim(str_replace_all(x, "\\s+", " ")), "^$", NA_character_)
+  str_replace_all(
+    str_trim(str_replace_all(x, "\\s+", " ")), "^$", NA_character_
+  )
 }
 
 trim_and_clean_ <- function(x) {
   lapply(x, function(dt) {
     char_cols <- names(dt)[vapply(dt, is.character, logical(1))]
     dt[, (char_cols) := lapply(.SD, trim_and_clean_internal_),
-      .SDcols = char_cols]
+      .SDcols = char_cols
+    ]
   })
 }
 
@@ -140,15 +149,18 @@ merge_descriptions_ <- function(x) {
 
     # convert to factor for non-common columns
     x[[element]][, (noncommon_col) := lapply(.SD, as.factor),
-      .SDcols = noncommon_col]
+      .SDcols = noncommon_col
+    ]
 
     # convert any other character column to factor
     char_cols <- names(x[[element]])[vapply(
-      x[[element]], is.character, logical(1))]
+      x[[element]], is.character, logical(1)
+    )]
     x[[element]][, (char_cols) := lapply(.SD, as.factor), .SDcols = char_cols]
 
     char_cols <- names(x[[entity]])[vapply(
-      x[[entity]], is.character, logical(1))]
+      x[[entity]], is.character, logical(1)
+    )]
     x[[entity]][, (char_cols) := lapply(.SD, as.factor), .SDcols = char_cols]
   }
 

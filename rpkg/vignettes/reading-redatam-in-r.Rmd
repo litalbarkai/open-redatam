@@ -87,7 +87,7 @@ overcrowding <- chile2017$comuna %>%
   select(ncomuna, comuna_ref_id) %>%
   inner_join(
     chile2017$distrito %>%
-    select(distrito_ref_id, comuna_ref_id)
+      select(distrito_ref_id, comuna_ref_id)
   ) %>%
   inner_join(
     chile2017$area %>%
@@ -108,19 +108,19 @@ overcrowding <- chile2017$comuna %>%
         )
       ) %>%
       filter(!is.na(p04))
-  ) %>%  
+  ) %>%
   mutate(
     overcrowding = case_when(
-      p04 >=1 ~ cant_per / p04,
-      p04 ==0 ~ cant_per / (p04 + 1)
+      p04 >= 1 ~ cant_per / p04,
+      p04 == 0 ~ cant_per / (p04 + 1)
     )
-  ) %>% 
+  ) %>%
   mutate(
     overcrowding_discrete = case_when(
-      overcrowding  < 2.5                      ~ "No Overcrowding",
+      overcrowding < 2.5 ~ "No Overcrowding",
       overcrowding >= 2.5 & overcrowding < 3.5 ~ "Mean",
-      overcrowding >= 3.5 & overcrowding < 5   ~ "High",
-      overcrowding >= 5                        ~ "Critical"
+      overcrowding >= 3.5 & overcrowding < 5 ~ "High",
+      overcrowding >= 5 ~ "Critical"
     )
   ) %>%
   group_by(comuna = ncomuna, overcrowding_discrete) %>%

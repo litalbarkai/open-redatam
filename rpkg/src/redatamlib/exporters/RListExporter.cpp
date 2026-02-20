@@ -14,7 +14,7 @@ using std::ostringstream;
 using std::string;
 using std::transform;
 using std::vector;
-using namespace cpp11;
+using namespace cpp4r;
 
 ListExporter::ListExporter(const string &outputDirectory)
     : m_path(outputDirectory) {

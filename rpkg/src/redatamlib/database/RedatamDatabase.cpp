@@ -6,8 +6,8 @@
 
 namespace RedatamLib {
 
-using cpp11::list;
-using cpp11::message;
+using cpp4r::list;
+using cpp4r::message;
 using std::invalid_argument;
 using std::string;
 using std::vector;

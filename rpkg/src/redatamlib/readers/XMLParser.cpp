@@ -2,11 +2,11 @@
 #include "utils.hpp"
 
 #include <algorithm>          // replace
-#include <cpp11/function.hpp> // message
+#include <cpp4r/function.hpp> // message
 
 namespace RedatamLib {
 
-using cpp11::message;
+using cpp4r::message;
 using pugi::xml_node;
 using std::exception;
 using std::make_shared;

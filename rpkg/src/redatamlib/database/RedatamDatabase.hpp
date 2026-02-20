@@ -2,7 +2,7 @@
 #define REDATAMLIB_REDATAMDATABASE_HPP
 
 #include "Entity.hpp"
-#include <cpp11/list.hpp>
+#include <cpp4r/list.hpp>
 
 namespace RedatamLib {
 using std::string;
@@ -17,7 +17,7 @@ public:
   RedatamDatabase(const RedatamDatabase &) = delete;
   RedatamDatabase &operator=(const RedatamDatabase &) = delete;
 
-  cpp11::list ExportRLists() const;
+  cpp4r::list ExportRLists() const;
 
 private:
   vector<Entity> m_entities;

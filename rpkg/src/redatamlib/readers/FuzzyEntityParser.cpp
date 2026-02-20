@@ -1,10 +1,10 @@
 #include "FuzzyEntityParser.hpp"
 #include "FuzzyVariableParser.hpp"
 #include "utils.hpp"          //  GetFileExtension, ThrowIfBad
-#include <cpp11/function.hpp> // stop
+#include <cpp4r/function.hpp> // stop
 
 namespace RedatamLib {
-using cpp11::stop;
+using cpp4r::stop;
 using std::make_pair;
 using std::out_of_range;
 using std::pair;

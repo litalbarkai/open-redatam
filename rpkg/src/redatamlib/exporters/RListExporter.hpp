@@ -5,11 +5,11 @@
 
 #include <string>
 #include <vector>
-#include <cpp11/doubles.hpp>
-#include <cpp11/function.hpp> // cpp11::message
-#include <cpp11/integers.hpp>
-#include <cpp11/list.hpp>
-#include <cpp11/strings.hpp>
+#include <cpp4r/doubles.hpp>
+#include <cpp4r/function.hpp> // cpp4r::message
+#include <cpp4r/integers.hpp>
+#include <cpp4r/list.hpp>
+#include <cpp4r/strings.hpp>
 
 namespace RedatamLib {
 
@@ -20,18 +20,18 @@ class ListExporter {
 public:
   ListExporter(const string &outputDirectory);
   void ExportAll(vector<Entity> &entities);
-  cpp11::list ExportAllR(const vector<Entity> &entities) const;
+  cpp4r::list ExportAllR(const vector<Entity> &entities) const;
 
 private:
   string m_path;
 
-  void ListEntity(Entity &entity, cpp11::writable::list &result) const;
-  static void CreateVariablesLegend(Entity &e, cpp11::writable::list &result);
-  static void CreateVariablesLabels(Entity &e, cpp11::writable::list &result);
-  static void CreateVariablesData(Entity &e, cpp11::writable::list &result);
+  void ListEntity(Entity &entity, cpp4r::writable::list &result) const;
+  static void CreateVariablesLegend(Entity &e, cpp4r::writable::list &result);
+  static void CreateVariablesLabels(Entity &e, cpp4r::writable::list &result);
+  static void CreateVariablesData(Entity &e, cpp4r::writable::list &result);
   static void AddVariableLabels(const Variable &v,
-                                cpp11::writable::list &result,
-                                cpp11::writable::strings &resultNames,
+                                cpp4r::writable::list &result,
+                                cpp4r::writable::strings &resultNames,
                                 const string &entityName);
 };
 

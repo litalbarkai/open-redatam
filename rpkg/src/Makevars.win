@@ -15,7 +15,7 @@ SOURCES = vendor/pugixml.cpp \
           redatamlib/utils/utils.cpp \
           redatamlib/database/RedatamDatabase.cpp \
           main.cpp \
-          cpp11.cpp
+          cpp4r.cpp
 
 # Convert source files to object files
 OBJECTS = $(SOURCES:.cpp=.o)

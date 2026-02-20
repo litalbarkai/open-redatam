@@ -46,7 +46,7 @@ read_redatam <- function(dictionary) {
 
   # 7. merge with their descriptions
   res <- merge_descriptions_(res)
-  
+
   # 8. show as tibble
   res <- datatable_to_tibble_(res)
 

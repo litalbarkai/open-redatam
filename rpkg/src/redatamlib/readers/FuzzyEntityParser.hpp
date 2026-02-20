@@ -34,6 +34,18 @@ private:
   //  throws std::out_of_range
   pair<bool, Entity> TryGetEntity();
 
+  // Check if this is an old format dictionary file
+  bool IsOldFormat();
+
+  // Parse entities using old format logic
+  vector<Entity> ParseEntitiesOldFormat();
+
+  // Parse variables for old format entities
+  void ParseVariablesOldFormat(vector<Entity> &entities);
+
+  // Parse variables for a specific entity from old format content
+  void ParseVariablesForEntity(const string &content, const string &entityName, vector<Variable> &variables);
+
   //  Note: changes entities inner values
   static void AssignChildren(vector<Entity> &entitites,
                              unordered_map<string, Entity *> mapping);

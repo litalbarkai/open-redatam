@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg-chart"
+   font-family="'Fira Mono'"
+   height="226.21747"
+   width="963.617"
+   style="font-size:16px"
+   version="1.1"
+   sodipodi:docname="uru-sav-to-redatam.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs320">
+    <marker
+       style="overflow:visible"
+       id="TriangleOutL"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutL"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path8505" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path8384" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="namedview318"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="0.68606869"
+     inkscape:cx="571.37136"
+     inkscape:cy="24.77886"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg-chart"
+     fit-margin-top="2"
+     fit-margin-left="2"
+     fit-margin-right="2"
+     fit-margin-bottom="2">
+    <sodipodi:guide
+       position="262.34148,192.4327"
+       orientation="0,-1"
+       id="guide36835" />
+    <sodipodi:guide
+       position="219.18614,2.5000047"
+       orientation="0,-1"
+       id="guide65280" />
+    <sodipodi:guide
+       position="249.29298,192.4074"
+       orientation="1,0"
+       id="guide859" />
+    <sodipodi:guide
+       position="110.76759,191.5066"
+       orientation="1,0"
+       id="guide967" />
+    <sodipodi:guide
+       position="173.26118,192.5093"
+       orientation="1,0"
+       id="guide969" />
+    <sodipodi:guide
+       position="324.61726,192.4327"
+       orientation="1,0"
+       id="guide971" />
+    <sodipodi:guide
+       position="3.4920763,218.5"
+       orientation="0,-1"
+       id="guide1728" />
+    <sodipodi:guide
+       position="388.33244,157.1957"
+       orientation="1,0"
+       id="guide35139" />
+    <sodipodi:guide
+       position="405.13418,48.665626"
+       orientation="1,0"
+       id="guide43436" />
+    <sodipodi:guide
+       position="282.94807,204.83754"
+       orientation="0,-1"
+       id="guide1461" />
+    <sodipodi:guide
+       position="664.54371,58.206865"
+       orientation="0,-1"
+       id="guide1902" />
+    <sodipodi:guide
+       position="421.93592,22.235135"
+       orientation="0,-1"
+       id="guide6818" />
+    <sodipodi:guide
+       position="438.73766,-14.256415"
+       orientation="0,-1"
+       id="guide6820" />
+  </sodipodi:namedview>
+  <rect
+     width="245.8009"
+     height="27"
+     x="3.4920654"
+     y="169.71745"
+     style="fill:#efefef;stroke-width:1.08969"
+     id="rect65264" />
+  <rect
+     width="245.8009"
+     height="27"
+     x="3.4920654"
+     y="7.7174683"
+     style="fill:#efefef;stroke-width:1.08969"
+     id="rect1537" />
+  <text
+     class="column-title"
+     x="8.1378784"
+     y="24.98547"
+     font-weight="bold"
+     width="80"
+     id="text3">Department</text>
+  <text
+     class="column-title"
+     x="127.69441"
+     y="26.769472"
+     font-weight="bold"
+     width="50"
+     id="text5">Sex</text>
+  <text
+     class="column-title"
+     x="187.42111"
+     y="26.769472"
+     font-weight="bold"
+     width="49"
+     id="text7">Count</text>
+  <text
+     width="80"
+     x="23.169846"
+     height="27"
+     y="52.717468"
+     id="text11"
+     style="fill:#252b82">Artigas</text>
+  <text
+     width="50"
+     x="128.16641"
+     height="27"
+     y="52.717468"
+     id="text13"
+     style="fill:#252b82">Men</text>
+  <text
+     width="49"
+     x="182.58115"
+     height="27"
+     y="52.717468"
+     id="text15"
+     style="fill:#252b82">36,078</text>
+  <rect
+     width="245.8009"
+     height="27"
+     x="3.4920654"
+     y="61.717468"
+     style="fill:#efefef;stroke-width:1.08969"
+     id="rect17" />
+  <text
+     width="80"
+     x="23.169846"
+     height="27"
+     y="79.717476"
+     id="text19"
+     style="fill:#252b82">Artigas</text>
+  <text
+     width="50"
+     x="118.76642"
+     height="27"
+     y="79.717476"
+     id="text21"
+     style="fill:#252b82">Women</text>
+  <text
+     width="49"
+     x="182.74915"
+     height="27"
+     y="79.717476"
+     id="text23"
+     style="fill:#252b82">37,299</text>
+  <text
+     width="80"
+     x="13.225861"
+     height="27"
+     y="106.71748"
+     id="text27"
+     style="fill:#252b82">Canelones</text>
+  <text
+     width="50"
+     x="128.16641"
+     height="27"
+     y="106.71748"
+     id="text29"
+     style="fill:#252b82">Men</text>
+  <text
+     width="49"
+     x="177.86914"
+     height="27"
+     y="106.71748"
+     id="text31"
+     style="fill:#252b82">253,111</text>
+  <rect
+     width="245.8009"
+     height="27"
+     x="3.4920654"
+     y="115.71748"
+     style="fill:#efefef;stroke-width:1.08969"
+     id="rect33" />
+  <text
+     width="80"
+     x="13.225861"
+     height="27"
+     y="133.71747"
+     id="text35"
+     style="fill:#252b82">Canelones</text>
+  <text
+     width="50"
+     x="118.76642"
+     height="27"
+     y="133.71747"
+     id="text37"
+     style="fill:#252b82">Women</text>
+  <text
+     width="49"
+     x="178.06116"
+     height="27"
+     y="133.71747"
+     id="text39"
+     style="fill:#252b82">267,062</text>
+  <rect
+     width="207"
+     height="27"
+     x="3.4920654"
+     y="142.71745"
+     style="fill:#ffffff"
+     id="rect41" />
+  <text
+     width="80"
+     x="31.360733"
+     height="27"
+     y="161.47916"
+     id="text36895"
+     style="fill:#000000">More departments....</text>
+  <text
+     width="80"
+     x="23.169846"
+     height="27"
+     y="187.71745"
+     id="text65258"
+     style="fill:#252b82">Artigas</text>
+  <text
+     width="50"
+     x="128.16641"
+     height="27"
+     y="187.71745"
+     id="text65260"
+     style="fill:#252b82">Men</text>
+  <text
+     width="49"
+     x="182.58115"
+     height="27"
+     y="187.71745"
+     id="text65262"
+     style="fill:#252b82">36,078</text>
+  <text
+     width="80"
+     x="23.169846"
+     height="27"
+     y="214.71745"
+     id="text65266"
+     style="fill:#252b82">Artigas</text>
+  <text
+     width="50"
+     x="118.76642"
+     height="27"
+     y="214.71745"
+     id="text65268"
+     style="fill:#252b82">Women</text>
+  <text
+     width="49"
+     x="182.74915"
+     height="27"
+     y="214.71745"
+     id="text65270"
+     style="fill:#252b82">37,299</text>
+  <line
+     x1="110.76758"
+     y1="169.29855"
+     x2="110.76758"
+     y2="223.71745"
+     style="stroke:#333333;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+     id="line313" />
+  <line
+     x1="173.26117"
+     y1="7.7174664"
+     x2="173.26117"
+     y2="142.71745"
+     style="stroke:#333333;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+     id="line315" />
+  <line
+     x1="110.76758"
+     y1="7.7174664"
+     x2="110.76758"
+     y2="142.71745"
+     style="stroke:#333333;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+     id="line65272" />
+  <line
+     x1="173.26117"
+     y1="169.29855"
+     x2="173.26117"
+     y2="223.71745"
+     style="stroke:#333333;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+     id="line65278" />
+  <text
+     class="column-title"
+     x="368.04221"
+     y="26.817471"
+     font-weight="bold"
+     width="49"
+     id="text5118"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono'"
+       id="tspan30298">uru2011mini.dic(x)</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 262.26,21.379922 c 31.27363,-35.270655 86.47233,-12.6529633 93.84894,4e-6"
+     id="path8285"
+     sodipodi:nodetypes="cc" />
+  <text
+     class="column-title"
+     x="559.23187"
+     y="66.577827"
+     font-weight="bold"
+     width="49"
+     id="text8719"
+     style="word-spacing:0px"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono'"
+       id="tspan9950">uru2011mini0000.ptr</tspan></text>
+  <text
+     class="column-title"
+     x="414.22583"
+     y="66.538292"
+     font-weight="bold"
+     width="49"
+     id="text26359"
+     style="word-spacing:0px;fill:#bc2122">country</text>
+  <text
+     class="column-title"
+     x="779.37744"
+     y="66.577827"
+     font-weight="bold"
+     width="49"
+     id="text35141"
+     style="word-spacing:0px"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono'"
+       id="tspan26368">uru2011mini0000.rbf</tspan></text>
+  <text
+     class="column-title"
+     x="779.37744"
+     y="102.67956"
+     font-weight="bold"
+     width="49"
+     id="text35145"
+     style="word-spacing:0px"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono'"
+       id="tspan24208">uru2011mini0002.rbf</tspan></text>
+  <text
+     class="column-title"
+     x="779.37744"
+     y="139.14497"
+     font-weight="bold"
+     width="49"
+     id="text35147"
+     style="word-spacing:0px"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono'"
+       id="tspan21740">uru2011mini0003.rbf</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 533.33844,61.114385 h 16.80174"
+     id="path43601" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 751.25628,61.114385 h 16.80174"
+     id="path43943" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 751.25628,97.086115 h 16.80174"
+     id="path43947" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 751.25628,133.57766 h 16.80174"
+     id="path43949" />
+  <rect
+     id="table-bkgnd"
+     style="fill:none;stroke:#333333;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+     width="246.79297"
+     height="216"
+     x="2.5"
+     y="7.7174664" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 388.33244,33.784765 v 27.32962 h 16.80174"
+     id="path2836" />
+  <text
+     class="column-title"
+     x="431.02756"
+     y="102.51002"
+     font-weight="bold"
+     width="49"
+     id="text4452"
+     style="word-spacing:0px;fill:#bc2122">department</text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 405.13418,69.756495 v 27.32962 h 16.80174"
+     id="path4454" />
+  <text
+     class="column-title"
+     x="447.82928"
+     y="139.00157"
+     font-weight="bold"
+     width="49"
+     id="text5962"
+     style="word-spacing:0px;fill:#bc2122">sex</text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 421.93592,106.24804 v 27.32962 h 16.80174"
+     id="path5964" />
+  <text
+     class="column-title"
+     x="559.23187"
+     y="102.54955"
+     font-weight="bold"
+     width="49"
+     id="text6880"
+     style="word-spacing:0px"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono'"
+       id="tspan16300">uru2011mini0000.ptr</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 533.33844,97.086115 h 16.80174"
+     id="path6882" />
+  <text
+     class="column-title"
+     x="559.23187"
+     y="139.04109"
+     font-weight="bold"
+     width="49"
+     id="text6884"
+     style="word-spacing:0px"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono'"
+       id="tspan18822">uru2011mini0000.ptr</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+     d="m 533.33844,133.57766 h 16.80174"
+     id="path6886" />
+</svg>

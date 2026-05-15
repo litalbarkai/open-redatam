@@ -50,3 +50,4 @@ dev/cpp11-0.5.0
 dev/pybind11-2.13.6
 dev/redatam-microdata
 src/.vscode/
+article/data/*.rds

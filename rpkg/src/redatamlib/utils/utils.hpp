@@ -37,8 +37,7 @@ template <typename E> void ThrowIfBad(bool is_good_, const E &e_) {
   }
 }
 
-template <typename E>
-void ThrowIfBad(bool is_good_, const string &e_msg_) {
+template <typename E> void ThrowIfBad(bool is_good_, const string &e_msg_) {
   if (!is_good_) {
     throw E(e_msg_);
   }

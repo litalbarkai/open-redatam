@@ -16,7 +16,8 @@ Variable::Variable(const string &name, VarType type, const string &idxFileName,
                    vector<Tag> tags, const string &description, size_t decimals)
     : m_name(name), m_type(type), m_idxFileName(idxFileName),
       m_dataSize(dataSize), m_filter(filter), m_range(range),
-      m_tags(std::move(tags)), m_description(description), m_decimals(decimals) {
+      m_tags(std::move(tags)), m_description(description),
+      m_decimals(decimals) {
   ParseValues();
 }
 

@@ -1,3 +1,7 @@
+# redatam 2.3.0
+
+* New 'pugixml' version that fixes a CRAN R-Devel warning.
+
 # redatam 2.2.0
 
 * Uses 'cpp4r' instead of 'cpp11' for the R-C++ bindings.

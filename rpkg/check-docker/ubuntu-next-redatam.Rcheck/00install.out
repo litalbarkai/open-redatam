@@ -1,0 +1,36 @@
+* installing *source* package ‘redatam’ ...
+** this is package ‘redatam’ version ‘2.3.0’
+** using staged installation
+Please specify at least one package name on the command line.
+Please specify at least one package name on the command line.
+** libs
+using C++ compiler: ‘g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0’
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c vendor/pugixml.cpp -o vendor/pugixml.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/readers/BitArrayReader.cpp -o redatamlib/readers/BitArrayReader.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/readers/ByteArrayReader.cpp -o redatamlib/readers/ByteArrayReader.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/entities/Entity.cpp -o redatamlib/entities/Entity.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/readers/FuzzyEntityParser.cpp -o redatamlib/readers/FuzzyEntityParser.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/readers/FuzzyVariableParser.cpp -o redatamlib/readers/FuzzyVariableParser.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/exporters/ParentIDCalculator.cpp -o redatamlib/exporters/ParentIDCalculator.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/exporters/RListExporter.cpp -o redatamlib/exporters/RListExporter.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/entities/Variable.cpp -o redatamlib/entities/Variable.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/readers/XMLParser.cpp -o redatamlib/readers/XMLParser.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/utils/utils.cpp -o redatamlib/utils/utils.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c redatamlib/database/RedatamDatabase.cpp -o redatamlib/database/RedatamDatabase.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c main.cpp -o main.o
+g++ -std=gnu++20 -I"/opt/R/next/lib/R/include" -DNDEBUG -Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I'/cache/R_libs/cpp4r/include' -I/usr/local/include    -fpic  -g -O2   -c cpp4r.cpp -o cpp4r.o
+g++ -std=gnu++20 -shared -L/opt/R/next/lib/R/lib -L/usr/local/lib -o redatam.so vendor/pugixml.o redatamlib/readers/BitArrayReader.o redatamlib/readers/ByteArrayReader.o redatamlib/entities/Entity.o redatamlib/readers/FuzzyEntityParser.o redatamlib/readers/FuzzyVariableParser.o redatamlib/exporters/ParentIDCalculator.o redatamlib/exporters/RListExporter.o redatamlib/entities/Variable.o redatamlib/readers/XMLParser.o redatamlib/utils/utils.o redatamlib/database/RedatamDatabase.o main.o cpp4r.o -Lvendor -Lredatamlib -L/opt/R/next/lib/R/lib -lR
+installing to /check/redatam.Rcheck/00LOCK-redatam/00new/redatam/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+*** copying figures
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (redatam)

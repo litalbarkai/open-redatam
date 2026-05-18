@@ -1,0 +1,163 @@
+
+R version 4.6.0 Patched (2026-05-11 r90050) -- "Because it was There"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "redatam"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> base::assign(".ExTimings", "redatam-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('redatam')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("read_redatam")
+> ### * read_redatam
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: read_redatam
+> ### Title: Read REDATAM dictionary
+> ### Aliases: read_redatam
+> 
+> ### ** Examples
+> 
+> # Read a dictionary file (Uruguay 2011, aggregated)
+> zip <- system.file("extdata", "uru2011mini.zip", package = "redatam")
+> dout <- paste(tempdir(), "uru2011mini", sep = "/")
+> unzip(zip, exdir = dout)
+> read_redatam(paste(dout, "uru2011mini.dic", sep = "/"))
+Opening dictionary file...
+Exporting uru2011...
+Exporting depto...
+Exporting sexo...
+Fixing encoding...
+Tidying names...
+Tidying variables...
+$depto
+# A tibble: 38 × 3
+   depto_ref_id uru2011_ref_id ndepto     
+          <int>          <int> <chr>      
+ 1            1              1 ARTIGAS    
+ 2            2              1 ARTIGAS    
+ 3            3              1 CANELONES  
+ 4            4              1 CANELONES  
+ 5            5              1 CERRO LARGO
+ 6            6              1 CERRO LARGO
+ 7            7              1 COLONIA    
+ 8            8              1 COLONIA    
+ 9            9              1 DURAZNO    
+10           10              1 DURAZNO    
+# ℹ 28 more rows
+
+$sexo
+# A tibble: 38 × 4
+   sexo_ref_id depto_ref_id sexo   cuenta
+         <int>        <int> <fct>   <int>
+ 1           1            1 HOMBRE  36078
+ 2           2            2 MUJER   37299
+ 3           3            3 HOMBRE 253111
+ 4           4            4 MUJER  267062
+ 5           5            5 HOMBRE  41050
+ 6           6            6 MUJER   43648
+ 7           7            7 HOMBRE  60203
+ 8           8            8 MUJER   63000
+ 9           9            9 HOMBRE  28212
+10          10           10 MUJER   28872
+# ℹ 28 more rows
+
+$sexo_labels_cuenta
+# A tibble: 2 × 2
+     cuenta cuenta_description
+      <int> <fct>             
+1 100000001 MISSING           
+2 100000000 NOTAPPLICABLE     
+
+> # or equivalently
+> read_redatam(paste(dout, "uru2011mini.dicx", sep = "/"))
+Opening dictionary file...
+Exporting uru2011...
+Exporting depto...
+Exporting sexo...
+Fixing encoding...
+Tidying names...
+Tidying variables...
+$depto
+# A tibble: 38 × 3
+   depto_ref_id uru2011_ref_id ndepto     
+          <int>          <int> <chr>      
+ 1            1              1 ARTIGAS    
+ 2            2              1 ARTIGAS    
+ 3            3              1 CANELONES  
+ 4            4              1 CANELONES  
+ 5            5              1 CERRO LARGO
+ 6            6              1 CERRO LARGO
+ 7            7              1 COLONIA    
+ 8            8              1 COLONIA    
+ 9            9              1 DURAZNO    
+10           10              1 DURAZNO    
+# ℹ 28 more rows
+
+$sexo
+# A tibble: 38 × 4
+   sexo_ref_id depto_ref_id sexo   cuenta
+         <int>        <int> <chr>   <int>
+ 1           1            1 HOMBRE  36078
+ 2           2            2 MUJER   37299
+ 3           3            3 HOMBRE 253111
+ 4           4            4 MUJER  267062
+ 5           5            5 HOMBRE  41050
+ 6           6            6 MUJER   43648
+ 7           7            7 HOMBRE  60203
+ 8           8            8 MUJER   63000
+ 9           9            9 HOMBRE  28212
+10          10           10 MUJER   28872
+# ℹ 28 more rows
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("read_redatam", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  1.218 0.046 1.291 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

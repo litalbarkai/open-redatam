@@ -23,3 +23,5 @@
 ^src/.*\.dylib$
 ^libs$
 ^CONTRIBUTING\.md$
+^Makefile$
+^check-docker$

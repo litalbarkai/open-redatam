@@ -51,3 +51,4 @@ dev/pybind11-2.13.6
 dev/redatam-microdata
 src/.vscode/
 article/data/*.rds
+rpkg/check-docker/cache/

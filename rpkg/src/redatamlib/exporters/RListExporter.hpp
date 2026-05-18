@@ -3,13 +3,13 @@
 
 #include "Entity.hpp"
 
-#include <string>
-#include <vector>
 #include <cpp4r/doubles.hpp>
 #include <cpp4r/function.hpp> // cpp4r::message
 #include <cpp4r/integers.hpp>
 #include <cpp4r/list.hpp>
 #include <cpp4r/strings.hpp>
+#include <string>
+#include <vector>
 
 namespace RedatamLib {
 

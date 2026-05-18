@@ -6,6 +6,8 @@
 \alias{redatam-package}
 \title{redatam: Import 'REDATAM' Files}
 \description{
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
+
 Import 'REDATAM' formats into R via the 'Open REDATAM' C++ library. The full context of this project and details about the implementation are available in \doi{10.1017/dap.2025.4} (Open Access).
 }
 \seealso{
@@ -21,6 +23,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Mauricio Vargas Sepulveda \email{m.vargas.sepulveda@gmail.com} (\href{https://orcid.org/0000-0003-1017-7574}{ORCID})
   \item Lital Barkai
 }
 

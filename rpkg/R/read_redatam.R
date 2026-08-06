@@ -2,7 +2,7 @@
 #' @description Read a DIC or DICX dictionary file directly into R.
 #' @param dictionary A character string with the path to the dictionary file. It
 #'  allows relative paths.
-#' @return A list of tibbles, each one representing a table with the census
+#' @return A list of tables of data.frame type, each one representing a table with the census
 #'  entities (or levels) and their attributes (or variables).
 #' @examples
 #' # Read a dictionary file (Uruguay 2011, aggregated)
@@ -28,7 +28,7 @@ read_redatam <- function(dictionary) {
   res <- list_to_datatable_(res)
   res <- res[vapply(res, function(x) nrow(x) > 0, logical(1))]
 
-  # 2. fix encoding (e.g., ""C\xf3digo Region" -> "Código Region")
+  # 2. fix encoding (e.g., ""C\xf3digo Region" -> "C\u00f3digo Region")
   res <- fix_encoding_(res)
 
   message("Tidying names...")
@@ -47,10 +47,7 @@ read_redatam <- function(dictionary) {
   # 7. merge with their descriptions
   res <- merge_descriptions_(res)
 
-  # 8. show as tibble
-  res <- datatable_to_tibble_(res)
-
-  # 9. put entities first
+  # 8. put entities first
   res <- res[sort(names(res))]
 
   return(res)

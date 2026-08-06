@@ -1,18 +1,11 @@
 ---
-title: "Reading REDATAM files in R"
-output: rmarkdown::html_vignette
+title: Reading REDATAM files in R
+author: "Mauricio Vargas Sepulveda"
+date: "`{r} Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{reading-redatam-in-r}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteIndexEntry{Reading REDATAM files in R}
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
 Please read our article for the full context of this project (Open Access):
 
@@ -23,7 +16,7 @@ Please read our article for the full context of this project (Open Access):
 We start by downloading the Chilean Census 2017 from ECLAC website (link valid
 as of 2024-10-01):
 
-```{r download, eval = FALSE}
+```r
 url <- "https://redatam.org/cdr/descargas/censos/poblacion/CP2017CHL.zip"
 zip <- "CP2017CHL.zip"
 
@@ -34,7 +27,7 @@ if (!file.exists(zip)) {
 
 Now we can extract the files:
 
-```{r extract, eval = FALSE}
+```r
 # install.packages("archive")
 dout <- basename(zip)
 dout <- sub("\\.zip$", "", dout)
@@ -48,7 +41,7 @@ multi-format archive and compression support.
 The REDATAM files are now stored in the `CP2017CHL` directory. We can read the
 REDATAM dictionary file (DIC or DICX for this particular case):
 
-```{r read_dic, eval = FALSE}
+```r
 library(redatam)
 
 fout <- "chile2017.rds"
@@ -80,79 +73,65 @@ the `vivienda` table with `zonaloc` (zones), `area`, `distrito` (district) and
 `communa` (municipality) to match each house with its corresponding
 municipality. This can be done with `dplyr`:
 
-```{r, eval = FALSE}
-library(dplyr)
+```r
+library(data.table)
 
-overcrowding <- chile2017$comuna %>%
-  select(ncomuna, comuna_ref_id) %>%
-  inner_join(
-    chile2017$distrito %>%
-      select(distrito_ref_id, comuna_ref_id)
-  ) %>%
-  inner_join(
-    chile2017$area %>%
-      select(area_ref_id, distrito_ref_id)
-  ) %>%
-  inner_join(
-    chile2017$zonaloc %>%
-      select(zonaloc_ref_id, area_ref_id)
-  ) %>%
-  inner_join(
-    chile2017$vivienda %>%
-      select(zonaloc_ref_id, vivienda_ref_id, cant_per, p04) %>%
-      mutate(
-        p04 = case_when(
-          p04 == 98 ~ NA_integer_,
-          p04 == 99 ~ NA_integer_,
-          TRUE ~ p04
-        )
-      ) %>%
-      filter(!is.na(p04))
-  ) %>%
-  mutate(
-    overcrowding = case_when(
-      p04 >= 1 ~ cant_per / p04,
-      p04 == 0 ~ cant_per / (p04 + 1)
-    )
-  ) %>%
-  mutate(
-    overcrowding_discrete = case_when(
-      overcrowding < 2.5 ~ "No Overcrowding",
-      overcrowding >= 2.5 & overcrowding < 3.5 ~ "Mean",
-      overcrowding >= 3.5 & overcrowding < 5 ~ "High",
-      overcrowding >= 5 ~ "Critical"
-    )
-  ) %>%
-  group_by(comuna = ncomuna, overcrowding_discrete) %>%
-  count()
+# 1. Merge tables
+overcrowding <- merge(
+    chile2017$comuna[, .(ncomuna, comuna_ref_id)],
+    chile2017$distrito[, .(distrito_ref_id, comuna_ref_id)],
+    by = "comuna_ref_id"
+)
+
+overcrowding <- merge(
+    overcrowding,
+    chile2017$area[, .(area_ref_id, distrito_ref_id)],by = "distrito_ref_id"
+)
+
+overcrowding <- merge(
+    overcrowding,
+    chile2017$zonaloc[, .(zonaloc_ref_id, area_ref_id)],
+    by = "area_ref_id"
+)
+
+overcrowding <- merge(
+    overcrowding,
+    chile2017$vivienda[
+    !p04 %in% c(98, 99), .(zonaloc_ref_id, vivienda_ref_id, cant_per, p04)],
+    by = "zonaloc_ref_id"
+)
+
+# 2. Calculate overcrowding metrics
+overcrowding[, overcrowding := fifelse(p04 >= 1, cant_per / p04, cant_per / (p04 + 1))]
+
+overcrowding[, overcrowding_discrete := fcase(
+  overcrowding < 2.5, "No Overcrowding",
+  overcrowding >= 2.5 & overcrowding < 3.5, "Mean",
+  overcrowding >= 3.5 & overcrowding < 5, "High",
+  overcrowding >= 5, "Critical"
+)]
+
+overcrowding <- overcrowding[, .N, by = .(comuna = ncomuna, overcrowding_discrete)]
 ```
 
 Now we can filter for any municipality of our interest, for example:
 
-```{r metropolitana, eval = FALSE}
-overcrowding %>%
-  filter(comuna == "VITACURA")
+```r
+overcrowding[comuna == "VITACURA"]
 
-overcrowding %>%
-  filter(comuna == "LA PINTANA")
-```
+#      comuna overcrowding_discrete     N
+#      <fctr>                <char> <int>
+# 1: VITACURA       No Overcrowding 26752
+# 2: VITACURA                  Mean   174
+# 3: VITACURA                  High    18
+# 4: VITACURA              Critical     9
 
-```
-# A tibble: 4 x 3
-# Groups:   comuna, overcrowding_discrete [4]
-  comuna   overcrowding_discrete     n
-  <fct>    <chr>                 <int>
-1 VITACURA Critical                  9
-2 VITACURA High                     18
-3 VITACURA Mean                    174
-4 VITACURA No Overcrowding       26752
+overcrowding[comuna == "LA PINTANA"]
 
-# A tibble: 4 x 3
-# Groups:   comuna, overcrowding_discrete [4]
-  comuna     overcrowding_discrete     n
-  <fct>      <chr>                 <int>
-1 LA PINTANA Critical                497
-2 LA PINTANA High                   1112
-3 LA PINTANA Mean                   4522
-4 LA PINTANA No Overcrowding       39163
+#        comuna overcrowding_discrete     N
+#        <fctr>                <char> <int>
+# 1: LA PINTANA       No Overcrowding 39163
+# 2: LA PINTANA                  High  1112
+# 3: LA PINTANA                  Mean  4522
+# 4: LA PINTANA              Critical   497
 ```

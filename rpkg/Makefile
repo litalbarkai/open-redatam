@@ -4,7 +4,7 @@
 # CRAN-like containers (pair: CRAN name : r-hub image)
 CRAN_PAIRS := \
 	r-devel-linux-x86_64-debian-clang:ubuntu-clang \
- 	r-devel-linux-x86_64-debian-gcc:ubuntu-gcc15 \
+ 	r-devel-linux-x86_64-debian-gcc:ubuntu-gcc16 \
  	r-patched-linux-x86_64:ubuntu-next \
  	r-release-linux-x86_64:ubuntu-release
 
@@ -27,16 +27,22 @@ check-cran-extra:
 		./check-docker/check.sh $$rhub; \
 	done
 
+# ubuntu-gcc16 with GCC 16 (local build until r-hub accepts the PR)
+check-ubuntu-gcc16:
+	@chmod +x ./check-docker/check.sh
+	@docker buildx build -t redatam-ubuntu-gcc16 -f ./check-docker/Dockerfile-ubuntu-gcc16 .
+	@FULL_IMAGE_OVERRIDE=redatam-ubuntu-gcc16:latest ./check-docker/check.sh ubuntu-gcc16
+
 # Individual check target, e.g. `make check-clang22`
 check-%:
 	@chmod +x ./check-docker/check.sh
 	@./check-docker/check.sh $*
 
 clean:
-	@Rscript -e 'devtools::clean_dll(".");'
+	@Rscript -e 'tinydev::pkg_clean(".");'
 
 install:
-	@Rscript -e 'devtools::install(".", upgrade = FALSE)'
+	@Rscript -e 'tinydev::pkg_install(".")'
 
 clang_format=`which clang-format-21`
 

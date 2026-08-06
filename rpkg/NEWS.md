@@ -1,3 +1,28 @@
+# redatam 2.4.0
+
+* The output is a list of tables of `data.table` class.
+* Replaces `stringr`/`stringi` with base R functions.
+* Handles special characters better.
+* Updated vignette.
+
+# redatam 2.3.2
+
+* Using official 'pugixml' fix for GCC 16.
+
+# redatam 2.3.1
+
+* A new GCC 16 warning showed up, so I edited 'pugixml' a bit and sent an
+  upstream pull request.
+* The vendored 'pugixml' has these changes:
+  * Changes in pugixml.cpp:1135 (non-COMPACT #else branch)
+  * `xml_attribute_struct`: `header(PUGI_IMPL_GETHEADER_IMPL(this, page, 0))` moved from body to
+    initializer list
+  * `xml_node_struct`: `header(PUGI_IMPL_GETHEADER_IMPL(this, page, type))` moved from body to
+    initializer list
+  * `header` is now formally initialized before any use, eliminating GCC 16's false positive
+  * The macro only does pointer arithmetic on this and page — no member dereferencing — so using
+    this in the initializer list is safe. You can verify with:
+
 # redatam 2.3.0
 
 * New 'pugixml' version that fixes a CRAN R-Devel warning.

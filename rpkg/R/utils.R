@@ -1,6 +1,6 @@
 list_to_datatable_ <- function(x) {
   lapply(x, function(y) {
-    if (is.list(y)) as.data.table(y) else y
+    if (is.list(y)) setDT(y) else y
   })
 }
 
@@ -19,7 +19,24 @@ fix_encoding_recursive_ <- function(x) {
       "\u00b1" = "\u00f1", # n with tilde
       "\u00c3" = "\u00ed" # i with acute accent
     )
-    return(str_replace_all(stri_enc_toutf8(x), replacements))
+    na_idx <- is.na(x)
+
+    # repair raw invalid UTF-8 bytes (e.g. a literal Latin-1 byte such as
+    # 0xC1 for "Á") by reinterpreting them as Latin-1
+    invalid <- !na_idx & !validEnc(x)
+    if (any(invalid)) {
+      x[invalid] <- iconv(x[invalid], from = "latin1", to = "UTF-8")
+    }
+
+    # fix double-encoded/mojibake sequences (valid UTF-8 bytes produced when
+    # UTF-8 text was previously misread as Latin-1, e.g. "Ã¡" for "á")
+    for (pattern in names(replacements)) {
+      x <- gsub(pattern, replacements[[pattern]], x, fixed = TRUE)
+    }
+
+    x <- enc2utf8(x)
+    x[na_idx] <- NA_character_
+    return(x)
   }
   x
 }
@@ -96,9 +113,9 @@ tidy_names_ <- function(x) {
 # +
 # convert empty strings to NA
 trim_and_clean_internal_ <- function(x) {
-  str_replace_all(
-    str_trim(str_replace_all(x, "\\s+", " ")), "^$", NA_character_
-  )
+  x <- trimws(gsub("\\s+", " ", x))
+  x[x == ""] <- NA_character_
+  x
 }
 
 trim_and_clean_ <- function(x) {
@@ -165,8 +182,4 @@ merge_descriptions_ <- function(x) {
   }
 
   x
-}
-
-datatable_to_tibble_ <- function(x) {
-  lapply(x, as_tibble)
 }

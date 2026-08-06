@@ -1,4 +1,4 @@
-PKG_CPPFLAGS=-Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils
+PKG_CPPFLAGS=-Ivendor -Iredatamlib -Iredatamlib/database -Iredatamlib/entities -Iredatamlib/exporters -Iredatamlib/readers -Iredatamlib/utils -I/home/pacha/R/x86_64-pc-linux-gnu-library/4.6/cpp4r/include
 PKG_LIBS=-Lvendor -Lredatamlib
 # CXXFLAGS=-stdlib=libc++
 LDFLAGS=-stdlib=libc++
